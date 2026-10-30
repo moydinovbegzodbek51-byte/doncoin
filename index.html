@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Don Coin</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: #14110a;
+    --card: #231d10;
+    --gold: #f5b82e;
+    --gold2: #ffdf7a;
+    --text: #fff6dd;
+    --muted: #b8a77a;
+    --ok: #4cd964;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; touch-action: manipulation; }
+  #app { display: flex; flex-direction: column; height: 100%; max-width: 480px; margin: 0 auto; }
+  .top { padding: 14px 16px 6px; text-align: center; }
+  .user { font-size: 13px; color: var(--muted); }
+  .balance { font-size: 44px; font-weight: 800; color: var(--gold2); line-height: 1.1; margin-top: 4px;
+    text-shadow: 0 2px 18px rgba(245,184,46,.35); }
+  .balance small { font-size: 18px; color: var(--gold); font-weight: 700; }
+  .rate { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .page { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding: 0 16px 16px; }
+  .page.active { display: flex; }
+
+  /* Tap */
+  .stage { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 260px; }
+  .coin { width: 240px; height: 240px; border-radius: 50%; border: 0; cursor: pointer; position: relative;
+    background: radial-gradient(circle at 35% 30%, #ffe9a0, #f5b82e 55%, #b87a07);
+    box-shadow: 0 10px 40px rgba(245,184,46,.35), inset 0 -10px 24px rgba(0,0,0,.25), inset 0 6px 14px rgba(255,255,255,.4);
+    font-size: 96px; transition: transform .06s; }
+  .coin:active, .coin.press { transform: scale(.94); }
+  .float { position: absolute; font-weight: 800; font-size: 28px; color: var(--gold2); pointer-events: none;
+    animation: up .9s ease-out forwards; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+  @keyframes up { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-110px); } }
+  .energy { margin: 6px 0 10px; }
+  .bar { height: 14px; background: #3a3018; border-radius: 8px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); transition: width .15s; }
+  .energy-text { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* Cards */
+  h2 { margin: 6px 0 12px; font-size: 20px; }
+  .card { background: var(--card); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px; }
+  .card .ico { font-size: 30px; }
+  .card .info { flex: 1; min-width: 0; }
+  .card .name { font-weight: 700; }
+  .card .desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .btn { background: var(--gold); color: #2a1d00; border: 0; border-radius: 12px; padding: 10px 14px;
+    font-weight: 800; font-size: 14px; cursor: pointer; white-space: nowrap; }
+  .btn:disabled { background: #4a3f22; color: #8b7d55; }
+  .btn.ghost { background: transparent; color: var(--gold2); border: 1px solid var(--gold); }
+  .box { background: var(--card); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
+  .link { word-break: break-all; font-size: 13px; color: var(--gold2); margin: 8px 0 10px; }
+  .muted { color: var(--muted); font-size: 13px; }
+
+  /* Nav */
+  nav { display: flex; background: #1c160a; border-top: 1px solid #2f2713; }
+  nav button { flex: 1; background: none; border: 0; color: var(--muted); padding: 10px 0 12px; font-size: 12px; cursor: pointer; }
+  nav button b { display: block; font-size: 22px; margin-bottom: 2px; font-weight: 400; }
+  nav button.active { color: var(--gold2); }
+
+  .toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px);
+    background: #000c; color: #fff; padding: 10px 16px; border-radius: 12px; opacity: 0; transition: .25s; pointer-events: none; font-size: 14px; z-index: 9; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top">
+    <div class="user" id="user">Don Coin</div>
+    <div class="balance"><span id="bal">0</span> <small>🪙</small></div>
+    <div class="rate" id="rate">Soatiga: +0</div>
+  </div>
+
+  <!-- TAP -->
+  <section class="page active" id="p-tap">
+    <div class="stage" id="stage">
+      <button class="coin" id="coin" aria-label="Tap">🦆</button>
+    </div>
+    <div class="energy">
+      <div class="bar"><i id="ebar"></i></div>
+      <div class="energy-text"><span>⚡ Energiya</span><span id="etext">0 / 0</span></div>
+    </div>
+  </section>
+
+  <!-- UPGRADES -->
+  <section class="page" id="p-up">
+    <h2>Yaxshilashlar</h2>
+    <div id="upgrades"></div>
+  </section>
+
+  <!-- TASKS -->
+  <section class="page" id="p-task">
+    <h2>Vazifalar</h2>
+    <div class="card">
+      <div class="ico">🎁</div>
+      <div class="info">
+        <div class="name">Kunlik bonus</div>
+        <div class="desc" id="dailyDesc"></div>
+      </div>
+      <button class="btn" id="dailyBtn">Olish</button>
+    </div>
+    <div class="card">
+      <div class="ico">📣</div>
+      <div class="info">
+        <div class="name">Kanalga obuna bo'ling</div>
+        <div class="desc">+5 000 tanga (bir marta)</div>
+      </div>
+      <button class="btn" id="chanBtn">Boshlash</button>
+    </div>
+  </section>
+
+  <!-- FRIENDS -->
+  <section class="page" id="p-friends">
+    <h2>Do'stlar</h2>
+    <div class="box">
+      <div><b>Do'st taklif qiling</b></div>
+      <div class="muted">Har bir taklif qilingan do'st uchun bonus olasiz.</div>
+      <div class="link" id="refLink"></div>
+      <button class="btn" id="shareBtn">Ulashish</button>
+      <button class="btn ghost" id="copyBtn">Nusxalash</button>
+    </div>
+    <div class="muted">Eslatma: taklif bonuslarini haqiqiy hisoblash uchun server kerak. Bu versiyada ular faqat havolani tayyorlaydi.</div>
+  </section>
+
+  <nav>
+    <button class="active" data-p="p-tap"><b>🪙</b>Tap</button>
+    <button data-p="p-up"><b>⚙️</b>Yaxshilash</button>
+    <button data-p="p-task"><b>📋</b>Vazifalar</button>
+    <button data-p="p-friends"><b>👥</b>Do'stlar</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  // ====== SOZLAMALAR (o'zingizniki bilan almashtiring) ======
+  const BOT_USERNAME = "DonCoinTapBot";     // botingiz username'i (@siz)
+  const CHANNEL_URL  = "https://t.me/your_channel"; // o'z kanalingiz
+  // ===========================================================
+
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#14110a"); tg.setBackgroundColor("#14110a"); } catch (e) {} }
+  const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+  const uid = tgUser ? tgUser.id : "guest";
+  document.getElementById("user").textContent = tgUser ? ("👑 " + (tgUser.first_name || "O'yinchi")) : "Don Coin";
+
+  const KEY = "doncoin_v1_" + uid;
+  const $ = id => document.getElementById(id);
+  const fmt = n => Math.floor(n).toLocaleString("en-US").replace(/,/g, " ");
+
+  const UPGRADES = [
+    { id: "tap",  ico: "👆", name: "Tap kuchi",    desc: l => `Har tap: +${1 + l + 1}`,     base: 100,  mul: 1.8 },
+    { id: "ener", ico: "🔋", name: "Energiya limiti", desc: l => `Maks: ${500 + (l + 1) * 100}`, base: 150,  mul: 1.7 },
+    { id: "reg",  ico: "⚡", name: "Tiklanish tezligi", desc: l => `Sekundiga: +${(1 + (l + 1) * 0.5).toFixed(1)}`, base: 250, mul: 1.9 },
+    { id: "mine", ico: "⛏️", name: "Passiv daromad", desc: l => `Soatiga: +${(l + 1) * 100}`,  base: 300,  mul: 1.9 },
+  ];
+
+  const def = { coins: 0, lv: { tap: 0, ener: 0, reg: 0, mine: 0 }, energy: 500, last: Date.now(), daily: 0, streak: 0, chan: false };
+  let S;
+  try { S = Object.assign({}, def, JSON.parse(localStorage.getItem(KEY) || "{}")); S.lv = Object.assign({}, def.lv, S.lv); }
+  catch (e) { S = JSON.parse(JSON.stringify(def)); }
+
+  const perTap  = () => 1 + S.lv.tap;
+  const maxEn   = () => 500 + S.lv.ener * 100;
+  const regen   = () => 1 + S.lv.reg * 0.5;
+  const perHour = () => S.lv.mine * 100;
+  const cost = u => Math.floor(u.base * Math.pow(u.mul, S.lv[u.id]));
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 1800); }
+  function haptic(k) { try { tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred(k || "light"); } catch (e) {} }
+
+  // Oflayn daromad (maks. 3 soat)
+  (function offline() {
+    const sec = Math.min((Date.now() - S.last) / 1000, 3 * 3600);
+    if (sec > 5) {
+      S.energy = Math.min(maxEn(), S.energy + sec * regen());
+      const gain = perHour() * sec / 3600;
+      if (gain >= 1) { S.coins += gain; setTimeout(() => toast(`Oflayn daromad: +${fmt(gain)} 🪙`), 600); }
+    }
+    S.last = Date.now();
+  })();
+
+  // ====== Render ======
+  function render() {
+    $("bal").textContent = fmt(S.coins);
+    $("rate").textContent = `Soatiga: +${fmt(perHour())}  •  Tap: +${perTap()}`;
+    $("ebar").style.width = (S.energy / maxEn() * 100) + "%";
+    $("etext").textContent = `${Math.floor(S.energy)} / ${maxEn()}`;
+  }
+
+  function renderUpgrades() {
+    const box = $("upgrades"); box.innerHTML = "";
+    UPGRADES.forEach(u => {
+      const c = cost(u), l = S.lv[u.id];
+      const d = document.createElement("div"); d.className = "card";
+      d.innerHTML = `<div class="ico">${u.ico}</div>
+        <div class="info"><div class="name">${u.name} <span class="muted">• ${l}-daraja</span></div>
+        <div class="desc">Keyingi: ${u.desc(l)}</div></div>
+        <button class="btn" ${S.coins < c ? "disabled" : ""}>${fmt(c)} 🪙</button>`;
+      d.querySelector("button").onclick = () => {
+        if (S.coins < c) return;
+        S.coins -= c; S.lv[u.id]++; haptic("medium"); save(); render(); renderUpgrades();
+        toast(`${u.name}: ${S.lv[u.id]}-daraja`);
+      };
+      box.appendChild(d);
+    });
+  }
+
+  // ====== Tap ======
+  const coinEl = $("coin"), stage = $("stage");
+  function doTap(x, y) {
+    const p = perTap();
+    if (S.energy < p) { toast("Energiya tugadi ⚡"); return; }
+    S.energy -= p; S.coins += p; haptic("light");
+    const f = document.createElement("div"); f.className = "float"; f.textContent = "+" + p;
+    const r = stage.getBoundingClientRect();
+    f.style.left = (x - r.left - 14) + "px"; f.style.top = (y - r.top - 20) + "px";
+    stage.appendChild(f); setTimeout(() => f.remove(), 900);
+    render();
+  }
+  coinEl.addEventListener("pointerdown", e => {
+    e.preventDefault(); coinEl.classList.add("press");
+    doTap(e.clientX, e.clientY);
+  });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => coinEl.addEventListener(ev, () => coinEl.classList.remove("press")));
+
+  // ====== Kunlik bonus ======
+  const DAY = 24 * 3600 * 1000;
+  function dailyReward() { return 1000 * Math.min(S.streak + 1, 10); }
+  function renderDaily() {
+    const ready = Date.now() - S.daily >= DAY;
+    $("dailyBtn").disabled = !ready;
+    if (ready) {
+      $("dailyDesc").textContent = `+${fmt(dailyReward())} tanga • ketma-ket: ${S.streak} kun`;
+    } else {
+      const left = DAY - (Date.now() - S.daily);
+      const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000);
+      $("dailyDesc").textContent = `Keyingisi ${h} soat ${m} daqiqadan keyin`;
+    }
+  }
+  $("dailyBtn").onclick = () => {
+    if (Date.now() - S.daily < DAY) return;
+    S.streak = (Date.now() - S.daily < 2 * DAY) ? S.streak + 1 : 1;
+    const g = dailyReward(); S.coins += g; S.daily = Date.now();
+    haptic("heavy"); save(); render(); renderDaily(); toast(`+${fmt(g)} 🪙 bonus!`);
+  };
+
+  // ====== Kanal vazifasi ======
+  function renderChan() { $("chanBtn").disabled = S.chan; $("chanBtn").textContent = S.chan ? "Bajarildi ✓" : "Boshlash"; }
+  $("chanBtn").onclick = () => {
+    if (S.chan) return;
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(CHANNEL_URL); else window.open(CHANNEL_URL, "_blank");
+    setTimeout(() => {
+      // Diqqat: haqiqiy tekshiruv uchun serverda getChatMember ishlatish kerak.
+      S.chan = true; S.coins += 5000; save(); render(); renderChan(); toast("+5 000 🪙");
+    }, 4000);
+  };
+
+  // ====== Do'stlar ======
+  const ref = `https://t.me/${BOT_USERNAME}?start=${uid}`;
+  $("refLink").textContent = ref;
+  $("shareBtn").onclick = () => {
+    const url = "https://t.me/share/url?url=" + encodeURIComponent(ref) + "&text=" + encodeURIComponent("Don Coin o'yinida tanga yig'ing! 🦆🪙");
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, "_blank");
+  };
+  $("copyBtn").onclick = async () => {
+    try { await navigator.clipboard.writeText(ref); toast("Nusxalandi"); } catch (e) { toast("Havolani qo'lda nusxalang"); }
+  };
+
+  // ====== Navigatsiya ======
+  document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+    document.querySelectorAll("nav button").forEach(x => x.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
+    b.classList.add("active"); $(b.dataset.p).classList.add("active");
+    if (b.dataset.p === "p-up") renderUpgrades();
+    if (b.dataset.p === "p-task") renderDaily();
+  });
+
+  // ====== Asosiy sikl (1 sekund) ======
+  setInterval(() => {
+    S.energy = Math.min(maxEn(), S.energy + regen());
+    S.coins += perHour() / 3600;
+    S.last = Date.now();
+    render(); save();
+    if ($("p-up").classList.contains("active")) renderUpgrades();
+    if ($("p-task").classList.contains("active")) renderDaily();
+  }, 1000);
+
+  document.addEventListener("visibilitychange", () => { S.last = Date.now(); save(); });
+  window.addEventListener("pagehide", save);
+
+  render(); renderUpgrades(); renderDaily(); renderChan();
+})();
+</script>
+</body>
+</html>
