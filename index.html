@@ -7,75 +7,133 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   :root {
-    --bg: #14110a;
-    --card: #231d10;
+    --bg: #0f0c06;
+    --card: rgba(255, 238, 190, .06);
+    --line: rgba(255, 223, 122, .14);
     --gold: #f5b82e;
     --gold2: #ffdf7a;
     --text: #fff6dd;
     --muted: #b8a77a;
     --ok: #4cd964;
+    /* joriy skin ranglari (JS o'zgartiradi) */
+    --c1: #ffe9a0; --c2: #f5b82e; --c3: #b87a07; --glow: rgba(245,184,46,.4);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
   html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
     font-family: -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; touch-action: manipulation; }
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1;
+    background: radial-gradient(600px 400px at 50% 30%, rgba(245,184,46,.12), transparent 70%),
+                radial-gradient(500px 300px at 90% 100%, rgba(255,120,40,.08), transparent 70%); }
   #app { display: flex; flex-direction: column; height: 100%; max-width: 480px; margin: 0 auto; }
-  .top { padding: 14px 16px 6px; text-align: center; }
-  .user { font-size: 13px; color: var(--muted); }
-  .balance { font-size: 44px; font-weight: 800; color: var(--gold2); line-height: 1.1; margin-top: 4px;
-    text-shadow: 0 2px 18px rgba(245,184,46,.35); }
-  .balance small { font-size: 18px; color: var(--gold); font-weight: 700; }
+
+  /* Tepa */
+  .top { padding: 12px 16px 4px; text-align: center; }
+  .who { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .rankchip { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 3px 10px; color: var(--gold2); font-weight: 700; }
+  .balance { font-size: 46px; font-weight: 800; color: var(--gold2); line-height: 1.1; margin-top: 6px;
+    text-shadow: 0 2px 22px var(--glow); letter-spacing: .5px; }
+  .balance small { font-size: 20px; }
   .rate { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .page { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding: 0 16px 16px; }
+  .prog { margin: 8px auto 0; max-width: 300px; }
+  .prog .bar { height: 6px; }
+  .prog-t { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .page { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding: 0 16px 14px; }
   .page.active { display: flex; }
 
-  /* Tap */
-  .stage { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 260px; }
-  .coin { width: 240px; height: 240px; border-radius: 50%; border: 0; cursor: pointer; position: relative;
-    background: radial-gradient(circle at 35% 30%, #ffe9a0, #f5b82e 55%, #b87a07);
-    box-shadow: 0 10px 40px rgba(245,184,46,.35), inset 0 -10px 24px rgba(0,0,0,.25), inset 0 6px 14px rgba(255,255,255,.4);
-    font-size: 96px; transition: transform .06s; }
-  .coin:active, .coin.press { transform: scale(.94); }
+  /* Tanga */
+  .stage { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 250px; perspective: 700px; }
+  .coin { width: 230px; height: 230px; border-radius: 50%; border: 0; cursor: pointer; position: relative;
+    background: radial-gradient(circle at 35% 28%, var(--c1), var(--c2) 58%, var(--c3));
+    box-shadow: 0 12px 50px var(--glow), inset 0 -12px 26px rgba(0,0,0,.28), inset 0 7px 16px rgba(255,255,255,.4);
+    font-size: 100px; line-height: 1; transition: transform .12s ease-out; will-change: transform;
+    animation: breathe 3.2s ease-in-out infinite; }
+  .coin::after { content: ""; position: absolute; inset: 10px; border-radius: 50%; border: 2px dashed rgba(255,255,255,.28); pointer-events: none; }
+  .coin.turbo { animation: pulse .35s ease-in-out infinite; box-shadow: 0 0 70px #ff7a1a, inset 0 -12px 26px rgba(0,0,0,.28); }
+  @keyframes breathe { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.12); } }
+  @keyframes pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
   .float { position: absolute; font-weight: 800; font-size: 28px; color: var(--gold2); pointer-events: none;
-    animation: up .9s ease-out forwards; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
-  @keyframes up { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-110px); } }
-  .energy { margin: 6px 0 10px; }
-  .bar { height: 14px; background: #3a3018; border-radius: 8px; overflow: hidden; }
-  .bar > i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); transition: width .15s; }
-  .energy-text { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+    animation: up .9s ease-out forwards; text-shadow: 0 2px 8px rgba(0,0,0,.6); z-index: 3; }
+  @keyframes up { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-120px) scale(1.25); } }
 
-  /* Cards */
-  h2 { margin: 6px 0 12px; font-size: 20px; }
-  .card { background: var(--card); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
-    display: flex; align-items: center; gap: 12px; }
+  .row { display: flex; gap: 10px; align-items: center; margin: 4px 0 8px; }
+  .turbo-btn { flex: 0 0 auto; background: linear-gradient(135deg, #ff7a1a, #ffb02e); color: #2a1200; border: 0; border-radius: 14px;
+    padding: 10px 14px; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 4px 16px rgba(255,122,26,.35); }
+  .turbo-btn:disabled { background: #3a3018; color: #8b7d55; box-shadow: none; }
+  .energy { flex: 1; }
+  .bar { height: 14px; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); transition: width .15s; }
+  .energy-text { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Umumiy kartalar */
+  h2 { margin: 8px 0 12px; font-size: 21px; }
+  h3 { margin: 16px 0 8px; font-size: 15px; color: var(--gold2); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px; backdrop-filter: blur(6px); }
   .card .ico { font-size: 30px; }
   .card .info { flex: 1; min-width: 0; }
   .card .name { font-weight: 700; }
   .card .desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .btn { background: var(--gold); color: #2a1d00; border: 0; border-radius: 12px; padding: 10px 14px;
+  .btn { background: linear-gradient(135deg, var(--gold2), var(--gold)); color: #2a1d00; border: 0; border-radius: 12px; padding: 10px 14px;
     font-weight: 800; font-size: 14px; cursor: pointer; white-space: nowrap; }
-  .btn:disabled { background: #4a3f22; color: #8b7d55; }
+  .btn:disabled { background: #3a3018; color: #8b7d55; }
   .btn.ghost { background: transparent; color: var(--gold2); border: 1px solid var(--gold); }
-  .box { background: var(--card); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; margin-bottom: 10px; }
   .link { word-break: break-all; font-size: 13px; color: var(--gold2); margin: 8px 0 10px; }
   .muted { color: var(--muted); font-size: 13px; }
 
-  /* Nav */
-  nav { display: flex; background: #1c160a; border-top: 1px solid #2f2713; }
-  nav button { flex: 1; background: none; border: 0; color: var(--muted); padding: 10px 0 12px; font-size: 12px; cursor: pointer; }
-  nav button b { display: block; font-size: 22px; margin-bottom: 2px; font-weight: 400; }
+  /* Skinlar */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .skin { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 8px 10px; text-align: center; }
+  .skin.on { border-color: var(--gold); box-shadow: 0 0 20px rgba(245,184,46,.25); }
+  .skin .orb { width: 74px; height: 74px; margin: 0 auto 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 38px;
+    box-shadow: inset 0 -6px 12px rgba(0,0,0,.25), inset 0 4px 8px rgba(255,255,255,.35); }
+  .skin .nm { font-weight: 700; font-size: 14px; }
+  .skin .bn { font-size: 12px; color: var(--muted); margin: 2px 0 8px; }
+  .skin .btn { width: 100%; padding: 8px 6px; font-size: 13px; }
+
+  /* Mini-o'yinlar */
+  .back { background: none; border: 0; color: var(--gold2); font-size: 14px; font-weight: 700; padding: 4px 0 8px; cursor: pointer; text-align: left; }
+  .wheel-wrap { position: relative; width: 290px; height: 290px; margin: 14px auto 10px; flex: 0 0 auto; }
+  .wheel { width: 290px; height: 290px; border-radius: 50%; position: relative; border: 6px solid var(--gold);
+    box-shadow: 0 0 40px var(--glow), inset 0 0 24px rgba(0,0,0,.45); transition: transform 4.2s cubic-bezier(.12,.7,.1,1); }
+  .wl { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+  .wl span { position: absolute; left: -36px; top: -122px; width: 72px; text-align: center; font-size: 11px; font-weight: 800; line-height: 1.15; color: #fff6dd; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+  .wl span i { display: block; font-style: normal; font-size: 20px; margin-bottom: 1px; }
+  .hub { position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; transform: translate(-50%, -50%); border-radius: 50%; z-index: 2;
+    background: radial-gradient(circle at 35% 28%, var(--c1), var(--c2) 60%, var(--c3)); box-shadow: 0 2px 12px rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+  .pointer { position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; z-index: 3;
+    border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 28px solid #fff6dd; filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); }
+  .spin-res { text-align: center; font-size: 20px; font-weight: 800; color: var(--gold2); min-height: 28px; margin: 4px 0; }
+  .spin-info { text-align: center; font-size: 13px; color: var(--muted); margin: 4px 0 10px; }
+  #spinBtn { width: 100%; padding: 14px; font-size: 16px; }
+
+  /* Reyting */
+  .me { background: linear-gradient(135deg, rgba(245,184,46,.25), rgba(245,184,46,.06)); border-color: var(--gold); }
+  .pos { width: 30px; text-align: center; font-weight: 800; color: var(--gold2); }
+  .score { font-weight: 800; color: var(--gold2); white-space: nowrap; }
+
+  /* Pastki menyu */
+  nav { display: flex; background: rgba(20,15,6,.92); border-top: 1px solid var(--line); }
+  nav button { flex: 1; background: none; border: 0; color: var(--muted); padding: 8px 0 10px; font-size: 10px; cursor: pointer; }
+  nav button b { display: block; font-size: 20px; margin-bottom: 1px; font-weight: 400; }
   nav button.active { color: var(--gold2); }
 
   .toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px);
-    background: #000c; color: #fff; padding: 10px 16px; border-radius: 12px; opacity: 0; transition: .25s; pointer-events: none; font-size: 14px; z-index: 9; }
+    background: #000d; color: #fff; padding: 10px 16px; border-radius: 12px; opacity: 0; transition: .25s; pointer-events: none; font-size: 14px; z-index: 9; max-width: 90%; text-align: center; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 <div id="app">
   <div class="top">
-    <div class="user" id="user">Don Coin</div>
+    <div class="who"><span id="user">Don Coin</span><span class="rankchip" id="rankchip">🏅 Yangi</span></div>
     <div class="balance"><span id="bal">0</span> <small>🪙</small></div>
-    <div class="rate" id="rate">Soatiga: +0</div>
+    <div class="rate" id="rate"></div>
+    <div class="prog">
+      <div class="bar"><i id="pbar" style="width:0"></i></div>
+      <div class="prog-t" id="ptext"></div>
+    </div>
   </div>
 
   <!-- TAP -->
@@ -83,99 +141,175 @@
     <div class="stage" id="stage">
       <button class="coin" id="coin" aria-label="Tap">🦆</button>
     </div>
-    <div class="energy">
-      <div class="bar"><i id="ebar"></i></div>
-      <div class="energy-text"><span>⚡ Energiya</span><span id="etext">0 / 0</span></div>
+    <div class="row">
+      <button class="turbo-btn" id="turboBtn">🚀 Turbo</button>
+      <div class="energy">
+        <div class="bar"><i id="ebar"></i></div>
+        <div class="energy-text"><span>⚡ Energiya</span><span id="etext"></span></div>
+      </div>
     </div>
   </section>
 
-  <!-- UPGRADES -->
+  <!-- MINI-O'YINLAR -->
+  <section class="page" id="p-games">
+    <div id="gamesList">
+      <h2>🎮 Mini-o'yinlar</h2>
+      <div class="muted" style="margin-bottom:10px">O'ynang va bonus tanga, energiya, turbo yuting.</div>
+      <div class="card">
+        <div class="ico">🎡</div>
+        <div class="info"><div class="name">Omad g'ildiragi</div><div class="desc">Kuniga 1 marta bepul</div></div>
+        <button class="btn" id="openWheel">O'ynash</button>
+      </div>
+      <div class="card" style="opacity:.55">
+        <div class="ico">🪙</div>
+        <div class="info"><div class="name">Tanga tutish</div><div class="desc">Tez orada</div></div>
+        <button class="btn" disabled>Tez orada</button>
+      </div>
+    </div>
+    <div id="wheelView" style="display:none">
+      <button class="back" id="wheelBack">← Orqaga</button>
+      <h2 style="margin-top:0">🎡 Omad g'ildiragi</h2>
+      <div class="wheel-wrap">
+        <div class="pointer"></div>
+        <div class="wheel" id="wheel"></div>
+        <div class="hub">🦆</div>
+      </div>
+      <div class="spin-res" id="wheelRes"></div>
+      <div class="spin-info" id="spinInfo"></div>
+      <button class="btn" id="spinBtn">🎡 Aylantirish</button>
+      <div class="muted" style="margin-top:12px;text-align:center">Tanga mukofotlari darajangizga qarab oshib boradi.</div>
+    </div>
+  </section>
+
+  <!-- REYTING -->
+  <section class="page" id="p-rank">
+    <h2>🏆 Reyting</h2>
+    <div id="board"></div>
+  </section>
+
+  <!-- SKINLAR -->
+  <section class="page" id="p-skin">
+    <h2>🎨 Skinlar</h2>
+    <div class="muted" style="margin-bottom:10px">Skin sotib oling va har tapda qo'shimcha tanga oling.</div>
+    <div class="grid" id="skins"></div>
+  </section>
+
+  <!-- YAXSHILASH -->
   <section class="page" id="p-up">
-    <h2>Yaxshilashlar</h2>
+    <h2>⚙️ Yaxshilash</h2>
     <div id="upgrades"></div>
   </section>
 
-  <!-- TASKS -->
+  <!-- VAZIFALAR + DO'STLAR -->
   <section class="page" id="p-task">
-    <h2>Vazifalar</h2>
+    <h2>📋 Vazifalar</h2>
     <div class="card">
       <div class="ico">🎁</div>
-      <div class="info">
-        <div class="name">Kunlik bonus</div>
-        <div class="desc" id="dailyDesc"></div>
-      </div>
+      <div class="info"><div class="name">Kunlik bonus</div><div class="desc" id="dailyDesc"></div></div>
       <button class="btn" id="dailyBtn">Olish</button>
     </div>
     <div class="card">
       <div class="ico">📣</div>
-      <div class="info">
-        <div class="name">Kanalga obuna bo'ling</div>
-        <div class="desc">+5 000 tanga (bir marta)</div>
-      </div>
+      <div class="info"><div class="name">Kanalga obuna bo'ling</div><div class="desc">+5 000 tanga (bir marta)</div></div>
       <button class="btn" id="chanBtn">Boshlash</button>
     </div>
-  </section>
-
-  <!-- FRIENDS -->
-  <section class="page" id="p-friends">
-    <h2>Do'stlar</h2>
+    <h3>👥 Do'stlar</h3>
     <div class="box">
       <div><b>Do'st taklif qiling</b></div>
-      <div class="muted">Har bir taklif qilingan do'st uchun bonus olasiz.</div>
+      <div class="muted">Do'stlaringizga havolani yuboring.</div>
       <div class="link" id="refLink"></div>
       <button class="btn" id="shareBtn">Ulashish</button>
       <button class="btn ghost" id="copyBtn">Nusxalash</button>
     </div>
-    <div class="muted">Eslatma: taklif bonuslarini haqiqiy hisoblash uchun server kerak. Bu versiyada ular faqat havolani tayyorlaydi.</div>
   </section>
 
   <nav>
     <button class="active" data-p="p-tap"><b>🪙</b>Tap</button>
+    <button data-p="p-games"><b>🎮</b>O'yinlar</button>
+    <button data-p="p-rank"><b>🏆</b>Reyting</button>
+    <button data-p="p-skin"><b>🎨</b>Skinlar</button>
     <button data-p="p-up"><b>⚙️</b>Yaxshilash</button>
     <button data-p="p-task"><b>📋</b>Vazifalar</button>
-    <button data-p="p-friends"><b>👥</b>Do'stlar</button>
   </nav>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 (() => {
-  // ====== SOZLAMALAR (o'zingizniki bilan almashtiring) ======
-  const BOT_USERNAME = "DonCoinTapBot";     // botingiz username'i (@siz)
-  const CHANNEL_URL  = "https://t.me/green_uzb0"; // o'z kanalingiz
-  // ===========================================================
+  // ====== SOZLAMALAR ======
+  const BOT_USERNAME = "DonCoinTapBot";
+  const CHANNEL_URL  = "https://t.me/green_uzb0";
+  // Reyting uchun Firebase Realtime Database manzili (bo'sh qoldirsangiz, reyting o'chiq turadi).
+  // Masalan: "https://doncoin-12345-default-rtdb.firebaseio.com"
+  const FIREBASE_URL = "";
+  // ========================
 
   const tg = window.Telegram && window.Telegram.WebApp;
-  if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#14110a"); tg.setBackgroundColor("#14110a"); } catch (e) {} }
+  if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#0f0c06"); tg.setBackgroundColor("#0f0c06"); } catch (e) {} }
   const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
-  const uid = tgUser ? tgUser.id : "guest";
-  document.getElementById("user").textContent = tgUser ? ("👑 " + (tgUser.first_name || "O'yinchi")) : "Don Coin";
-
-  const KEY = "doncoin_v1_" + uid;
+  const uid = tgUser ? String(tgUser.id) : "guest";
+  const myName = tgUser ? (tgUser.first_name || "O'yinchi") : "Mehmon";
   const $ = id => document.getElementById(id);
   const fmt = n => Math.floor(n).toLocaleString("en-US").replace(/,/g, " ");
+  // Mahalliy sana (yarim tunda yangilanadi)
+  const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  $("user").textContent = tgUser ? ("👑 " + myName) : "Don Coin";
 
-  const UPGRADES = [
-    { id: "tap",  ico: "👆", name: "Tap kuchi",    desc: l => `Har tap: +${1 + l + 1}`,     base: 100,  mul: 1.8 },
-    { id: "ener", ico: "🔋", name: "Energiya limiti", desc: l => `Maks: ${500 + (l + 1) * 100}`, base: 150,  mul: 1.7 },
-    { id: "reg",  ico: "⚡", name: "Tiklanish tezligi", desc: l => `Sekundiga: +${(1 + (l + 1) * 0.5).toFixed(1)}`, base: 250, mul: 1.9 },
-    { id: "mine", ico: "⛏️", name: "Passiv daromad", desc: l => `Soatiga: +${(l + 1) * 100}`,  base: 300,  mul: 1.9 },
+  // ---------- Ma'lumotlar ----------
+  const RANKS = [
+    { at: 0,        name: "Yangi boshlovchi", ico: "🥉" },
+    { at: 5000,     name: "Savdogar",         ico: "🥈" },
+    { at: 50000,    name: "Tadbirkor",        ico: "🥇" },
+    { at: 500000,   name: "Magnat",           ico: "💼" },
+    { at: 5000000,  name: "Millioner",        ico: "💎" },
+    { at: 50000000, name: "DON",              ico: "👑" },
   ];
 
-  const def = { coins: 0, lv: { tap: 0, ener: 0, reg: 0, mine: 0 }, energy: 500, last: Date.now(), daily: 0, streak: 0, chan: false };
-  let S;
-  try { S = Object.assign({}, def, JSON.parse(localStorage.getItem(KEY) || "{}")); S.lv = Object.assign({}, def.lv, S.lv); }
-  catch (e) { S = JSON.parse(JSON.stringify(def)); }
+  const SKINS = [
+    { id: "duck",    ico: "🦆", name: "Don o'rdak",  price: 0,        bonus: 0,  c: ["#ffe9a0", "#f5b82e", "#b87a07"], glow: "rgba(245,184,46,.45)" },
+    { id: "rooster", ico: "🐓", name: "Jangchi xo'roz", price: 5000,  bonus: 1,  c: ["#ffd0b0", "#ef6a3a", "#8c2a0c"], glow: "rgba(239,106,58,.45)" },
+    { id: "eagle",   ico: "🦅", name: "Burgut",      price: 25000,    bonus: 2,  c: ["#c9e6ff", "#4a9de8", "#1a4f8c"], glow: "rgba(74,157,232,.45)" },
+    { id: "dragon",  ico: "🐉", name: "Ajdaho",      price: 100000,   bonus: 4,  c: ["#d8ffcf", "#3fcf5a", "#126b26"], glow: "rgba(63,207,90,.45)" },
+    { id: "crown",   ico: "👑", name: "Shoh",        price: 400000,   bonus: 8,  c: ["#f1d6ff", "#a85de8", "#4c1a8c"], glow: "rgba(168,93,232,.5)" },
+    { id: "diamond", ico: "💎", name: "Olmos",       price: 1500000,  bonus: 15, c: ["#e0ffff", "#3fd8e8", "#0e6a78"], glow: "rgba(63,216,232,.5)" },
+    { id: "rocket",  ico: "🚀", name: "Kosmos",      price: 5000000,  bonus: 30, c: ["#ffe0f2", "#ff4fa0", "#8c1052"], glow: "rgba(255,79,160,.5)" },
+    { id: "alien",   ico: "👽", name: "O'zga sayyora", price: 20000000, bonus: 60, c: ["#e8ffd0", "#9be83f", "#4a780c"], glow: "rgba(155,232,63,.5)" },
+  ];
 
-  const perTap  = () => 1 + S.lv.tap;
+  const UPGRADES = [
+    { id: "tap",  ico: "👆", name: "Tap kuchi",        desc: l => `Har tap: +${l + 2}`,                       base: 100, mul: 1.8 },
+    { id: "ener", ico: "🔋", name: "Energiya limiti",  desc: l => `Maks: ${500 + (l + 1) * 100}`,             base: 150, mul: 1.7 },
+    { id: "reg",  ico: "⚡", name: "Tiklanish tezligi", desc: l => `Sekundiga: +${(1 + (l + 1) * 0.5).toFixed(1)}`, base: 250, mul: 1.9 },
+    { id: "mine", ico: "⛏️", name: "Passiv daromad",   desc: l => `Soatiga: +${(l + 1) * 100}`,               base: 300, mul: 1.9 },
+  ];
+
+  const KEY = "doncoin_v1_" + uid; // eski saqlangan ballar saqlanib qoladi
+  const def = { coins: 0, total: 0, lv: { tap: 0, ener: 0, reg: 0, mine: 0 }, energy: 500, last: Date.now(),
+                daily: 0, streak: 0, chan: false, owned: ["duck"], skin: "duck", turboDay: "", turboLeft: 3, turboUntil: 0, synced: 0, spinDay: "", spinPending: -1 };
+  let S;
+  try { S = Object.assign({}, def, JSON.parse(localStorage.getItem(KEY) || "{}")); }
+  catch (e) { S = JSON.parse(JSON.stringify(def)); }
+  S.lv = Object.assign({}, def.lv, S.lv);
+  if (!Array.isArray(S.owned) || !S.owned.length) S.owned = ["duck"];
+  if (!S.total || S.total < S.coins) S.total = S.coins;
+
+  const skinOf = id => SKINS.find(s => s.id === id) || SKINS[0];
+  const perTap  = () => 1 + S.lv.tap + skinOf(S.skin).bonus;
   const maxEn   = () => 500 + S.lv.ener * 100;
   const regen   = () => 1 + S.lv.reg * 0.5;
   const perHour = () => S.lv.mine * 100;
-  const cost = u => Math.floor(u.base * Math.pow(u.mul, S.lv[u.id]));
+  const upCost  = u => Math.floor(u.base * Math.pow(u.mul, S.lv[u.id]));
+  const turboOn = () => Date.now() < S.turboUntil;
+  const rankIdx = () => { let r = 0; RANKS.forEach((x, i) => { if (S.total >= x.at) r = i; }); return r; };
 
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-  function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 1800); }
+  function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 1900); }
   function haptic(k) { try { tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred(k || "light"); } catch (e) {} }
+  function addCoins(n) { S.coins += n; S.total += n; }
+
+  // Turbo har kuni yangilanadi
+  function turboRefresh() { if (S.turboDay !== today()) { S.turboDay = today(); S.turboLeft = Math.max(S.turboLeft, 3); } }
+  turboRefresh();
 
   // Oflayn daromad (maks. 3 soat)
   (function offline() {
@@ -183,23 +317,39 @@
     if (sec > 5) {
       S.energy = Math.min(maxEn(), S.energy + sec * regen());
       const gain = perHour() * sec / 3600;
-      if (gain >= 1) { S.coins += gain; setTimeout(() => toast(`Oflayn daromad: +${fmt(gain)} 🪙`), 600); }
+      if (gain >= 1) { addCoins(gain); setTimeout(() => toast(`Oflayn daromad: +${fmt(gain)} 🪙`), 700); }
     }
     S.last = Date.now();
   })();
 
-  // ====== Render ======
+  // ---------- Ko'rinish ----------
+  function applySkin() {
+    const k = skinOf(S.skin), r = document.documentElement.style;
+    r.setProperty("--c1", k.c[0]); r.setProperty("--c2", k.c[1]); r.setProperty("--c3", k.c[2]); r.setProperty("--glow", k.glow);
+    $("coin").textContent = k.ico;
+  }
+
   function render() {
     $("bal").textContent = fmt(S.coins);
-    $("rate").textContent = `Soatiga: +${fmt(perHour())}  •  Tap: +${perTap()}`;
+    $("rate").textContent = `Soatiga: +${fmt(perHour())}  •  Tap: +${perTap()}${turboOn() ? " ×5 🚀" : ""}`;
     $("ebar").style.width = (S.energy / maxEn() * 100) + "%";
     $("etext").textContent = `${Math.floor(S.energy)} / ${maxEn()}`;
+    const ri = rankIdx(), cur = RANKS[ri], next = RANKS[ri + 1];
+    $("rankchip").textContent = `${cur.ico} ${cur.name}`;
+    if (next) {
+      $("pbar").style.width = Math.min(100, (S.total - cur.at) / (next.at - cur.at) * 100) + "%";
+      $("ptext").textContent = `${next.ico} ${next.name} uchun: ${fmt(next.at - S.total)} 🪙`;
+    } else { $("pbar").style.width = "100%"; $("ptext").textContent = "Eng yuqori daraja! 👑"; }
+    // Turbo tugmasi
+    const tb = $("turboBtn");
+    if (turboOn()) { tb.disabled = true; tb.textContent = `🔥 ${Math.ceil((S.turboUntil - Date.now()) / 1000)}s`; $("coin").classList.add("turbo"); }
+    else { tb.disabled = S.turboLeft <= 0; tb.textContent = `🚀 Turbo ${S.turboLeft}`; $("coin").classList.remove("turbo"); }
   }
 
   function renderUpgrades() {
     const box = $("upgrades"); box.innerHTML = "";
     UPGRADES.forEach(u => {
-      const c = cost(u), l = S.lv[u.id];
+      const c = upCost(u), l = S.lv[u.id];
       const d = document.createElement("div"); d.className = "card";
       d.innerHTML = `<div class="ico">${u.ico}</div>
         <div class="info"><div class="name">${u.name} <span class="muted">• ${l}-daraja</span></div>
@@ -214,90 +364,227 @@
     });
   }
 
-  // ====== Tap ======
+  function renderSkins() {
+    const box = $("skins"); box.innerHTML = "";
+    SKINS.forEach(k => {
+      const owned = S.owned.includes(k.id), on = S.skin === k.id;
+      const d = document.createElement("div"); d.className = "skin" + (on ? " on" : "");
+      const label = on ? "Kiyilgan ✓" : owned ? "Kiyish" : `${fmt(k.price)} 🪙`;
+      d.innerHTML = `<div class="orb" style="background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${k.ico}</div>
+        <div class="nm">${k.name}</div>
+        <div class="bn">${k.bonus ? "+" + k.bonus + " har tapga" : "Boshlang'ich"}</div>
+        <button class="btn" ${on || (!owned && S.coins < k.price) ? "disabled" : ""}>${label}</button>`;
+      d.querySelector("button").onclick = () => {
+        if (!owned) {
+          if (S.coins < k.price) return;
+          S.coins -= k.price; S.owned.push(k.id); toast(`${k.name} sotib olindi!`); haptic("heavy");
+        }
+        S.skin = k.id; applySkin(); save(); render(); renderSkins();
+      };
+      box.appendChild(d);
+    });
+  }
+
+  // ---------- Tap ----------
   const coinEl = $("coin"), stage = $("stage");
-  function doTap(x, y) {
-    const p = perTap();
-    if (S.energy < p) { toast("Energiya tugadi ⚡"); return; }
-    S.energy -= p; S.coins += p; haptic("light");
-    const f = document.createElement("div"); f.className = "float"; f.textContent = "+" + p;
+  function doTap(e) {
+    const turbo = turboOn();
+    const p = perTap() * (turbo ? 5 : 1);
+    if (!turbo) { if (S.energy < perTap()) { toast("Energiya tugadi ⚡"); return; } S.energy -= perTap(); }
+    addCoins(p); haptic("light");
     const r = stage.getBoundingClientRect();
-    f.style.left = (x - r.left - 14) + "px"; f.style.top = (y - r.top - 20) + "px";
+    const f = document.createElement("div"); f.className = "float"; f.textContent = "+" + p;
+    f.style.left = (e.clientX - r.left - 16) + "px"; f.style.top = (e.clientY - r.top - 24) + "px";
     stage.appendChild(f); setTimeout(() => f.remove(), 900);
+    // 3D egilish
+    const c = coinEl.getBoundingClientRect();
+    const dx = (e.clientX - (c.left + c.width / 2)) / (c.width / 2);
+    const dy = (e.clientY - (c.top + c.height / 2)) / (c.height / 2);
+    coinEl.style.transform = `rotateY(${dx * 16}deg) rotateX(${-dy * 16}deg) scale(.95)`;
     render();
   }
-  coinEl.addEventListener("pointerdown", e => {
-    e.preventDefault(); coinEl.classList.add("press");
-    doTap(e.clientX, e.clientY);
-  });
-  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => coinEl.addEventListener(ev, () => coinEl.classList.remove("press")));
+  coinEl.addEventListener("pointerdown", e => { e.preventDefault(); doTap(e); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(ev => coinEl.addEventListener(ev, () => { coinEl.style.transform = ""; }));
 
-  // ====== Kunlik bonus ======
+  $("turboBtn").onclick = () => {
+    turboRefresh();
+    if (turboOn() || S.turboLeft <= 0) return;
+    S.turboLeft--; S.turboUntil = Date.now() + 20000; haptic("heavy"); save(); render(); toast("🚀 Turbo! 20 soniya ×5");
+  };
+
+  // ---------- Kunlik bonus ----------
   const DAY = 24 * 3600 * 1000;
-  function dailyReward() { return 1000 * Math.min(S.streak + 1, 10); }
+  const dailyReward = () => 1000 * Math.min(S.streak + 1, 10);
   function renderDaily() {
     const ready = Date.now() - S.daily >= DAY;
     $("dailyBtn").disabled = !ready;
-    if (ready) {
-      $("dailyDesc").textContent = `+${fmt(dailyReward())} tanga • ketma-ket: ${S.streak} kun`;
-    } else {
+    if (ready) $("dailyDesc").textContent = `+${fmt(dailyReward())} tanga • ketma-ket: ${S.streak} kun`;
+    else {
       const left = DAY - (Date.now() - S.daily);
-      const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000);
-      $("dailyDesc").textContent = `Keyingisi ${h} soat ${m} daqiqadan keyin`;
+      $("dailyDesc").textContent = `Keyingisi ${Math.floor(left / 3600000)} soat ${Math.floor(left % 3600000 / 60000)} daqiqadan keyin`;
     }
   }
   $("dailyBtn").onclick = () => {
     if (Date.now() - S.daily < DAY) return;
     S.streak = (Date.now() - S.daily < 2 * DAY) ? S.streak + 1 : 1;
-    const g = dailyReward(); S.coins += g; S.daily = Date.now();
+    const g = dailyReward(); addCoins(g); S.daily = Date.now();
     haptic("heavy"); save(); render(); renderDaily(); toast(`+${fmt(g)} 🪙 bonus!`);
   };
 
-  // ====== Kanal vazifasi ======
+  // ---------- Kanal ----------
   function renderChan() { $("chanBtn").disabled = S.chan; $("chanBtn").textContent = S.chan ? "Bajarildi ✓" : "Boshlash"; }
   $("chanBtn").onclick = () => {
     if (S.chan) return;
     if (tg && tg.openTelegramLink) tg.openTelegramLink(CHANNEL_URL); else window.open(CHANNEL_URL, "_blank");
-    setTimeout(() => {
-      // Diqqat: haqiqiy tekshiruv uchun serverda getChatMember ishlatish kerak.
-      S.chan = true; S.coins += 5000; save(); render(); renderChan(); toast("+5 000 🪙");
-    }, 4000);
+    setTimeout(() => { S.chan = true; addCoins(5000); save(); render(); renderChan(); toast("+5 000 🪙"); }, 4000);
   };
 
-  // ====== Do'stlar ======
+  // ---------- Mini-o'yin: Omad g'ildiragi ----------
+  const WHEEL = [
+    { t: "c", m: 1,  w: 26, ico: "🪙", col: "#6b4a0f" },
+    { t: "e",        w: 14, ico: "⚡", col: "#1f4f8c", lab: "Energiya" },
+    { t: "c", m: 2,  w: 20, ico: "🪙", col: "#8a6212" },
+    { t: "t",        w: 10, ico: "🚀", col: "#a8460c", lab: "+1 Turbo" },
+    { t: "c", m: 3,  w: 12, ico: "💰", col: "#6b4a0f" },
+    { t: "c", m: 5,  w: 8,  ico: "💰", col: "#8a6212" },
+    { t: "c", m: 4,  w: 8,  ico: "💰", col: "#6b4a0f" },
+    { t: "c", m: 10, w: 2,  ico: "💎", col: "#5a2a8c" },
+  ];
+  const SEG = 360 / WHEEL.length;
+  const unit = () => 500 * (rankIdx() + 1);
+  let wheelRot = 0, spinning = false;
+
+  function buildWheel() {
+    const w = $("wheel");
+    w.style.background = "conic-gradient(" + WHEEL.map((p, i) => `${p.col} ${i * SEG}deg ${(i + 1) * SEG}deg`).join(",") + ")";
+    w.innerHTML = "";
+    WHEEL.forEach((p, i) => {
+      const h = document.createElement("div"); h.className = "wl";
+      h.style.transform = `rotate(${i * SEG + SEG / 2}deg)`;
+      const label = p.t === "c" ? fmt(unit() * p.m) : p.lab;
+      h.innerHTML = `<span><i>${p.ico}</i>${label}</span>`;
+      w.appendChild(h);
+    });
+  }
+  const spinLeft = () => S.spinDay === today() ? 0 : 1;
+  function pickPrize() {
+    const tot = WHEEL.reduce((a, p) => a + p.w, 0);
+    const r = crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296 * tot;
+    let acc = 0;
+    for (let i = 0; i < WHEEL.length; i++) { acc += WHEEL[i].w; if (r < acc) return i; }
+    return 0;
+  }
+  function givePrize(i) {
+    const p = WHEEL[i]; let msg;
+    if (p.t === "c") { const g = unit() * p.m; addCoins(g); msg = `+${fmt(g)} 🪙`; }
+    else if (p.t === "e") { S.energy = maxEn(); msg = "⚡ Energiya to'ldi!"; }
+    else { S.turboLeft += 1; msg = "🚀 +1 Turbo!"; }
+    S.spinPending = -1; haptic("heavy"); save(); render();
+    $("wheelRes").textContent = "🎉 " + msg; toast("🎡 " + msg);
+  }
+  function renderSpin() {
+    const left = spinLeft();
+    $("spinBtn").disabled = spinning || !left;
+    $("spinBtn").textContent = left ? "🎡 Aylantirish (1/1)" : "Bugun ishlatildi (0/1)";
+    if (left) $("spinInfo").textContent = "Kuniga 1 marta bepul. Omad tilaymiz! 🍀";
+    else {
+      const n = new Date(), next = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1), ms = next - n;
+      $("spinInfo").textContent = `Keyingisi ${Math.floor(ms / 3600000)} soat ${Math.floor(ms % 3600000 / 60000)} daqiqadan keyin`;
+    }
+  }
+  $("spinBtn").onclick = () => {
+    if (spinning || !spinLeft()) return;
+    spinning = true; $("spinBtn").disabled = true; $("wheelRes").textContent = "";
+    const i = pickPrize();
+    S.spinDay = today(); S.spinPending = i; save();   // sahifa yopilsa ham yutuq yo'qolmaydi
+    const center = i * SEG + SEG / 2 + (Math.random() * 24 - 12);
+    const cur = ((wheelRot % 360) + 360) % 360;
+    wheelRot += 360 * 5 + ((360 - center) - cur + 720) % 360;
+    $("wheel").style.transform = `rotate(${wheelRot}deg)`;
+    haptic("medium");
+    setTimeout(() => { givePrize(i); spinning = false; renderSpin(); }, 4400);
+  };
+  $("openWheel").onclick = () => { buildWheel(); renderSpin(); $("gamesList").style.display = "none"; $("wheelView").style.display = "block"; };
+  $("wheelBack").onclick = () => { if (spinning) return; $("wheelView").style.display = "none"; $("gamesList").style.display = "block"; };
+  // Sahifa g'ildirak aylanayotganda yopilgan bo'lsa, yutuqni beramiz
+  if (S.spinPending >= 0 && S.spinPending < WHEEL.length) { const pi = S.spinPending; setTimeout(() => givePrize(pi), 900); }
+
+  // ---------- Do'stlar ----------
   const ref = `https://t.me/${BOT_USERNAME}?start=${uid}`;
   $("refLink").textContent = ref;
   $("shareBtn").onclick = () => {
     const url = "https://t.me/share/url?url=" + encodeURIComponent(ref) + "&text=" + encodeURIComponent("Don Coin o'yinida tanga yig'ing! 🦆🪙");
     if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, "_blank");
   };
-  $("copyBtn").onclick = async () => {
-    try { await navigator.clipboard.writeText(ref); toast("Nusxalandi"); } catch (e) { toast("Havolani qo'lda nusxalang"); }
-  };
+  $("copyBtn").onclick = async () => { try { await navigator.clipboard.writeText(ref); toast("Nusxalandi"); } catch (e) { toast("Havolani qo'lda nusxalang"); } };
 
-  // ====== Navigatsiya ======
+  // ---------- Reyting (Firebase) ----------
+  async function pushScore() {
+    if (!FIREBASE_URL || uid === "guest") return;
+    const total = Math.floor(S.total);
+    if (total === S.synced) return;
+    try {
+      await fetch(`${FIREBASE_URL}/players/${uid}.json`, { method: "PUT",
+        body: JSON.stringify({ n: myName.slice(0, 24), c: total, s: S.skin, u: Date.now() }) });
+      S.synced = total; save();
+    } catch (e) {}
+  }
+  async function loadBoard() {
+    const box = $("board");
+    if (!FIREBASE_URL) { box.innerHTML = `<div class="box muted">Reyting hozircha ulanmagan. Egasi Firebase manzilini kiritgach ishlaydi.</div>`; return; }
+    box.innerHTML = `<div class="muted">Yuklanmoqda…</div>`;
+    try {
+      await pushScore();
+      const res = await fetch(`${FIREBASE_URL}/players.json?orderBy=${encodeURIComponent('"c"')}&limitToLast=50`);
+      const data = await res.json() || {};
+      const arr = Object.entries(data).map(([id, v]) => ({ id, n: v.n || "O'yinchi", c: v.c || 0, s: v.s })).sort((a, b) => b.c - a.c);
+      box.innerHTML = "";
+      if (!arr.length) { box.innerHTML = `<div class="muted">Hali hech kim yo'q.</div>`; return; }
+      const medals = ["🥇", "🥈", "🥉"];
+      arr.forEach((p, i) => {
+        const d = document.createElement("div"); d.className = "card" + (p.id === uid ? " me" : "");
+        const pos = document.createElement("div"); pos.className = "pos"; pos.textContent = medals[i] || (i + 1);
+        const ico = document.createElement("div"); ico.className = "ico"; ico.textContent = skinOf(p.s).ico;
+        const info = document.createElement("div"); info.className = "info";
+        const nm = document.createElement("div"); nm.className = "name"; nm.textContent = p.n + (p.id === uid ? " (siz)" : "");
+        const rk = document.createElement("div"); rk.className = "desc";
+        let ri = 0; RANKS.forEach((x, k) => { if (p.c >= x.at) ri = k; }); rk.textContent = RANKS[ri].ico + " " + RANKS[ri].name;
+        info.append(nm, rk);
+        const sc = document.createElement("div"); sc.className = "score"; sc.textContent = fmt(p.c) + " 🪙";
+        d.append(pos, ico, info, sc); box.appendChild(d);
+      });
+    } catch (e) { box.innerHTML = `<div class="box muted">Reytingni yuklab bo'lmadi. Internetni tekshiring.</div>`; }
+  }
+
+  // ---------- Navigatsiya ----------
   document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
     document.querySelectorAll("nav button").forEach(x => x.classList.remove("active"));
     document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
     b.classList.add("active"); $(b.dataset.p).classList.add("active");
-    if (b.dataset.p === "p-up") renderUpgrades();
-    if (b.dataset.p === "p-task") renderDaily();
+    const p = b.dataset.p;
+    if (p === "p-up") renderUpgrades();
+    if (p === "p-skin") renderSkins();
+    if (p === "p-task") renderDaily();
+    if (p === "p-rank") loadBoard();
+    if (p === "p-games") renderSpin();
   });
 
-  // ====== Asosiy sikl (1 sekund) ======
+  // ---------- Asosiy sikl ----------
   setInterval(() => {
     S.energy = Math.min(maxEn(), S.energy + regen());
-    S.coins += perHour() / 3600;
+    if (perHour()) addCoins(perHour() / 3600);
     S.last = Date.now();
     render(); save();
     if ($("p-up").classList.contains("active")) renderUpgrades();
+    if ($("p-skin").classList.contains("active")) renderSkins();
     if ($("p-task").classList.contains("active")) renderDaily();
+    if ($("p-games").classList.contains("active")) renderSpin();
   }, 1000);
-
-  document.addEventListener("visibilitychange", () => { S.last = Date.now(); save(); });
+  setInterval(pushScore, 20000);
+  document.addEventListener("visibilitychange", () => { S.last = Date.now(); save(); if (document.hidden) pushScore(); });
   window.addEventListener("pagehide", save);
 
-  render(); renderUpgrades(); renderDaily(); renderChan();
+  applySkin(); render(); renderUpgrades(); renderDaily(); renderChan(); pushScore();
 })();
 </script>
 </body>
