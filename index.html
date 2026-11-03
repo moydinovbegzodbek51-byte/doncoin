@@ -174,6 +174,21 @@
   .pos { width: 30px; text-align: center; font-weight: 800; color: var(--gold2); }
   .score { font-weight: 800; color: var(--gold2); white-space: nowrap; }
 
+  .catch-rev { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: rgba(15,12,6,.74); z-index: 3; padding: 22px; }
+  .catch-rev.show { display: flex; }
+  .rev-t { font-size: 24px; font-weight: 800; color: #ff8a7a; }
+  .catch-rev .btn { width: 100%; max-width: 280px; padding: 14px; font-size: 16px; }
+  .fr-gold { --ring: linear-gradient(135deg,#fff3b0,#e0a41c,#8a5a08); --rg: rgba(245,184,46,.75); }
+  .fr-ice { --ring: linear-gradient(135deg,#ffffff,#8fd8f5,#2a7aa0); --rg: rgba(143,216,245,.75); }
+  .fr-fire { --ring: linear-gradient(135deg,#ffe27a,#ff6a1a,#b01800); --rg: rgba(255,106,26,.85); }
+  .fr-rainbow { --ring: conic-gradient(#ff5e5e,#ffd45e,#7dff5e,#5eeaff,#9a5eff,#ff5ee0,#ff5e5e); --rg: rgba(160,120,255,.75); }
+  .pf-av { position: relative; width: 78px; height: 78px; flex: 0 0 78px; padding: 4px; }
+  .fr-prev { position: relative; width: 42px; height: 42px; flex: 0 0 42px; padding: 4px; }
+  .pf-av::before, .fr-prev::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--ring, transparent); box-shadow: 0 0 16px var(--rg, transparent); }
+  .pf-av.fr-rainbow::before, .fr-prev.fr-rainbow::before { animation: spin 5s linear infinite; }
+  .fr-prev i { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; background: #2a1d08; }
+  .pf-av .orb { position: relative; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   /* Profil */
   .profile { background: linear-gradient(145deg, rgba(245,184,46,.16), rgba(245,184,46,.04)); border: 1px solid var(--gold); border-radius: 18px; padding: 14px; margin-bottom: 12px; }
   .pf-top { display: flex; align-items: center; gap: 14px; }
@@ -295,6 +310,11 @@
       <div class="catch-hud"><span id="catchScore"></span><span id="catchHearts"></span><span id="catchTime"></span></div>
       <div class="catch-wrap" id="catchWrap">
         <canvas id="catchCv"></canvas>
+        <div class="catch-rev" id="catchRev">
+          <div class="rev-t" data-i18n="c_rev_t"></div>
+          <button class="btn gem" id="revBtn"></button>
+          <button class="btn ghost" id="revNo" data-i18n="c_rev_no"></button>
+        </div>
         <div class="catch-ov" id="catchOv">
           <div class="catch-res" id="catchRes"></div>
           <div class="catch-stats" id="catchStats"></div>
@@ -395,7 +415,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px">Don Coin • v5</div>
+    <div class="muted" style="text-align:center;margin-top:6px">Don Coin • v6</div>
   </section>
 
   <nav>
@@ -455,11 +475,13 @@
                 daily: 0, streak: 0, chan: false, owned: ["duck"], skin: "duck", turboDay: "", turboLeft: 1, turboUntil: 0, synced: 0,
                 spinDay: "", spinPending: -1, dayKey: "", dayGain: 0, dayClaimed: false,
                 lang: "", vib: true, seen: false, catchDay: "", catchLeft: 3, catchBest: 0,
-                gems: 0, x2Until: 0, extraSpins: 0, boxDay: "", box: null, confirm: true, taps: 0, since: 0 };
+                gems: 0, x2Until: 0, extraSpins: 0, boxDay: "", box: null, confirm: true, taps: 0, since: 0,
+                decor: { o: [], f: "", b: "" }, offLv: 0, rankPaid: 0, skins10: false, turboV2: true };
   let S, saved = {};
   try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
   S = Object.assign({}, def, saved);
   S.lv = Object.assign({}, def.lv, S.lv);
+  S.decor = Object.assign({}, def.decor, S.decor); if (!Array.isArray(S.decor.o)) S.decor.o = [];
   if (!Array.isArray(S.owned) || !S.owned.length) S.owned = ["duck"];
   if (!S.total || S.total < S.coins) S.total = S.coins;
   if (!S.since) S.since = Date.now();
@@ -477,11 +499,18 @@
       rank0: "Yangi boshlovchi", rank1: "Savdogar", rank2: "Tadbirkor", rank3: "Magnat", rank4: "Millioner", rank5: "DON",
       no_energy: "Energiya tugadi ⚡", turbo_on: "🚀 Turbo! {n} soniya ×5", offline: "Oflayn daromad: +{n} 🪙",
       back: "← Orqaga",
+      rw_rank: "🎉 Yangi daraja: {name}! +{n} 💎", rw_skins: "🎨 10 ta skin yig'dingiz! +5 💎", rw_streak: "🔥 7 kun ketma-ket! +2 💎", daily_gem: "7-kunda +2 💎 ({s}/7)",
+      c_rev_t: "💔 Jonlar tugadi!", c_rev: "❤️ Davom etish ({c} 💎)", c_rev_no: "Tugatish", c_buy: "➕ Qo'shimcha urinish ({c} 💎)", cf_try: "Qo'shimcha urinish uchun {c} 💎 sarflaysizmi?",
+      off_t: "Oflayn daromad limiti", off_d: "Hozir: {h} soat • keyingi: {n} soat", off_max: "Eng yuqori daraja: {h} soat",
+      dec_title: "🌟 Profil bezagi", dec_wear: "Kiyish", dec_take: "Yechish", dec_d_f: "Profil rasmingiz atrofida", dec_d_b: "Ismingiz yonida ko'rinadi",
+      dn_f_gold: "Oltin ramka", dn_f_ice: "Muz ramka", dn_f_fire: "Olov ramka", dn_f_rainbow: "Kamalak ramka",
+      dn_b_star: "Yulduz nishoni", dn_b_trophy: "Kubok nishoni", dn_b_rocket: "Raketa nishoni", dn_b_rainbow: "Kamalak nishoni", dn_b_dragon: "Ajdaho nishoni",
+      sab_diamond: "💎 G'ildirakda 💎 yutug'i ehtimoli 2×", skin_trex: "Panda",
       pf_total: "Jami topilgan", pf_gems: "Olmos", pf_taps: "Tap soni", pf_skins: "Skinlar", pf_tap: "Har tap", pf_hour: "Soatiga", pf_catch: "Tutish rekordi", pf_days: "O'yin kuni",
       set_conf: "Xaridni tasdiqlash", set_conf_d: "Sotib olishdan oldin «Aniqmi?» deb so'raydi",
       cf_skin: "«{name}» skinini {p} evaziga sotib olasizmi?", cf_item: "«{name}» uchun {p} 💎 sarflaysizmi?", cf_ex: "Almashtirasizmi? {x}",
       rar_common: "Oddiy", rar_epic: "💜 Epic", rar_legend: "🧡 Legend", rar_mythic: "❤️ Mifik", rar_premium: "💎 Premium",
-      skin_parrot: "To'ti", skin_croc: "Timsoh", skin_shark: "Akula", skin_flamingo: "Flamingo", skin_saturn: "Saturn", skin_snow: "Qor parchasi", skin_lolly: "Xo'roz qand",
+      skin_parrot: "To'ti", skin_croc: "Timsoh", skin_lion: "Sher", skin_shark: "Akula", skin_flamingo: "Flamingo", skin_saturn: "Saturn", skin_snow: "Qor parchasi", skin_lolly: "Xo'roz qand",
       skin_clover: "To'rt bargli beda", skin_liberty: "Ozodlik haykali", skin_peace: "G'alaba", skin_moai: "Moai",
       skin_unicorn: "Yakkashox", skin_phoenix: "Feniks", skin_robot: "Robot", skin_genie: "Jin", skin_drake: "Qora ajdar",
       sab_unicorn: "✨ Sehr: 10% ehtimol bilan tap ×5", sab_phoenix: "🔥 Energiya 2× tez tiklanadi", sab_robot: "🤖 Avto-daromad: soatiga +3 000 🪙",
@@ -545,11 +574,18 @@
       rank0: "Новичок", rank1: "Торговец", rank2: "Предприниматель", rank3: "Магнат", rank4: "Миллионер", rank5: "ДОН",
       no_energy: "Энергия закончилась ⚡", turbo_on: "🚀 Турбо! {n} секунд ×5", offline: "Офлайн-доход: +{n} 🪙",
       back: "← Назад",
+      rw_rank: "🎉 Новый уровень: {name}! +{n} 💎", rw_skins: "🎨 Собрано 10 скинов! +5 💎", rw_streak: "🔥 7 дней подряд! +2 💎", daily_gem: "На 7-й день +2 💎 ({s}/7)",
+      c_rev_t: "💔 Жизни закончились!", c_rev: "❤️ Продолжить ({c} 💎)", c_rev_no: "Закончить", c_buy: "➕ Доп. попытка ({c} 💎)", cf_try: "Потратить {c} 💎 на доп. попытку?",
+      off_t: "Лимит офлайн-дохода", off_d: "Сейчас: {h} ч • далее: {n} ч", off_max: "Максимум: {h} ч",
+      dec_title: "🌟 Украшения профиля", dec_wear: "Надеть", dec_take: "Снять", dec_d_f: "Вокруг аватара профиля", dec_d_b: "Рядом с вашим именем",
+      dn_f_gold: "Золотая рамка", dn_f_ice: "Ледяная рамка", dn_f_fire: "Огненная рамка", dn_f_rainbow: "Радужная рамка",
+      dn_b_star: "Значок «Звезда»", dn_b_trophy: "Значок «Кубок»", dn_b_rocket: "Значок «Ракета»", dn_b_rainbow: "Значок «Радуга»", dn_b_dragon: "Значок «Дракон»",
+      sab_diamond: "💎 Шанс выиграть 💎 в колесе ×2", skin_trex: "Панда",
       pf_total: "Всего собрано", pf_gems: "Алмазы", pf_taps: "Тапов", pf_skins: "Скины", pf_tap: "За тап", pf_hour: "В час", pf_catch: "Рекорд ловли", pf_days: "Дней в игре",
       set_conf: "Подтверждать покупки", set_conf_d: "Спрашивает «Уверены?» перед покупкой",
       cf_skin: "Купить скин «{name}» за {p}?", cf_item: "Потратить {p} 💎 на «{name}»?", cf_ex: "Обменять? {x}",
       rar_common: "Обычные", rar_epic: "💜 Эпик", rar_legend: "🧡 Легенда", rar_mythic: "❤️ Миф", rar_premium: "💎 Премиум",
-      skin_parrot: "Попугай", skin_croc: "Крокодил", skin_shark: "Акула", skin_flamingo: "Фламинго", skin_saturn: "Сатурн", skin_snow: "Снежинка", skin_lolly: "Петушок на палочке",
+      skin_parrot: "Попугай", skin_croc: "Крокодил", skin_lion: "Лев", skin_shark: "Акула", skin_flamingo: "Фламинго", skin_saturn: "Сатурн", skin_snow: "Снежинка", skin_lolly: "Петушок на палочке",
       skin_clover: "Клевер-четырёхлистник", skin_liberty: "Статуя Свободы", skin_peace: "Победа", skin_moai: "Моаи",
       skin_unicorn: "Единорог", skin_phoenix: "Феникс", skin_robot: "Робот", skin_genie: "Джинн", skin_drake: "Чёрный дракон",
       sab_unicorn: "✨ Магия: 10% шанс тапа ×5", sab_phoenix: "🔥 Энергия восстанавливается в 2× быстрее", sab_robot: "🤖 Авто-доход: +3 000 🪙 в час",
@@ -613,11 +649,18 @@
       rank0: "Rookie", rank1: "Trader", rank2: "Entrepreneur", rank3: "Magnate", rank4: "Millionaire", rank5: "DON",
       no_energy: "Out of energy ⚡", turbo_on: "🚀 Turbo! {n} seconds ×5", offline: "Offline income: +{n} 🪙",
       back: "← Back",
+      rw_rank: "🎉 New rank: {name}! +{n} 💎", rw_skins: "🎨 10 skins collected! +5 💎", rw_streak: "🔥 7 days in a row! +2 💎", daily_gem: "Day 7 gives +2 💎 ({s}/7)",
+      c_rev_t: "💔 Out of lives!", c_rev: "❤️ Continue ({c} 💎)", c_rev_no: "End game", c_buy: "➕ Extra try ({c} 💎)", cf_try: "Spend {c} 💎 on an extra try?",
+      off_t: "Offline income limit", off_d: "Now: {h} h • next: {n} h", off_max: "Maximum: {h} h",
+      dec_title: "🌟 Profile decor", dec_wear: "Equip", dec_take: "Remove", dec_d_f: "Around your profile picture", dec_d_b: "Shown next to your name",
+      dn_f_gold: "Gold frame", dn_f_ice: "Ice frame", dn_f_fire: "Fire frame", dn_f_rainbow: "Rainbow frame",
+      dn_b_star: "Star badge", dn_b_trophy: "Trophy badge", dn_b_rocket: "Rocket badge", dn_b_rainbow: "Rainbow badge", dn_b_dragon: "Dragon badge",
+      sab_diamond: "💎 2× chance of 💎 prizes on the wheel", skin_trex: "Panda",
       pf_total: "Total earned", pf_gems: "Gems", pf_taps: "Taps", pf_skins: "Skins", pf_tap: "Per tap", pf_hour: "Per hour", pf_catch: "Catch record", pf_days: "Days playing",
       set_conf: "Confirm purchases", set_conf_d: "Asks “Are you sure?” before buying",
       cf_skin: "Buy the “{name}” skin for {p}?", cf_item: "Spend {p} 💎 on “{name}”?", cf_ex: "Exchange? {x}",
       rar_common: "Common", rar_epic: "💜 Epic", rar_legend: "🧡 Legend", rar_mythic: "❤️ Mythic", rar_premium: "💎 Premium",
-      skin_parrot: "Parrot", skin_croc: "Crocodile", skin_shark: "Shark", skin_flamingo: "Flamingo", skin_saturn: "Saturn", skin_snow: "Snowflake", skin_lolly: "Rooster Lollipop",
+      skin_parrot: "Parrot", skin_croc: "Crocodile", skin_lion: "Lion", skin_shark: "Shark", skin_flamingo: "Flamingo", skin_saturn: "Saturn", skin_snow: "Snowflake", skin_lolly: "Rooster Lollipop",
       skin_clover: "Four-leaf Clover", skin_liberty: "Statue of Liberty", skin_peace: "Victory", skin_moai: "Moai",
       skin_unicorn: "Unicorn", skin_phoenix: "Phoenix", skin_robot: "Robot", skin_genie: "Genie", skin_drake: "Black Dragon",
       sab_unicorn: "✨ Magic: 10% chance for a ×5 tap", sab_phoenix: "🔥 Energy recharges 2× faster", sab_robot: "🤖 Auto income: +3 000 🪙 per hour",
@@ -716,15 +759,17 @@
     // --- Mifik ---
     { id: "liberty",  rar: "mythic",  ico: "🗽", price: 1500000,  bonus: 35, c: ["#d7fff3", "#3fc9a4", "#0d6a55"], glow: "rgba(63,201,164,.55)" },
     { id: "peace",    rar: "mythic",  ico: "✌️", price: 2200000,  bonus: 40, c: ["#fff3c8", "#f2b84a", "#8c5a0c"], glow: "rgba(242,184,74,.55)" },
-    { id: "diamond",  rar: "mythic",  ico: "💎", price: 3500000,  bonus: 45, c: ["#e0ffff", "#3fd8e8", "#0e6a78"], glow: "rgba(63,216,232,.55)" },
+    { id: "trex",     rar: "mythic",  ico: "🐼", price: 3500000,  bonus: 45, c: ["#ffffff", "#c9d6dc", "#3a4a52"], glow: "rgba(201,214,220,.6)" },
     { id: "moai",     rar: "mythic",  ico: "🗿", price: 5000000,  bonus: 50, fx: true, c: ["#ffe7b0", "#e0742a", "#4a1608"], glow: "rgba(255,140,40,.65)" },
     // --- Premium (💎 evaziga, qobiliyatli) ---
     { id: "unicorn",  rar: "premium", cur: "g", ico: "🦄", price: 10, bonus: 20, ab: { crit: 0.1 },            c: ["#ffe6fb", "#e56bd8", "#6a1a78"], glow: "rgba(229,107,216,.55)" },
     { id: "phoenix",  rar: "premium", cur: "g", ico: "🔥", price: 15, bonus: 30, ab: { regen: 2 },            c: ["#fff0c0", "#ff8a1c", "#9c2a00"], glow: "rgba(255,138,28,.6)" },
     { id: "robot",    rar: "premium", cur: "g", ico: "🤖", price: 25, bonus: 38, ab: { mine: 3000 },          c: ["#e0f0ff", "#7a8ca8", "#2a3550"], glow: "rgba(122,140,168,.55)" },
+    { id: "diamond",  rar: "premium", cur: "g", ico: "💎", price: 30, bonus: 45, ab: { wheelGem: 2 },      c: ["#e0ffff", "#3fd8e8", "#0e6a78"], glow: "rgba(63,216,232,.55)" },
     { id: "genie",    rar: "premium", cur: "g", ico: "🧞", price: 40, bonus: 48, ab: { mg: 1.5 },             c: ["#e8e0ff", "#7a5cf0", "#2a1a8c"], glow: "rgba(122,92,240,.6)" },
     { id: "drake",    rar: "premium", cur: "g", ico: "🐲", price: 60, bonus: 60, ab: { turbo: 2, box: 1 },    c: ["#c8ffd8", "#18c08a", "#04523a"], glow: "rgba(24,192,138,.6)" },
     // --- Eski skinlar (do'konda ko'rinmaydi, sotib olganlarda qoladi) ---
+    { id: "lion",     rar: "epic",    hide: true, ico: "🦁", price: 65000,    bonus: 7,  c: ["#fff0c0", "#f0a030", "#8a4a08"], glow: "rgba(240,160,48,.55)" },
     { id: "dragon",   rar: "legend",  hide: true, ico: "🐉", price: 100000,   bonus: 4,  c: ["#d8ffcf", "#3fcf5a", "#126b26"], glow: "rgba(63,207,90,.45)" },
     { id: "rocket",   rar: "legend",  hide: true, ico: "🚀", price: 5000000,  bonus: 30, c: ["#ffe0f2", "#ff4fa0", "#8c1052"], glow: "rgba(255,79,160,.5)" },
     { id: "alien",    rar: "legend",  hide: true, ico: "👽", price: 20000000, bonus: 60, c: ["#e8ffd0", "#9be83f", "#4a780c"], glow: "rgba(155,232,63,.5)" },
@@ -746,6 +791,7 @@
   const perHour = () => S.lv.mine * 100 + (ab().mine || 0);
   const upCost  = u => Math.floor(u.base * Math.pow(u.mul, S.lv[u.id]));
   const turboOn = () => Date.now() < S.turboUntil;
+  const OFFH = [3, 6, 12];   // oflayn daromad limiti (soat)
   const rankIdx = () => { let r = 0; RANKS.forEach((x, i) => { if (S.total >= x.at) r = i; }); return r; };
 
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
@@ -764,13 +810,14 @@
 
   // Turbo har kuni yangilanadi
   function turboRefresh() { if (S.turboDay !== today()) { S.turboDay = today(); S.turboLeft = Math.max(S.turboLeft, 1); } }
+  if (!saved.turboV2) { S.turboV2 = true; S.turboLeft = Math.min(S.turboLeft, 1); }   // bepul turbo faqat kuniga 1 ta
   turboRefresh();
 
   let CG = null;   // tanga tutish o'yini holati
 
   // Oflayn daromad (maks. 3 soat)
   (function offline() {
-    const sec = Math.min((Date.now() - S.last) / 1000, 3 * 3600);
+    const sec = Math.min((Date.now() - S.last) / 1000, OFFH[S.offLv || 0] * 3600);
     if (sec > 5) {
       S.energy = Math.min(maxEn(), S.energy + sec * regen());
       const gain = perHour() * sec / 3600;
@@ -786,7 +833,16 @@
     $("coin").textContent = k.ico;
   }
 
+  // 💎 mukofotlar: daraja, skinlar
+  const RANK_GEMS = [0, 1, 2, 3, 5, 10];
+  function checkRewards() {
+    const msgs = [], ri = rankIdx();
+    while (S.rankPaid < ri) { S.rankPaid++; const n = RANK_GEMS[S.rankPaid] || 0; S.gems += n; msgs.push(t("rw_rank", { name: rankName(S.rankPaid), n })); }
+    if (!S.skins10 && S.owned.length >= 10) { S.skins10 = true; S.gems += 5; msgs.push(t("rw_skins")); }
+    if (msgs.length) { save(); toast(msgs.join(" • ")); haptic("heavy"); }
+  }
   function render() {
+    checkRewards();
     $("bal").textContent = fmt(S.coins); $("gem").textContent = fmt(S.gems);
     $("rate").textContent = t("rate", { h: fmt(perHour()), p: perTap() }) + (turboOn() ? " ×5 🚀" : "") + (Date.now() < S.x2Until ? " ×2 🔥" : "");
     $("ebar").style.width = (S.energy / maxEn() * 100) + "%";
@@ -893,7 +949,7 @@
   function renderDaily() {
     const ready = Date.now() - S.daily >= DAY;
     $("dailyBtn").disabled = !ready;
-    if (ready) $("dailyDesc").textContent = t("daily_ready", { n: fmt(dailyReward()), s: S.streak });
+    if (ready) $("dailyDesc").textContent = t("daily_ready", { n: fmt(dailyReward()), s: S.streak }) + " • " + t("daily_gem", { s: S.streak % 7 });
     else {
       const left = DAY - (Date.now() - S.daily);
       $("dailyDesc").textContent = t("next_in", { h: Math.floor(left / 3600000), m: Math.floor(left % 3600000 / 60000) });
@@ -903,6 +959,7 @@
     if (Date.now() - S.daily < DAY) return;
     S.streak = (Date.now() - S.daily < 2 * DAY) ? S.streak + 1 : 1;
     const g = dailyReward(); addCoins(g); S.daily = Date.now();
+    if (S.streak % 7 === 0) { S.gems += 2; setTimeout(() => toast(t("rw_streak")), 2000); }
     haptic("heavy"); save(); render(); renderDaily(); toast(t("daily_toast", { n: fmt(g) }));
   };
 
@@ -962,10 +1019,11 @@
   }
   const spinLeft = () => (S.spinDay === today() ? 0 : 1) + (S.extraSpins || 0);
   function pickPrize() {
-    const tot = WHEEL.reduce((a, p) => a + p.w, 0);
+    const wt = p => p.w * (p.t === "g" ? (ab().wheelGem || 1) : 1);
+    const tot = WHEEL.reduce((a, p) => a + wt(p), 0);
     const r = crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296 * tot;
     let acc = 0;
-    for (let i = 0; i < WHEEL.length; i++) { acc += WHEEL[i].w; if (r < acc) return i; }
+    for (let i = 0; i < WHEEL.length; i++) { acc += wt(WHEEL[i]); if (r < acc) return i; }
     return 0;
   }
   function givePrize(i) {
@@ -1010,6 +1068,17 @@
     { id: "x2",     ico: "🔥", price: 4, buy() { S.x2Until = Math.max(Date.now(), S.x2Until) + 600000; } },
     { id: "spin",   ico: "🎡", price: 3, buy() { S.extraSpins = (S.extraSpins || 0) + 1; } },
   ];
+  const OFFP = [5, 12];   // oflayn limitni 6 va 12 soatga oshirish narxi
+  const DECOR = [
+    { id: "f_gold",    k: "f", price: 5,  cls: "gold" },    { id: "f_ice",    k: "f", price: 8,  cls: "ice" },
+    { id: "f_fire",    k: "f", price: 12, cls: "fire" },    { id: "f_rainbow", k: "f", price: 20, cls: "rainbow" },
+    { id: "b_star",    k: "b", price: 3,  ico: "⭐" },      { id: "b_trophy", k: "b", price: 6,  ico: "🏆" },
+    { id: "b_rocket",  k: "b", price: 8,  ico: "🚀" },      { id: "b_rainbow", k: "b", price: 12, ico: "🌈" },
+    { id: "b_dragon",  k: "b", price: 20, ico: "🐉" },
+  ];
+  const decorBadge = () => { const d = DECOR.find(x => x.id === S.decor.b); return d ? d.ico : ""; };
+  const decorFrame = () => { const d = DECOR.find(x => x.id === S.decor.f); return d ? "fr-" + d.cls : ""; };
+  function renderUser() { const b = decorBadge(); $("user").textContent = tgUser ? ("👑 " + (tgUser.first_name || t("player")) + (b ? " " + b : "")) : "Don Coin"; }
   let upTab = "up";
   function showUpTab(n) {
     upTab = n;
@@ -1036,6 +1105,40 @@
           if (S.gems < it.price) return;
           S.gems -= it.price; it.buy(); haptic("heavy"); save(); render(); renderShop();
           toast(it.id === "x2" ? t("x2_on") : t("sh_ok"));
+        });
+      };
+      box.appendChild(d);
+    });
+    // Oflayn daromad limiti
+    {
+      const lv = S.offLv || 0, maxed = lv >= OFFH.length - 1, price = OFFP[lv];
+      const d = document.createElement("div"); d.className = "card";
+      d.innerHTML = `<div class="ico">⏳</div><div class="info"><div class="name">${t("off_t")}</div><div class="desc">${maxed ? t("off_max", { h: OFFH[lv] }) : t("off_d", { h: OFFH[lv], n: OFFH[lv + 1] })}</div></div>
+        ${maxed ? '<button class="btn" disabled>✓</button>' : `<button class="btn gem" ${S.gems < price ? "disabled" : ""}>${price} 💎</button>`}`;
+      if (!maxed) d.querySelector("button").onclick = () => {
+        if (S.gems < price) { toast(t("sh_no")); return; }
+        confirmBuy(t("cf_item", { name: t("off_t"), p: price }), () => {
+          if (S.gems < price) return;
+          S.gems -= price; S.offLv = lv + 1; haptic("heavy"); save(); render(); renderShop(); toast(t("sh_ok"));
+        });
+      };
+      box.appendChild(d);
+    }
+    // Profil bezagi
+    const dh = document.createElement("h3"); dh.textContent = t("dec_title"); box.appendChild(dh);
+    DECOR.forEach(it => {
+      const have = S.decor.o.includes(it.id), on = S.decor[it.k] === it.id, name = t("dn_" + it.id);
+      const d = document.createElement("div"); d.className = "card";
+      const prev = it.k === "f" ? `<div class="fr-prev fr-${it.cls}"><i></i></div>` : `<div class="ico">${it.ico}</div>`;
+      d.innerHTML = `${prev}<div class="info"><div class="name">${name}</div><div class="desc">${t("dec_d_" + it.k)}</div></div>
+        <button class="btn ${have ? "ghost" : "gem"}" ${!have && S.gems < it.price ? "disabled" : ""}>${have ? (on ? t("dec_take") : t("dec_wear")) : it.price + " 💎"}</button>`;
+      const fin = () => { save(); render(); renderShop(); renderUser(); renderProfile(); };
+      d.querySelector("button").onclick = () => {
+        if (have) { S.decor[it.k] = on ? "" : it.id; fin(); return; }
+        if (S.gems < it.price) { toast(t("sh_no")); return; }
+        confirmBuy(t("cf_item", { name, p: it.price }), () => {
+          if (S.gems < it.price) return;
+          S.gems -= it.price; S.decor.o.push(it.id); S.decor[it.k] = it.id; haptic("heavy"); fin(); toast(t("sh_ok"));
         });
       };
       box.appendChild(d);
@@ -1146,7 +1249,7 @@
   $("boxBack").onclick = () => { $("boxView").style.display = "none"; $("gamesList").style.display = "block"; renderBoxList(); };
 
   // ---------- Mini-o'yin: Tanga tutish ----------
-  const CATCH_TIME = 30, CATCH_PLAYS = 3, CATCH_CAP = 250, CATCH_HEARTS = 3;
+  const CATCH_TIME = 30, CATCH_PLAYS = 3, CATCH_CAP = 250, CATCH_HEARTS = 3, CATCH_REV = 2, CATCH_EXTRA = 1;
   const catchRate = () => 10 * (rankIdx() + 1);
   function catchLeft() { if (S.catchDay !== today()) { S.catchDay = today(); S.catchLeft = CATCH_PLAYS; } return S.catchLeft; }
   const EMOJI_FONT = "'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif";
@@ -1159,8 +1262,8 @@
     const left = catchLeft();
     $("catchListDesc").textContent = t("g_catch_d", { max: CATCH_PLAYS, n: left });
     const b = $("catchBtn");
-    b.disabled = !!CG || left <= 0;
-    b.textContent = left > 0 ? t("c_start", { n: left, max: CATCH_PLAYS }) : t("c_used", { max: CATCH_PLAYS });
+    b.disabled = !!CG || (left <= 0 && S.gems < CATCH_EXTRA);
+    b.textContent = left > 0 ? t("c_start", { n: left, max: CATCH_PLAYS }) : (S.gems >= CATCH_EXTRA ? t("c_buy", { c: CATCH_EXTRA }) : t("c_used", { max: CATCH_PLAYS }));
     if (!CG) {
       const rec = S.catchBest > 0 ? " • " + t("c_record", { n: S.catchBest }) : "";
       $("catchInfo").textContent = (left > 0 ? t("c_rate", { n: catchRate() }) : t("next_in", untilMidnight())) + rec;
@@ -1304,7 +1407,7 @@
         g.hearts--; g.combo = 0; g.shake = 0.4; g.flash = 0.5; g.squash = -0.8;
         catchBurst(g, x, y, "#ff7a3a", 26); catchBurst(g, x, y, "#555", 10); catchPop(g, x, y - 8, "-❤️", "#ff6b5b", 24);
         g.react = { e: g.hearts > 0 ? "😵" : "💀", life: 1 }; haptic("heavy");
-        if (g.hearts <= 0) g.dead = 0.9;
+        if (g.hearts <= 0) { if (!g.revived && S.gems >= CATCH_REV) { g.state = "revive"; g.revT = 6; g.pauseAt = 0; $("catchRev").classList.add("show"); } else g.dead = 0.9; }
       }
       return;
     }
@@ -1436,7 +1539,7 @@
       items: [], parts: [], pops: [], queue: [],
       score: 0, combo: 0, best: 0, caught: 0, hearts: CATCH_HEARTS, shield: 0, magnet: 0, extra: 0, frenzy: 0,
       state: "count", cd: 3, t0: 0, last: now, spawn: 0.3, wave: 5, shake: 0, flash: 0, squash: 0, dead: -1, goT: 0,
-      react: null, banner: null, raf: 0, uiHearts: -1 };
+      react: null, banner: null, raf: 0, uiHearts: -1, revived: false, revT: 0, pauseAt: 0 };
     $("catchWrap").classList.add("playing");
     $("catchOv").classList.remove("done");
     $("catchRes").textContent = ""; $("catchStats").textContent = ""; $("catchInfo").textContent = "";
@@ -1449,6 +1552,13 @@
   function catchFrame(now) {
     const g = CG; if (!g) return;
     const dt = Math.min(0.05, (now - g.last) / 1000); g.last = now;
+    if (g.state === "revive") {                       // jon sotib olish taklifi: o'yin to'xtab turadi
+      if (!g.pauseAt) g.pauseAt = now;
+      g.revT -= dt;
+      if (g.revT <= 0) { declineRev(); return; }
+      $("revBtn").textContent = t("c_rev", { c: CATCH_REV }) + " • " + Math.ceil(g.revT);
+      catchDraw(g, now); g.raf = requestAnimationFrame(catchFrame); return;
+    }
     if (g.state === "count") {
       g.cd -= dt;
       if (g.cd <= 0) { g.state = "play"; g.t0 = now; g.goT = 0.7; haptic("medium"); }
@@ -1469,8 +1579,9 @@
   function endCatch() {
     const g = CG; if (!g) return;
     CG = null; cancelAnimationFrame(g.raf);
+    $("catchRev").classList.remove("show");
     $("catchWrap").classList.remove("playing");
-    const played = g.state === "play";
+    const played = g.state === "play" || g.state === "revive";
     if (!played) S.catchLeft++;                      // boshlanmay chiqib ketsa, urinish qaytariladi
     const reward = played ? Math.round(Math.min(g.score, CATCH_CAP) * catchRate() * mg()) : 0;
     if (reward > 0) addCoins(reward);
@@ -1493,7 +1604,25 @@
   function catchMove(e) { if (!CG) return; const r = catchCv.getBoundingClientRect(); CG.x = Math.max(30, Math.min(CG.w - 30, e.clientX - r.left)); }
   catchCv.addEventListener("pointerdown", e => { e.preventDefault(); try { catchCv.setPointerCapture(e.pointerId); } catch (_) {} catchMove(e); });
   catchCv.addEventListener("pointermove", e => { e.preventDefault(); catchMove(e); });
-  $("catchBtn").onclick = startCatch;
+  function acceptRev() {
+    const g = CG; if (!g || g.state !== "revive" || S.gems < CATCH_REV) return;
+    S.gems -= CATCH_REV; g.revived = true; g.hearts = 1; g.shield = 1; g.dead = -1;
+    g.items = g.items.filter(i => i.type !== "bomb");
+    const now = performance.now(); g.t0 += now - g.pauseAt; g.last = now; g.state = "play";
+    g.react = { e: "😅", life: 1 }; $("catchRev").classList.remove("show"); haptic("heavy"); save(); render();
+  }
+  function declineRev() {
+    const g = CG; if (!g) return;
+    $("catchRev").classList.remove("show"); g.state = "play"; g.dead = 0.4;
+    g.raf = requestAnimationFrame(catchFrame);
+  }
+  $("revBtn").onclick = acceptRev; $("revNo").onclick = declineRev;
+  $("catchBtn").onclick = () => {
+    if (CG) return;
+    if (catchLeft() > 0) { startCatch(); return; }
+    if (S.gems < CATCH_EXTRA) return;
+    confirmBuy(t("cf_try", { c: CATCH_EXTRA }), () => { if (S.gems < CATCH_EXTRA) return; S.gems -= CATCH_EXTRA; S.catchLeft++; save(); render(); startCatch(); });
+  };
   $("openCatch").onclick = () => { $("catchOv").classList.remove("done"); $("catchStats").textContent = ""; $("catchHearts").textContent = ""; $("catchRes").textContent = ""; $("catchScore").textContent = ""; $("catchTime").textContent = ""; renderCatch(); $("gamesList").style.display = "none"; $("catchView").style.display = "block"; };
   $("catchBack").onclick = () => { if (CG) endCatch(); $("catchView").style.display = "none"; $("gamesList").style.display = "block"; renderCatch(); };
 
@@ -1569,8 +1698,8 @@
     const stats = [["🪙", fmt(S.total), "pf_total"], ["💎", fmt(S.gems), "pf_gems"], ["👆", fmt(S.taps || 0), "pf_taps"], ["🎨", skinHave + " / " + skinTotal, "pf_skins"],
       ["💪", "+" + perTap(), "pf_tap"], ["⛏️", "+" + fmt(perHour()), "pf_hour"], ["🏆", fmt(S.catchBest || 0), "pf_catch"], ["📅", days, "pf_days"]];
     const nm = String(myName).replace(/[<>&"]/g, "");
-    $("profile").innerHTML = `<div class="pf-top"><div class="orb" style="background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${k.ico}</div>
-      <div><div class="pf-name">${nm}</div><div class="pf-id">ID: ${uid}</div><span class="pf-rank">${cur.ico} ${rankName(ri)}</span></div></div>
+    $("profile").innerHTML = `<div class="pf-top"><div class="pf-av ${decorFrame()}"><div class="orb" style="background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${k.ico}</div></div>
+      <div><div class="pf-name">${nm} ${decorBadge()}</div><div class="pf-id">ID: ${uid}</div><span class="pf-rank">${cur.ico} ${rankName(ri)}</span></div></div>
       <div class="pf-bar"><div class="bar"><i style="width:${pct}%"></i></div></div>
       <div class="pf-next">${next ? t("next_rank", { ico: next.ico, name: rankName(ri + 1), n: fmt(next.at - S.total) }) : t("max_rank")}</div>
       <div class="pf-grid">${stats.map(x => `<div><b>${x[0]} ${x[1]}</b><span>${t(x[2])}</span></div>`).join("")}</div>`;
@@ -1588,7 +1717,7 @@
     if (wheelBuilt) buildWheel();
     if ($("p-rank").classList.contains("active")) loadBoard();
     if (!CG) { $("catchRes").textContent = ""; }
-    $("user").textContent = tgUser ? ("👑 " + (tgUser.first_name || t("player"))) : "Don Coin";
+    renderUser();
   }
   function setLang(l) { if (!LANGS.includes(l) || l === lang) return; lang = l; S.lang = l; save(); applyLang(); }
   document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => setLang(b.dataset.lang));
