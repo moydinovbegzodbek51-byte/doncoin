@@ -246,11 +246,12 @@
   .fr-gold { --ring: linear-gradient(135deg,#fff3b0,#e0a41c,#8a5a08); --rg: rgba(245,184,46,.75); }
   .fr-ice { --ring: linear-gradient(135deg,#ffffff,#8fd8f5,#2a7aa0); --rg: rgba(143,216,245,.75); }
   .fr-fire { --ring: linear-gradient(135deg,#ffe27a,#ff6a1a,#b01800); --rg: rgba(255,106,26,.85); }
-  .fr-rainbow { --ring: conic-gradient(#ff5e5e,#ffd45e,#7dff5e,#5eeaff,#9a5eff,#ff5ee0,#ff5e5e); --rg: rgba(160,120,255,.75); }
+  .fr-rainbow { --ring: conic-gradient(#1a0a4a,#6a2cff,#22d3ee,#ffffff,#ff4fd8,#6a2cff,#1a0a4a); --rg: rgba(106,44,255,.9); }
   .pf-av { position: relative; width: 78px; height: 78px; flex: 0 0 78px; padding: 4px; }
   .fr-prev { position: relative; width: 42px; height: 42px; flex: 0 0 42px; padding: 4px; }
   .pf-av::before, .fr-prev::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--ring, transparent); box-shadow: 0 0 16px var(--rg, transparent); }
-  .pf-av.fr-rainbow::before, .fr-prev.fr-rainbow::before { animation: spin 5s linear infinite; }
+  .pf-av.fr-rainbow::before, .fr-prev.fr-rainbow::before { animation: spin 4s linear infinite, galglow 2.4s ease-in-out infinite; }
+  @keyframes galglow { 0%,100% { box-shadow: 0 0 12px rgba(106,44,255,.7), 0 0 26px rgba(34,211,238,.35); } 50% { box-shadow: 0 0 22px rgba(255,79,216,.85), 0 0 40px rgba(34,211,238,.6); } }
   .fr-prev i { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; background: #2a1d08; }
   .pf-av .orb { position: relative; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -295,6 +296,25 @@
   .toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px);
     background: #000d; color: #fff; padding: 10px 16px; border-radius: 12px; opacity: 0; transition: .25s; pointer-events: none; font-size: 14px; z-index: 40; max-width: 90%; text-align: center; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ===== Aralash dizayn: premium oltin + multfilm tugmalari ===== */
+  :root { --bg: #0b0803; --card: linear-gradient(170deg, #3a2a0c, #22180a); --line: #5a3f10; }
+  body { background: radial-gradient(ellipse at 50% 26%, rgba(255,176,32,.30), transparent 56%), radial-gradient(ellipse at 50% 100%, rgba(120,70,0,.55), transparent 60%), #0b0803 !important; font-weight: 700; }
+  .card, .box { border: 3px solid #120c03 !important; border-radius: 22px; box-shadow: 0 5px 0 #120c03, inset 0 2px 0 rgba(255,226,140,.28), inset 0 0 0 2px rgba(245,184,46,.25); }
+  .btn { background: linear-gradient(180deg, #fff0a8, #f5b82e 58%, #d38d12); color: #4a2c00 !important; border: 3px solid #3a2204; border-radius: 18px; box-shadow: 0 5px 0 #3a2204; font-weight: 900; text-shadow: 0 1px 0 rgba(255,255,255,.55); transition: transform .08s, box-shadow .08s; }
+  .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 #3a2204; }
+  .btn.gem { background: linear-gradient(180deg, #d8fbff, #46d8ea 58%, #1ea6bb); color: #05363f !important; border-color: #07323a; box-shadow: 0 5px 0 #07323a; }
+  .btn.gem:active:not(:disabled) { box-shadow: 0 1px 0 #07323a; }
+  .btn.ghost { background: transparent; color: #ffdf7a !important; border-color: #a8750f; box-shadow: 0 4px 0 #3a2204; text-shadow: none; }
+  .btn:disabled, .btn.gem:disabled, .btn.ghost:disabled { filter: none; opacity: 1; background: linear-gradient(180deg, #5a4d36, #3b3222); color: #e6d6a8 !important; border-color: #1a140a; box-shadow: 0 3px 0 #120c03; text-shadow: 0 1px 0 rgba(0,0,0,.45); }
+  nav { background: linear-gradient(180deg, #2a1d07, #120c03); border-top: 3px solid #f5b82e; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 26px rgba(245,184,46,.2); }
+  nav button { font-weight: 800; }
+  nav button.active { color: #ffe27a; text-shadow: 0 0 12px rgba(255,200,80,.9); }
+  nav button b { transition: transform .2s; }
+  nav button.active b { transform: scale(1.3); }
+  .coin { border: 5px solid #3a2204 !important; box-shadow: 0 8px 0 #3a2204, 0 0 90px rgba(255,176,32,.6) !important; }
+  .coin.turbo { box-shadow: 0 8px 0 #3a2204, 0 0 70px #ff7a1a !important; }
+  .skin { border-radius: 22px; }
 </style>
 </head>
 <body>
@@ -531,7 +551,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v8 (05.11)</div>
+    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v10 (05.11)</div>
   </section>
 
   <nav>
@@ -622,7 +642,7 @@
       c_rev_t: "💔 Jonlar tugadi!", c_rev: "❤️ Davom etish ({c} 💎)", c_rev_no: "Tugatish", c_buy: "➕ Qo'shimcha urinish ({c} 💎)", cf_try: "Qo'shimcha urinish uchun {c} 💎 sarflaysizmi?",
       off_t: "Oflayn daromad limiti", off_d: "Hozir: {h} soat • keyingi: {n} soat", off_max: "Eng yuqori daraja: {h} soat",
       dec_title: "🌟 Profil bezagi", dec_wear: "Kiyish", dec_take: "Yechish", dec_d_f: "Profil rasmingiz atrofida", dec_d_b: "Ismingiz yonida ko'rinadi",
-      dn_f_gold: "Oltin ramka", dn_f_ice: "Muz ramka", dn_f_fire: "Olov ramka", dn_f_rainbow: "Kamalak ramka",
+      dn_f_gold: "Oltin ramka", dn_f_ice: "Muz ramka", dn_f_fire: "Olov ramka", dn_f_rainbow: "Galaktika ramka",
       dn_b_star: "Yulduz nishoni", dn_b_trophy: "Kubok nishoni", dn_b_rocket: "Raketa nishoni", dn_b_rainbow: "Kamalak nishoni", dn_b_dragon: "Ajdaho nishoni",
       sab_diamond: "💎 G'ildirakda 💎 yutug'i ehtimoli 2×", skin_trex: "Panda",
       pf_total: "Jami topilgan", pf_gems: "Olmos", pf_taps: "Tap soni", pf_skins: "Skinlar", pf_tap: "Har tap", pf_hour: "Soatiga", pf_catch: "Tutish rekordi", pf_days: "O'yin kuni",
@@ -726,7 +746,7 @@
       c_rev_t: "💔 Жизни закончились!", c_rev: "❤️ Продолжить ({c} 💎)", c_rev_no: "Закончить", c_buy: "➕ Доп. попытка ({c} 💎)", cf_try: "Потратить {c} 💎 на доп. попытку?",
       off_t: "Лимит офлайн-дохода", off_d: "Сейчас: {h} ч • далее: {n} ч", off_max: "Максимум: {h} ч",
       dec_title: "🌟 Украшения профиля", dec_wear: "Надеть", dec_take: "Снять", dec_d_f: "Вокруг аватара профиля", dec_d_b: "Рядом с вашим именем",
-      dn_f_gold: "Золотая рамка", dn_f_ice: "Ледяная рамка", dn_f_fire: "Огненная рамка", dn_f_rainbow: "Радужная рамка",
+      dn_f_gold: "Золотая рамка", dn_f_ice: "Ледяная рамка", dn_f_fire: "Огненная рамка", dn_f_rainbow: "Галактика",
       dn_b_star: "Значок «Звезда»", dn_b_trophy: "Значок «Кубок»", dn_b_rocket: "Значок «Ракета»", dn_b_rainbow: "Значок «Радуга»", dn_b_dragon: "Значок «Дракон»",
       sab_diamond: "💎 Шанс выиграть 💎 в колесе ×2", skin_trex: "Панда",
       pf_total: "Всего собрано", pf_gems: "Алмазы", pf_taps: "Тапов", pf_skins: "Скины", pf_tap: "За тап", pf_hour: "В час", pf_catch: "Рекорд ловли", pf_days: "Дней в игре",
@@ -830,7 +850,7 @@
       c_rev_t: "💔 Out of lives!", c_rev: "❤️ Continue ({c} 💎)", c_rev_no: "End game", c_buy: "➕ Extra try ({c} 💎)", cf_try: "Spend {c} 💎 on an extra try?",
       off_t: "Offline income limit", off_d: "Now: {h} h • next: {n} h", off_max: "Maximum: {h} h",
       dec_title: "🌟 Profile decor", dec_wear: "Equip", dec_take: "Remove", dec_d_f: "Around your profile picture", dec_d_b: "Shown next to your name",
-      dn_f_gold: "Gold frame", dn_f_ice: "Ice frame", dn_f_fire: "Fire frame", dn_f_rainbow: "Rainbow frame",
+      dn_f_gold: "Gold frame", dn_f_ice: "Ice frame", dn_f_fire: "Fire frame", dn_f_rainbow: "Galaxy frame",
       dn_b_star: "Star badge", dn_b_trophy: "Trophy badge", dn_b_rocket: "Rocket badge", dn_b_rainbow: "Rainbow badge", dn_b_dragon: "Dragon badge",
       sab_diamond: "💎 2× chance of 💎 prizes on the wheel", skin_trex: "Panda",
       pf_total: "Total earned", pf_gems: "Gems", pf_taps: "Taps", pf_skins: "Skins", pf_tap: "Per tap", pf_hour: "Per hour", pf_catch: "Catch record", pf_days: "Days playing",
@@ -1276,7 +1296,7 @@
     if (!serverOn()) return;
     const r = await api("/api/load");
     syncReady = true;
-    $("verTxt").textContent = "Don Coin • v8 (05.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
+    $("verTxt").textContent = "Don Coin • v10 (05.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
     if (!r || !r.ok || !r.s || typeof r.s !== "object") return;
     if (Number(r.s.total) > S.total + 1) {                    // serverdagi nusxa oldinroq ketgan: tiklaymiz
       const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
@@ -1300,7 +1320,7 @@
 
   // ---------- Telegram Stars ⭐ → 💎 ----------
   const STAR_PACKS = [{ id: "g1", g: 20, s: 50 }, { id: "g2", g: 60, s: 130 }, { id: "g3", g: 150, s: 300 }, { id: "g4", g: 400, s: 700 }];
-  const starsOn = () => serverOn();
+  const starsOn = () => true;   // blok doim ko'rinadi; server yo'q bo'lsa bosganda xabar chiqadi
   let claimBusy = false;
   async function claimGems() {
     if (claimBusy || !serverOn()) return 0;
@@ -1312,6 +1332,7 @@
     return r.gems;
   }
   async function buyStars(pack) {
+    if (!serverOn()) { toast(t("stars_err")); return; }
     const r = await api("/api/invoice", { pack });
     if (!r || !r.ok || !r.link) { toast(t("stars_err")); return; }
     try {
@@ -1405,10 +1426,10 @@
   ];
   const OFFP = [5, 12];   // oflayn limitni 6 va 12 soatga oshirish narxi
   const DECOR = [
-    { id: "f_gold",    k: "f", price: 5,  cls: "gold" },    { id: "f_ice",    k: "f", price: 8,  cls: "ice" },
+    { id: "f_gold",    k: "f", price: 5,  cls: "gold" },    { id: "f_ice",    k: "f", price: 8,  cls: "ice", hide: true },
     { id: "f_fire",    k: "f", price: 12, cls: "fire" },    { id: "f_rainbow", k: "f", price: 20, cls: "rainbow" },
-    { id: "b_star",    k: "b", price: 3,  ico: "⭐" },      { id: "b_trophy", k: "b", price: 6,  ico: "🏆" },
-    { id: "b_rocket",  k: "b", price: 8,  ico: "🚀" },      { id: "b_rainbow", k: "b", price: 12, ico: "🌈" },
+    { id: "b_star",    k: "b", price: 3,  ico: "⭐" },      { id: "b_trophy", k: "b", price: 6,  ico: "🏆", hide: true },
+    { id: "b_rocket",  k: "b", price: 8,  ico: "🚀" },      { id: "b_rainbow", k: "b", price: 12, ico: "🌈", hide: true },
     { id: "b_dragon",  k: "b", price: 20, ico: "🐉" },
   ];
   const decorBadge = () => { const d = DECOR.find(x => x.id === S.decor.b); return d ? d.ico : ""; };
@@ -1462,6 +1483,7 @@
     // Profil bezagi
     const dh = document.createElement("h3"); dh.textContent = t("dec_title"); box.appendChild(dh);
     DECOR.forEach(it => {
+      if (it.hide && !S.decor.o.includes(it.id)) return;   // do'konda ko'rsatilmaydi (sotib olganlarda qoladi)
       const have = S.decor.o.includes(it.id), on = S.decor[it.k] === it.id, name = t("dn_" + it.id);
       const d = document.createElement("div"); d.className = "card";
       const prev = it.k === "f" ? `<div class="fr-prev fr-${it.cls}"><i></i></div>` : `<div class="ico">${it.ico}</div>`;
