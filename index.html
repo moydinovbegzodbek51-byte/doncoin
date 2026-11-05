@@ -1331,7 +1331,7 @@
   if (S.spinPending >= 0 && S.spinPending < WHEEL.length) { const pi = S.spinPending; setTimeout(() => givePrize(pi), 900); }
 
   // ---------- Do'kon (💎) va ayirboshlash ----------
-  const BUY_RATE = 1000, SELL_RATE = 50000;   // 1 000 🪙 = 1 💎,  1 💎 = 50 000 🪙
+  const BUY_RATE = 500000, SELL_RATE = 50000;   // 500 000 🪙 = 1 💎,  1 💎 = 50 000 🪙
   const SHOP = [
     { id: "turbo",  ico: "🚀", price: 2, buy() { S.turboLeft++; } },
     { id: "energy", ico: "⚡", price: 1, can: () => S.energy < maxEn() - 1, buy() { S.energy = maxEn(); } },
@@ -1427,7 +1427,7 @@
             S.coins -= n * BUY_RATE; S.gems += n;
           } else {
             if (S.gems < n) { toast(t("sh_no")); return; }
-            S.gems -= n; addCoins(n * SELL_RATE);       // AKSIYA: balansga ham, reytingga (total) ham qo'shiladi
+            S.gems -= n; addCoins(n * SELL_RATE);       // 💎 sotilganda tanga hamyonga ham, reytingga (total) ham qo'shiladi
           }
           haptic("medium"); save(); render(); renderShop(); toast(t("ex_ok"));
         });
@@ -1692,7 +1692,7 @@
   const vipBase = () => unit() * 150;                               // yutuq birligi (daraja bilan o'sadi)
   const TK_P = 0.07, TK_P_GOOD = 0.12, TK_PITY = 15, SH_PITY = 5;   // chipta ehtimoli, kafolatlar
   const VIPG = [
-    { id: "crash", ico: "🚀", fee: 3 }, { id: "run", ico: "🏃", fee: 3 }, { id: "react", ico: "⚡", fee: 2 }, { id: "shoot", ico: "🎯", fee: 3 }, { id: "slot", ico: "🎰", fee: 2 },
+    { id: "crash", ico: "🚀", fee: 5 }, { id: "run", ico: "🏃", fee: 5 }, { id: "react", ico: "⚡", fee: 5 }, { id: "shoot", ico: "🎯", fee: 5 }, { id: "slot", ico: "🎰", fee: 5 },
     { id: "boss", ico: "👹", fee: 1, cur: "t" }, { id: "xz", ico: "🏺", fee: 2, cur: "t" },
   ];
   const XZ = [
