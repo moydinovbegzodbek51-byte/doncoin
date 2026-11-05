@@ -531,7 +531,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px">Don Coin • v7</div>
+    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v8 (05.11)</div>
   </section>
 
   <nav>
@@ -645,6 +645,7 @@
       sh_full: "Energiya to'la", sh_no: "Olmos yetmaydi 💎", sh_ok: "Sotib olindi ✓", x2_on: "🔥 ×2 tap — 10 daqiqa!",
       ex_title: "🔄 Ayirboshlash", ex_d: "{b} 🪙 → 1 💎  ·  1 💎 → {s} 🪙", ex_buy: "+{n} 💎  (−{c} 🪙)", ex_sell: "+{c} 🪙  (−{n} 💎)",
       ex_nocoins: "Tanga yetmaydi 🪙", ex_ok: "Ayirboshlandi ✓",
+      stars_t: "⭐ Olmos sotib olish", stars_d: "Telegram Stars bilan. Olmos darhol hisobingizga tushadi.", stars_btn: "{g} 💎 — {s} ⭐", stars_got: "+{n} 💎 qo'shildi! Rahmat 🙏", stars_err: "To'lov hozir ishlamayapti, keyinroq urinib ko'ring", sync_restored: "☁️ Ma'lumotlaringiz serverdan tiklandi",
       g_tab_n: "🎮 Oddiy", g_tab_v: "👑 VIP zal", vip_sub: "Olmos 💎 bilan o'ynaladigan premium o'yinlar. Yutuqlar katta: tanga, turbo va skin parchalari!",
       vip_sh: "🧩 Skin parchalari", vip_sh_d: "Har bir Legend skin uchun parcha yig'ing (narxiga qarab 16–20 ta), skin o'zi ochiladi. Parchalar VIP o'yinlarda tushadi, har 5 o'yinda kamida 1 parcha kafolatlangan.", vip_have: "✓ Sizda bor",
       vg_crash: "Raketa", vg_crash_d: "Raketa ko'tarilgan sari yutuq koeffitsienti o'sadi. Portlashdan oldin «Olish» ni bosing!",
@@ -748,6 +749,7 @@
       sh_full: "Энергия полная", sh_no: "Не хватает 💎", sh_ok: "Куплено ✓", x2_on: "🔥 ×2 тап — 10 минут!",
       ex_title: "🔄 Обмен", ex_d: "{b} 🪙 → 1 💎  ·  1 💎 → {s} 🪙", ex_buy: "+{n} 💎  (−{c} 🪙)", ex_sell: "+{c} 🪙  (−{n} 💎)",
       ex_nocoins: "Не хватает 🪙", ex_ok: "Обмен выполнен ✓",
+      stars_t: "⭐ Купить алмазы", stars_d: "За Telegram Stars. Алмазы зачисляются сразу.", stars_btn: "{g} 💎 — {s} ⭐", stars_got: "+{n} 💎 зачислено! Спасибо 🙏", stars_err: "Оплата сейчас недоступна, попробуйте позже", sync_restored: "☁️ Ваши данные восстановлены с сервера",
       g_tab_n: "🎮 Обычные", g_tab_v: "👑 VIP-зал", vip_sub: "Премиум-игры за алмазы 💎. Большие награды: монеты, турбо и осколки скинов!",
       vip_sh: "🧩 Осколки скинов", vip_sh_d: "Собирайте осколки на каждый Legend-скин (16–20 в зависимости от цены), и он откроется сам. Осколки выпадают в VIP-играх, минимум 1 осколок гарантирован каждые 5 игр.", vip_have: "✓ Уже есть",
       vg_crash: "Ракета", vg_crash_d: "Чем выше летит ракета, тем больше множитель. Нажмите «Забрать» до взрыва!",
@@ -851,6 +853,7 @@
       sh_full: "Energy is full", sh_no: "Not enough 💎", sh_ok: "Purchased ✓", x2_on: "🔥 ×2 tap — 10 minutes!",
       ex_title: "🔄 Exchange", ex_d: "{b} 🪙 → 1 💎  ·  1 💎 → {s} 🪙", ex_buy: "+{n} 💎  (−{c} 🪙)", ex_sell: "+{c} 🪙  (−{n} 💎)",
       ex_nocoins: "Not enough 🪙", ex_ok: "Exchanged ✓",
+      stars_t: "⭐ Buy gems", stars_d: "Pay with Telegram Stars. Gems arrive instantly.", stars_btn: "{g} 💎 — {s} ⭐", stars_got: "+{n} 💎 added! Thank you 🙏", stars_err: "Payment is unavailable right now, try later", sync_restored: "☁️ Your data was restored from the server",
       g_tab_n: "🎮 Regular", g_tab_v: "👑 VIP Lounge", vip_sub: "Premium games played with 💎. Big rewards: coins, turbo and skin shards!",
       vip_sh: "🧩 Skin shards", vip_sh_d: "Collect shards for each Legend skin (16–20 depending on its price) and it unlocks automatically. Shards drop in VIP games, with at least 1 shard guaranteed every 5 games.", vip_have: "✓ Owned",
       vg_crash: "Rocket", vg_crash_d: "The higher the rocket flies, the bigger the multiplier. Tap “Cash out” before it explodes!",
@@ -1258,6 +1261,68 @@
   }
   setTimeout(claimRefs, 1500);
 
+  // ---------- Serverda saqlash (zaxira) ----------
+  let syncReady = false, lastSig = "", forceReset = false, pushBusy = false;
+  function fixState() {
+    S = Object.assign({}, def, S);
+    S.lv = Object.assign({}, def.lv, S.lv);
+    if (!S.shards || typeof S.shards !== "object") S.shards = {};
+    S.decor = Object.assign({}, def.decor, S.decor); if (!Array.isArray(S.decor.o)) S.decor.o = [];
+    if (!Array.isArray(S.owned) || !S.owned.length) S.owned = ["duck"];
+    if (!S.total || S.total < S.coins) S.total = S.coins;
+    S.last = Date.now();
+  }
+  async function loadRemote() {
+    if (!serverOn()) return;
+    const r = await api("/api/load");
+    syncReady = true;
+    $("verTxt").textContent = "Don Coin • v8 (05.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
+    if (!r || !r.ok || !r.s || typeof r.s !== "object") return;
+    if (Number(r.s.total) > S.total + 1) {                    // serverdagi nusxa oldinroq ketgan: tiklaymiz
+      const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
+      S = Object.assign({}, r.s); fixState();
+      if (keep.lang) S.lang = keep.lang; S.vib = keep.vib; S.confirm = keep.confirm;
+      if (S.seen) $("tutorial").style.display = "none";
+      save(); applySkin(); applyLang(); render(); toast(t("sync_restored"));
+    }
+  }
+  async function pushState() {
+    if (!serverOn() || !syncReady || pushBusy) return;
+    const sig = [Math.floor(S.total), Math.floor(S.coins), S.gems, S.owned.length, S.tickets, S.skin, JSON.stringify(S.shards)].join("|");
+    if (sig === lastSig && !forceReset) return;
+    pushBusy = true;
+    const r = await api("/api/save", { state: S, reset: forceReset });
+    pushBusy = false;
+    if (r && r.ok) { lastSig = sig; forceReset = false; }
+  }
+  loadRemote().then(() => { claimGems(); });
+  setInterval(pushState, 30000);
+
+  // ---------- Telegram Stars ⭐ → 💎 ----------
+  const STAR_PACKS = [{ id: "g1", g: 20, s: 50 }, { id: "g2", g: 60, s: 130 }, { id: "g3", g: 150, s: 300 }, { id: "g4", g: 400, s: 700 }];
+  const starsOn = () => serverOn();
+  let claimBusy = false;
+  async function claimGems() {
+    if (claimBusy || !serverOn()) return 0;
+    claimBusy = true; const r = await api("/api/claim-gems"); claimBusy = false;
+    if (!r || !r.ok || !(r.gems > 0)) return 0;
+    S.gems += r.gems; save(); render(); haptic("heavy"); toast(t("stars_got", { n: r.gems }));
+    if ($("p-up").classList.contains("active")) renderShop();
+    pushState();
+    return r.gems;
+  }
+  async function buyStars(pack) {
+    const r = await api("/api/invoice", { pack });
+    if (!r || !r.ok || !r.link) { toast(t("stars_err")); return; }
+    try {
+      if (!tg.openInvoice) { toast(t("stars_err")); return; }
+      tg.openInvoice(r.link, async status => {
+        if (status !== "paid") return;
+        for (let i = 0; i < 8; i++) { await new Promise(res => setTimeout(res, 1500)); if (await claimGems()) break; }   // to'lov xabari serverga yetib kelguncha kutamiz
+      });
+    } catch (e) { toast(t("stars_err")); }
+  }
+
   // ---------- Mini-o'yin: Omad g'ildiragi ----------
   const WHEEL = [
     { t: "c", m: 1,  w: 26, ico: "🪙", col: "#6b4a0f" },
@@ -1413,6 +1478,15 @@
       };
       box.appendChild(d);
     });
+    if (starsOn()) {
+      const sb = document.createElement("div"); sb.className = "box";
+      sb.innerHTML = `<div><b>${t("stars_t")}</b></div><div class="muted" style="margin:4px 0 10px">${t("stars_d")}</div><div class="ex-grid"></div>`;
+      STAR_PACKS.forEach(pk => {
+        const b = document.createElement("button"); b.className = "btn gem"; b.textContent = t("stars_btn", { g: pk.g, s: pk.s });
+        b.onclick = () => buyStars(pk.id); sb.querySelector(".ex-grid").appendChild(b);
+      });
+      box.appendChild(sb);
+    }
     const ex = document.createElement("div"); ex.className = "box";
     ex.innerHTML = `<div><b>${t("ex_title")}</b></div><div class="muted" style="margin:4px 0 10px">${t("ex_d", { b: fmt(BUY_RATE), s: fmt(SELL_RATE) })}</div><div class="ex-grid"></div>`;
     const grid = ex.querySelector(".ex-grid");
@@ -2466,7 +2540,7 @@
     const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
     S = JSON.parse(JSON.stringify(def));
     S.last = Date.now(); S.seen = true; S.lang = keep.lang; S.vib = keep.vib; S.confirm = keep.confirm;
-    turboRefresh(); save(); applySkin(); applyLang(); go("p-tap"); toast(t("reset_done"));
+    turboRefresh(); save(); forceReset = true; pushState(); applySkin(); applyLang(); go("p-tap"); toast(t("reset_done"));
   });
 
   // ---------- Navigatsiya ----------
@@ -2499,7 +2573,7 @@
   setInterval(pushScore, 20000);
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && CG) endCatch();   // fon rejimida o'yin to'xtaydi
-    S.last = Date.now(); save(); if (document.hidden) pushScore(); else claimRefs();
+    S.last = Date.now(); save(); if (document.hidden) { pushScore(); pushState(); } else { claimRefs(); claimGems(); }
   });
   window.addEventListener("pagehide", save);
 
