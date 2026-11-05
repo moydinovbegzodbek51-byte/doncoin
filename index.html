@@ -134,6 +134,71 @@
   @keyframes pop { 0% { transform: scale(.55) rotate(-10deg); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
   #boxBtn { width: 100%; padding: 14px; font-size: 16px; }
 
+  /* Xotira */
+  .mem-grid { display: grid; gap: 8px; margin: 8px 0 12px; }
+  .mc { aspect-ratio: 1; border-radius: 14px; border: 1px solid var(--line); background: linear-gradient(145deg, #3a2a0c, #1d1509); color: var(--gold2);
+    display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; line-height: 1; }
+  .mc.up { background: linear-gradient(145deg, #5a4210, #33240a); border-color: #ffd84a; animation: pop .35s ease-out; }
+  .mc.done { background: rgba(63,216,232,.16); border-color: #3fd8e8; opacity: .8; }
+  .mc.miss { opacity: .45; }
+  .mem-lv { display: flex; gap: 8px; margin: 6px 0 10px; }
+  .mem-lv .chip { flex: 1; }
+  .mem-hud { text-align: center; font-weight: 700; min-height: 22px; margin: 2px 0 4px; }
+  #memBtn, #scrBtn { width: 100%; padding: 14px; font-size: 16px; }
+
+  /* Daraja skinlari */
+  .rar.rank { color: #ffd84a; }
+  .skin.r-rank { border-color: rgba(255,216,74,.7); box-shadow: 0 0 16px rgba(255,216,74,.18); }
+  .skin .rq { font-size: 11px; color: #ffd84a; margin: -4px 2px 8px; line-height: 1.3; }
+  .skin.locked .orb { filter: grayscale(1) brightness(.5); animation: none; }
+  .sk-img { display: block; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+  .orb .sk-img { width: 112%; height: 112%; max-width: none; flex: 0 0 auto; }
+  .skin .orb.art { overflow: visible; animation: artglow 2.8s ease-in-out infinite; }
+  @keyframes artglow { 0%,100% { box-shadow: inset 0 -6px 12px rgba(0,0,0,.25), 0 0 10px var(--gl); } 50% { box-shadow: inset 0 -6px 12px rgba(0,0,0,.25), 0 0 28px var(--gl); } }
+  .coin.art { display: flex; align-items: center; justify-content: center; padding: 0; overflow: visible; }
+  .coin.art .sk-img { width: 106%; height: 106%; max-width: none; flex: 0 0 auto; animation: skfloat 3.4s ease-in-out infinite; }
+  @keyframes skfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  .ptc { position: absolute; font-size: 18px; line-height: 1; pointer-events: none; z-index: 6; animation: ptc .7s ease-out forwards; }
+  @keyframes ptc { from { transform: translate(0,0) scale(1.1); opacity: 1; } to { transform: translate(var(--dx), var(--dy)) scale(.4); opacity: 0; } }
+  /* VIP zal */
+  .sh-row { display: flex; align-items: center; gap: 8px; margin: 7px 0; font-size: 13px; }
+  .sh-row > span { width: 130px; flex: 0 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sh-bar { flex: 1; height: 9px; background: #2a2010; border-radius: 6px; overflow: hidden; }
+  .sh-bar i { display: block; height: 100%; background: linear-gradient(90deg, #8b5cf6, #d8b4fe); }
+  .vip-sh { display: block; }
+  .vip-sh .desc { margin-bottom: 6px; }
+  .cr-sky { position: relative; height: 250px; border-radius: 20px; overflow: hidden; background: linear-gradient(#0b0a24, #27135a 70%, #4a1f7a); border: 2px solid var(--gold); }
+  .cr-rocket { position: absolute; left: 10%; bottom: 6%; font-size: 52px; line-height: 1; }
+  .cr-m { position: absolute; top: 16px; width: 100%; text-align: center; font-size: 46px; font-weight: 900; color: #ffe08a; }
+  .cr-sky.boom .cr-m { color: #ff6a5a; } .cr-sky.boom .cr-rocket { animation: pop .5s ease-out; }
+  .vcv { display: block; width: 100%; border-radius: 18px; border: 2px solid var(--gold); background: #1b1530; touch-action: manipulation; }
+  .re-box { height: 260px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 900; text-align: center; padding: 12px;
+    user-select: none; background: #3a2a0c; border: 2px solid var(--gold); touch-action: manipulation; }
+  .re-box.wait { background: #7a1f1f; } .re-box.go { background: #1f8a3a; }
+  .sh-arena { position: relative; height: 320px; border-radius: 20px; overflow: hidden; background: radial-gradient(circle, #2a2150, #120d2a); border: 2px solid var(--gold); touch-action: manipulation; }
+  .tg { position: absolute; width: 56px; height: 56px; border-radius: 50%; border: 0; font-size: 34px; background: rgba(255,255,255,.1); padding: 0; animation: pop .25s ease-out; }
+  .slot-row { display: flex; gap: 10px; justify-content: center; margin: 10px 0; }
+  .reel { width: 30%; aspect-ratio: 1; border-radius: 18px; background: linear-gradient(#2a1d08, #3a2a0c); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 56px; }
+  #vipBtn { width: 100%; padding: 14px; font-size: 16px; }
+  .bs-arena { position: relative; height: 340px; border-radius: 20px; overflow: hidden; background: radial-gradient(circle at 50% 60%, #4a1f5a, #140a24); border: 2px solid var(--gold); touch-action: manipulation; user-select: none; }
+  .bs-hp { position: absolute; top: 12px; left: 14px; right: 14px; height: 12px; background: #2a1020; border-radius: 8px; overflow: hidden; border: 1px solid #6a2a40; }
+  .bs-hp i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #ff5a5a, #ffb36a); transition: width .08s; }
+  .bs-boss { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); font-size: 130px; line-height: 1; background: none; border: 0; padding: 0; cursor: pointer; }
+  .bs-boss.hit { animation: bhit .15s ease-out; }
+  @keyframes bhit { 0% { transform: translate(-50%, -50%) scale(.88) rotate(-4deg); } 100% { transform: translate(-50%, -50%) scale(1); } }
+  .dmg { position: absolute; font-weight: 900; color: #ffd84a; font-size: 22px; pointer-events: none; animation: flo .7s ease-out forwards; text-shadow: 0 1px 4px #000; }
+  @keyframes flo { to { transform: translateY(-60px); opacity: 0; } }
+  .xz-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 12px; }
+  .xz-grid .bx { font-size: 34px; } .xz-grid .bx span { font-size: 28px; } .xz-grid .bx small { font-size: 10px; }
+  .vip-h { margin: 14px 0 8px; font-weight: 800; color: var(--gold2); }
+  #vipRes { white-space: pre-line; }
+  /* Scratch card */
+  .scr-wrap { position: relative; width: min(100%, 330px); aspect-ratio: 1; margin: 8px auto 12px; border-radius: 20px; overflow: hidden; border: 2px solid var(--gold); background: #2a1d08; }
+  .scr-grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .sc { display: flex; align-items: center; justify-content: center; font-size: 44px; border: 1px solid rgba(245,184,46,.22); }
+  .sc.win { background: rgba(255,216,74,.24); animation: pop .55s ease-out; }
+  #scrCv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; transition: opacity .35s; display: none; }
+
   /* Mini-o'yinlar */
   .back { background: none; border: 0; color: var(--gold2); font-size: 14px; font-weight: 700; padding: 4px 0 8px; cursor: pointer; text-align: left; }
   .wheel-wrap { position: relative; width: 290px; height: 290px; margin: 14px auto 10px; flex: 0 0 auto; }
@@ -264,6 +329,8 @@
     <div id="gamesList">
       <h2 data-i18n="g_title"></h2>
       <div class="muted" style="margin-bottom:10px" data-i18n="g_sub"></div>
+      <div class="mem-lv" id="gmTabs"><button class="chip on" data-gm="n" data-i18n="g_tab_n"></button><button class="chip" data-gm="v" data-i18n="g_tab_v"></button></div>
+      <div id="gmNormal">
       <div class="card">
         <div class="ico">🎡</div>
         <div class="info"><div class="name" data-i18n="g_wheel"></div><div class="desc" data-i18n="g_wheel_d"></div></div>
@@ -278,6 +345,25 @@
         <div class="ico">📦</div>
         <div class="info"><div class="name" data-i18n="g_box"></div><div class="desc" id="boxListDesc"></div></div>
         <button class="btn" id="openBox" data-i18n="g_play"></button>
+      </div>
+      <div class="card">
+        <div class="ico">🧠</div>
+        <div class="info"><div class="name" data-i18n="g_mem"></div><div class="desc" id="memListDesc"></div></div>
+        <button class="btn" id="openMem" data-i18n="g_play"></button>
+      </div>
+      <div class="card">
+        <div class="ico">🎟</div>
+        <div class="info"><div class="name" data-i18n="g_scr"></div><div class="desc" id="scrListDesc"></div></div>
+        <button class="btn" id="openScr" data-i18n="g_play"></button>
+      </div>
+      </div>
+      <div id="gmVip" style="display:none">
+        <div class="muted" style="margin-bottom:10px" data-i18n="vip_sub"></div>
+        <div class="card vip-sh" id="vipTk"></div>
+        <div id="vipList"></div>
+        <div class="vip-h" data-i18n="vip_tk_h"></div>
+        <div id="vipList2"></div>
+        <div class="card vip-sh" id="vipShards" style="margin-top:12px"></div>
       </div>
     </div>
 
@@ -302,6 +388,35 @@
       <div class="box-grid" id="boxGrid"></div>
       <div class="spin-res" id="boxRes"></div>
       <button class="btn" id="boxBtn"></button>
+    </div>
+
+    <div id="memView" style="display:none">
+      <button class="back" id="memBack" data-i18n="back"></button>
+      <h2 style="margin-top:0" data-i18n="mem_title"></h2>
+      <div class="box-info" data-i18n="mem_how"></div>
+      <div class="mem-lv" id="memLv"></div>
+      <div class="mem-hud" id="memHud"></div>
+      <div class="mem-grid" id="memGrid"></div>
+      <div class="spin-res" id="memRes"></div>
+      <button class="btn" id="memBtn"></button>
+    </div>
+
+    <div id="scrView" style="display:none">
+      <button class="back" id="scrBack" data-i18n="back"></button>
+      <h2 style="margin-top:0" data-i18n="scr_title"></h2>
+      <div class="box-info" id="scrInfo"></div>
+      <div class="scr-wrap" id="scrWrap"><div class="scr-grid" id="scrGrid"></div><canvas id="scrCv"></canvas></div>
+      <div class="spin-res" id="scrRes"></div>
+      <button class="btn" id="scrBtn"></button>
+    </div>
+
+    <div id="vipView" style="display:none">
+      <button class="back" id="vipBack" data-i18n="back"></button>
+      <h2 style="margin-top:0" id="vipTitle"></h2>
+      <div class="box-info" id="vipInfo"></div>
+      <div id="vipStage"></div>
+      <div class="spin-res" id="vipRes"></div>
+      <button class="btn gem" id="vipBtn"></button>
     </div>
 
     <div id="catchView" style="display:none">
@@ -478,12 +593,13 @@
                 daily: 0, streak: 0, chan: false, owned: ["duck"], skin: "duck", turboDay: "", turboLeft: 1, turboUntil: 0, synced: 0,
                 spinDay: "", spinPending: -1, dayKey: "", dayGain: 0, dayClaimed: false,
                 lang: "", vib: true, seen: false, catchDay: "", catchLeft: 3, catchBest: 0,
-                gems: 0, x2Until: 0, extraSpins: 0, boxDay: "", box: null, confirm: true, taps: 0, since: 0,
+                gems: 0, x2Until: 0, extraSpins: 0, boxDay: "", box: null, memDay: "", scrDay: "", scr: null, shards: {}, tickets: 0, tkPity: 0, shPity: 0, xz: null, confirm: true, taps: 0, since: 0,
                 decor: { o: [], f: "", b: "" }, offLv: 0, rankPaid: 0, skins10: false, turboV2: true, refTotal: 0 };
   let S, saved = {};
   try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
   S = Object.assign({}, def, saved);
   S.lv = Object.assign({}, def.lv, S.lv);
+  if (!S.shards || typeof S.shards !== "object") S.shards = {};
   S.decor = Object.assign({}, def.decor, S.decor); if (!Array.isArray(S.decor.o)) S.decor.o = [];
   if (!Array.isArray(S.owned) || !S.owned.length) S.owned = ["duck"];
   if (!S.total || S.total < S.coins) S.total = S.coins;
@@ -512,6 +628,9 @@
       pf_total: "Jami topilgan", pf_gems: "Olmos", pf_taps: "Tap soni", pf_skins: "Skinlar", pf_tap: "Har tap", pf_hour: "Soatiga", pf_catch: "Tutish rekordi", pf_days: "O'yin kuni",
       set_conf: "Xaridni tasdiqlash", set_conf_d: "Sotib olishdan oldin «Aniqmi?» deb so'raydi",
       cf_skin: "«{name}» skinini {p} evaziga sotib olasizmi?", cf_item: "«{name}» uchun {p} 💎 sarflaysizmi?", cf_ex: "Almashtirasizmi? {x}",
+      rank6: "Titan", rank7: "Overlord", rank8: "Imperator", rar_rank: "🏅 Daraja skinlari", rk_need: "Kerak: {n} jami tanga", rw_rkskin: "🏅 Daraja skini ochildi: {name}!",
+      skin_don: "Don", skin_titan: "Titan", skin_overlord: "Overlord", skin_imperator: "Imperator",
+      sab_don: "🎩 Mini-o'yinlarda +25% tanga", sab_titan: "🌋 Passiv daromad: +10 000 🪙 soatiga", sab_overlord: "⚡ 15% ehtimol bilan ×5 tap", sab_imperator: "🌌 ×2 turbo • energiya 2× tez • mini-o'yinlarda +50%",
       rar_common: "Oddiy", rar_epic: "💜 Epic", rar_legend: "🧡 Legend", rar_mythic: "❤️ Mifik", rar_premium: "💎 Premium",
       skin_parrot: "To'ti", skin_croc: "Timsoh", skin_lion: "Sher", skin_shark: "Akula", skin_flamingo: "Flamingo", skin_saturn: "Saturn", skin_snow: "Qor parchasi", skin_lolly: "Xo'roz qand",
       skin_clover: "To'rt bargli beda", skin_liberty: "Ozodlik haykali", skin_peace: "G'alaba", skin_moai: "Moai",
@@ -526,6 +645,31 @@
       sh_full: "Energiya to'la", sh_no: "Olmos yetmaydi 💎", sh_ok: "Sotib olindi ✓", x2_on: "🔥 ×2 tap — 10 daqiqa!",
       ex_title: "🔄 Ayirboshlash", ex_d: "{b} 🪙 → 1 💎  ·  1 💎 → {s} 🪙", ex_buy: "+{n} 💎  (−{c} 🪙)", ex_sell: "+{c} 🪙  (−{n} 💎)",
       ex_nocoins: "Tanga yetmaydi 🪙", ex_ok: "Ayirboshlandi ✓",
+      g_tab_n: "🎮 Oddiy", g_tab_v: "👑 VIP zal", vip_sub: "Olmos 💎 bilan o'ynaladigan premium o'yinlar. Yutuqlar katta: tanga, turbo va skin parchalari!",
+      vip_sh: "🧩 Skin parchalari", vip_sh_d: "Har bir Legend skin uchun parcha yig'ing (narxiga qarab 16–20 ta), skin o'zi ochiladi. Parchalar VIP o'yinlarda tushadi, har 5 o'yinda kamida 1 parcha kafolatlangan.", vip_have: "✓ Sizda bor",
+      vg_crash: "Raketa", vg_crash_d: "Raketa ko'tarilgan sari yutuq koeffitsienti o'sadi. Portlashdan oldin «Olish» ni bosing!",
+      vg_run: "Cheksiz yugurish", vg_run_d: "Ekranni bosib sakrang, to'siqlardan o'ting. Qancha uzoq yugursangiz, yutuq shuncha katta!",
+      vg_react: "Tezkor bosish", vg_react_d: "5 raund: ekran yashil bo'lishi bilan bosing. Erta bossangiz jarima. O'rtacha tezlik yutuqni belgilaydi.",
+      vg_shoot: "Nishon otish", vg_shoot_d: "30 soniya: 🎯 va ⭐ ni bosing, 💣 ni bosmang! Tez bossangiz ball ko'proq.",
+      vg_slot: "Slot", vg_slot_d: "3 ta baraban: bir xil belgilar yutuq beradi. 🧩 tushsa, skin parchasi!",
+      vip_start: "▶ Boshlash ({c} 💎)", vip_again: "🔁 Yana ({c} 💎)", vip_leave: "O'yinni tark etsangiz, 💎 qaytarilmaydi. Chiqasizmi?", vip_cancel: "O'yin bekor qilindi",
+      vip_win: "🎉 Yutuq:", vip_none: "Bu safar yutuq yo'q", vip_unlock: "🎊 Yangi skin ochildi: {name}!",
+      cr_take: "💰 Olish ×{m}", cr_boom: "💥 ×{m} da portladi", cr_cash: "✅ ×{m} da oldingiz",
+      run_tap: "Sakrash uchun ekranni bosing", run_m: "🏃 {m} m", run_over: "💥 {m} m yugurdingiz",
+      re_wait: "Kuting…", re_go: "BOSING!", re_early: "Erta bosdingiz!", re_round: "Raund {n}/5", re_ms: "{ms} ms", re_avg: "O'rtacha: {ms} ms",
+      sho_hud: "⏱ {s}s • Ball: {p}", sho_res: "Ball: {p}", sl_res: "Natija: {r}",
+      vip_tk: "🎫 Oltin chipta", vip_tk_d: "VIP o'yinlarda tushadi, sotilmaydi. Faqat chipta bilan o'ynaladigan o'yinlar uchun.", vip_tk_n: "Chipta kafolati: {a}/{c} • Parcha kafolati: {b}/{d}", vip_tk_h: "🎫 Chipta o'yinlari",
+      vg_boss: "Boss jangi", vg_boss_d: "20 soniya: bossni tez-tez bosing va 💥 zaif nuqtalarga zarba bering! Zarar qancha ko'p bo'lsa, yutuq shuncha katta.",
+      vg_xz: "Oltin xazina", vg_xz_d: "12 ta sandiqdan 3 tasini oching: katta tanga, ko'p parcha va kam hollarda Legend skin! Chiqsangiz ham sandiqlar saqlanadi.",
+      vip_start_t: "▶ Boshlash ({c} 🎫)", vip_again_t: "🔁 Yana ({c} 🎫)", cf_tk: "“{name}” uchun {p} 🎫 sarflaysizmi?", vip_notk: "Chipta yetmaydi 🎫",
+      vip_pity: "🧩 Kafolat: +1 parcha!", vip_tkdrop: "🎫 Oltin chipta tushdi!", bs_hud: "⏱ {s}s • Zarar: {d}", bs_res: "Zarar: {d}", xz_pick: "Sandiq tanlang: yana {n} ta", xz_done: "Tugadi! Qolgan sandiqlarda nima bor edi 👀", xz_skin: "Legend skin",
+      g_mem: "Xotira", mem_list_free: "Bugun 1 marta bepul • keyin {c} 💎", mem_list_paid: "Bugungi bepul o'yin ishlatildi • {c} 💎",
+      mem_title: "🧠 Xotira", mem_how: "Bir xil kartalarni toping. Tezroq va kam xato qilsangiz, tanga ko'proq!", mem_l0: "Oson", mem_l1: "O'rta", mem_l2: "Qiyin",
+      mem_hud: "⏱ {s}s • ✅ {f}/{p} • ❌ {e}", mem_watch: "Kartalarni eslab qoling… 👀", mem_win: "🎉 Barakalla! +{n} 🪙", mem_lose: "⏰ Vaqt tugadi. +{n} 🪙",
+      mem_start_free: "🎁 Bepul boshlash", mem_start_paid: "▶ Boshlash ({c} 💎)",
+      g_scr: "Scratch card", scr_list_free: "Bugun 1 marta bepul • keyin {c} 💎 (oltin karta)", scr_list_paid: "Bugungi bepul karta ishlatildi • {c} 💎 (oltin karta)",
+      scr_title: "🎟 Scratch card", scr_how: "Kartani barmog'ingiz bilan qiring: tanga, turbo, energiya yutuqlari bor!", scr_gold: "🌟 Oltin karta: yutuqlar ×{m}", scr_cover: "Qiring ✋",
+      scr_start_free: "🎁 Bepul karta", scr_start_paid: "▶ Oltin karta ({c} 💎)", scr_all: "Hammasini ochish", scr_res: "🎉 Yutuq:",
       g_box: "Quti topish", box_list_free: "Bugun 1 marta bepul • keyin {c} 💎", box_list_paid: "Bugungi bepul urinish ishlatildi • {c} 💎",
       box_title: "📦 Quti topish", box_how: "9 ta qutidan {p} tasini oching. Ichida tanga, 💎, turbo va boshqa sovg'alar bor!",
       box_pick: "Quti tanlang: yana {n} ta", box_done: "Tugadi! Qolgan qutilarda nima bor edi 👀",
@@ -587,6 +731,9 @@
       pf_total: "Всего собрано", pf_gems: "Алмазы", pf_taps: "Тапов", pf_skins: "Скины", pf_tap: "За тап", pf_hour: "В час", pf_catch: "Рекорд ловли", pf_days: "Дней в игре",
       set_conf: "Подтверждать покупки", set_conf_d: "Спрашивает «Уверены?» перед покупкой",
       cf_skin: "Купить скин «{name}» за {p}?", cf_item: "Потратить {p} 💎 на «{name}»?", cf_ex: "Обменять? {x}",
+      rank6: "Титан", rank7: "Оверлорд", rank8: "Император", rar_rank: "🏅 Скины за уровень", rk_need: "Нужно: {n} всего монет", rw_rkskin: "🏅 Открыт скин уровня: {name}!",
+      skin_don: "Дон", skin_titan: "Титан", skin_overlord: "Оверлорд", skin_imperator: "Император",
+      sab_don: "🎩 +25% монет в мини-играх", sab_titan: "🌋 Пассивный доход: +10 000 🪙 в час", sab_overlord: "⚡ 15% шанс тапа ×5", sab_imperator: "🌌 Турбо ×2 • энергия в 2× быстрее • +50% в мини-играх",
       rar_common: "Обычные", rar_epic: "💜 Эпик", rar_legend: "🧡 Легенда", rar_mythic: "❤️ Миф", rar_premium: "💎 Премиум",
       skin_parrot: "Попугай", skin_croc: "Крокодил", skin_lion: "Лев", skin_shark: "Акула", skin_flamingo: "Фламинго", skin_saturn: "Сатурн", skin_snow: "Снежинка", skin_lolly: "Петушок на палочке",
       skin_clover: "Клевер-четырёхлистник", skin_liberty: "Статуя Свободы", skin_peace: "Победа", skin_moai: "Моаи",
@@ -601,6 +748,31 @@
       sh_full: "Энергия полная", sh_no: "Не хватает 💎", sh_ok: "Куплено ✓", x2_on: "🔥 ×2 тап — 10 минут!",
       ex_title: "🔄 Обмен", ex_d: "{b} 🪙 → 1 💎  ·  1 💎 → {s} 🪙", ex_buy: "+{n} 💎  (−{c} 🪙)", ex_sell: "+{c} 🪙  (−{n} 💎)",
       ex_nocoins: "Не хватает 🪙", ex_ok: "Обмен выполнен ✓",
+      g_tab_n: "🎮 Обычные", g_tab_v: "👑 VIP-зал", vip_sub: "Премиум-игры за алмазы 💎. Большие награды: монеты, турбо и осколки скинов!",
+      vip_sh: "🧩 Осколки скинов", vip_sh_d: "Собирайте осколки на каждый Legend-скин (16–20 в зависимости от цены), и он откроется сам. Осколки выпадают в VIP-играх, минимум 1 осколок гарантирован каждые 5 игр.", vip_have: "✓ Уже есть",
+      vg_crash: "Ракета", vg_crash_d: "Чем выше летит ракета, тем больше множитель. Нажмите «Забрать» до взрыва!",
+      vg_run: "Бесконечный бег", vg_run_d: "Нажимайте, чтобы прыгать через препятствия. Чем дальше пробежите, тем больше награда!",
+      vg_react: "Быстрая реакция", vg_react_d: "5 раундов: нажмите, как только экран станет зелёным. Раннее нажатие — штраф. Награда зависит от средней скорости.",
+      vg_shoot: "Стрельба по мишеням", vg_shoot_d: "30 секунд: нажимайте 🎯 и ⭐, не нажимайте 💣! Быстрее — больше очков.",
+      vg_slot: "Слот", vg_slot_d: "3 барабана: одинаковые символы дают выигрыш. Выпал 🧩 — осколок скина!",
+      vip_start: "▶ Начать ({c} 💎)", vip_again: "🔁 Ещё раз ({c} 💎)", vip_leave: "Если выйдете, 💎 не вернутся. Выйти?", vip_cancel: "Игра отменена",
+      vip_win: "🎉 Выигрыш:", vip_none: "В этот раз без выигрыша", vip_unlock: "🎊 Открыт новый скин: {name}!",
+      cr_take: "💰 Забрать ×{m}", cr_boom: "💥 Взрыв на ×{m}", cr_cash: "✅ Вы забрали на ×{m}",
+      run_tap: "Нажмите, чтобы прыгнуть", run_m: "🏃 {m} м", run_over: "💥 Вы пробежали {m} м",
+      re_wait: "Ждите…", re_go: "ЖМИТЕ!", re_early: "Слишком рано!", re_round: "Раунд {n}/5", re_ms: "{ms} мс", re_avg: "В среднем: {ms} мс",
+      sho_hud: "⏱ {s}с • Очки: {p}", sho_res: "Очки: {p}", sl_res: "Результат: {r}",
+      vip_tk: "🎫 Золотой билет", vip_tk_d: "Выпадает в VIP-играх, не продаётся. Нужен для игр, в которые играют только по билетам.", vip_tk_n: "Гарантия билета: {a}/{c} • Гарантия осколка: {b}/{d}", vip_tk_h: "🎫 Игры за билеты",
+      vg_boss: "Бой с боссом", vg_boss_d: "20 секунд: часто жмите на босса и бейте по слабым местам 💥! Чем больше урон, тем больше награда.",
+      vg_xz: "Золотое сокровище", vg_xz_d: "Откройте 3 из 12 сундуков: большие монеты, много осколков и редко Legend-скин! Если выйдете, сундуки сохранятся.",
+      vip_start_t: "▶ Начать ({c} 🎫)", vip_again_t: "🔁 Ещё раз ({c} 🎫)", cf_tk: "Потратить {p} 🎫 на «{name}»?", vip_notk: "Не хватает билетов 🎫",
+      vip_pity: "🧩 Гарантия: +1 осколок!", vip_tkdrop: "🎫 Выпал золотой билет!", bs_hud: "⏱ {s}с • Урон: {d}", bs_res: "Урон: {d}", xz_pick: "Выберите сундук: ещё {n}", xz_done: "Готово! Что было в остальных сундуках 👀", xz_skin: "Legend-скин",
+      g_mem: "Память", mem_list_free: "Сегодня 1 раз бесплатно • потом {c} 💎", mem_list_paid: "Бесплатная игра использована • {c} 💎",
+      mem_title: "🧠 Память", mem_how: "Найдите одинаковые карточки. Чем быстрее и с меньшим числом ошибок, тем больше монет!", mem_l0: "Легко", mem_l1: "Средне", mem_l2: "Сложно",
+      mem_hud: "⏱ {s}с • ✅ {f}/{p} • ❌ {e}", mem_watch: "Запомните карточки… 👀", mem_win: "🎉 Отлично! +{n} 🪙", mem_lose: "⏰ Время вышло. +{n} 🪙",
+      mem_start_free: "🎁 Начать бесплатно", mem_start_paid: "▶ Начать ({c} 💎)",
+      g_scr: "Скретч-карта", scr_list_free: "Сегодня 1 раз бесплатно • потом {c} 💎 (золотая карта)", scr_list_paid: "Бесплатная карта использована • {c} 💎 (золотая карта)",
+      scr_title: "🎟 Скретч-карта", scr_how: "Сотрите слой пальцем: внутри монеты, турбо, энергия!", scr_gold: "🌟 Золотая карта: выигрыши ×{m}", scr_cover: "Сотрите ✋",
+      scr_start_free: "🎁 Бесплатная карта", scr_start_paid: "▶ Золотая карта ({c} 💎)", scr_all: "Открыть всё", scr_res: "🎉 Выигрыш:",
       g_box: "Поиск коробок", box_list_free: "Сегодня 1 раз бесплатно • потом {c} 💎", box_list_paid: "Бесплатная попытка использована • {c} 💎",
       box_title: "📦 Поиск коробок", box_how: "Откройте {p} из 9 коробок. Внутри монеты, 💎, турбо и другие подарки!",
       box_pick: "Выберите коробку: ещё {n}", box_done: "Готово! Вот что было в остальных 👀",
@@ -662,6 +834,9 @@
       pf_total: "Total earned", pf_gems: "Gems", pf_taps: "Taps", pf_skins: "Skins", pf_tap: "Per tap", pf_hour: "Per hour", pf_catch: "Catch record", pf_days: "Days playing",
       set_conf: "Confirm purchases", set_conf_d: "Asks “Are you sure?” before buying",
       cf_skin: "Buy the “{name}” skin for {p}?", cf_item: "Spend {p} 💎 on “{name}”?", cf_ex: "Exchange? {x}",
+      rank6: "Titan", rank7: "Overlord", rank8: "Emperor", rar_rank: "🏅 Rank skins", rk_need: "Needs: {n} total coins", rw_rkskin: "🏅 Rank skin unlocked: {name}!",
+      skin_don: "Don", skin_titan: "Titan", skin_overlord: "Overlord", skin_imperator: "Emperor",
+      sab_don: "🎩 +25% coins in mini-games", sab_titan: "🌋 Passive income: +10 000 🪙 per hour", sab_overlord: "⚡ 15% chance of a ×5 tap", sab_imperator: "🌌 ×2 turbo • energy 2× faster • +50% in mini-games",
       rar_common: "Common", rar_epic: "💜 Epic", rar_legend: "🧡 Legend", rar_mythic: "❤️ Mythic", rar_premium: "💎 Premium",
       skin_parrot: "Parrot", skin_croc: "Crocodile", skin_lion: "Lion", skin_shark: "Shark", skin_flamingo: "Flamingo", skin_saturn: "Saturn", skin_snow: "Snowflake", skin_lolly: "Rooster Lollipop",
       skin_clover: "Four-leaf Clover", skin_liberty: "Statue of Liberty", skin_peace: "Victory", skin_moai: "Moai",
@@ -676,6 +851,31 @@
       sh_full: "Energy is full", sh_no: "Not enough 💎", sh_ok: "Purchased ✓", x2_on: "🔥 ×2 tap — 10 minutes!",
       ex_title: "🔄 Exchange", ex_d: "{b} 🪙 → 1 💎  ·  1 💎 → {s} 🪙", ex_buy: "+{n} 💎  (−{c} 🪙)", ex_sell: "+{c} 🪙  (−{n} 💎)",
       ex_nocoins: "Not enough 🪙", ex_ok: "Exchanged ✓",
+      g_tab_n: "🎮 Regular", g_tab_v: "👑 VIP Lounge", vip_sub: "Premium games played with 💎. Big rewards: coins, turbo and skin shards!",
+      vip_sh: "🧩 Skin shards", vip_sh_d: "Collect shards for each Legend skin (16–20 depending on its price) and it unlocks automatically. Shards drop in VIP games, with at least 1 shard guaranteed every 5 games.", vip_have: "✓ Owned",
+      vg_crash: "Rocket", vg_crash_d: "The higher the rocket flies, the bigger the multiplier. Tap “Cash out” before it explodes!",
+      vg_run: "Endless Runner", vg_run_d: "Tap to jump over obstacles. The farther you run, the bigger the reward!",
+      vg_react: "Quick Tap", vg_react_d: "5 rounds: tap as soon as the screen turns green. Tapping early is penalized. Your average speed sets the reward.",
+      vg_shoot: "Target Shooting", vg_shoot_d: "30 seconds: tap 🎯 and ⭐, avoid 💣! Faster taps score more.",
+      vg_slot: "Slots", vg_slot_d: "3 reels: matching symbols pay out. Land a 🧩 for a skin shard!",
+      vip_start: "▶ Start ({c} 💎)", vip_again: "🔁 Again ({c} 💎)", vip_leave: "If you leave, the 💎 are not refunded. Leave?", vip_cancel: "Game cancelled",
+      vip_win: "🎉 Prize:", vip_none: "No prize this time", vip_unlock: "🎊 New skin unlocked: {name}!",
+      cr_take: "💰 Cash out ×{m}", cr_boom: "💥 Exploded at ×{m}", cr_cash: "✅ Cashed out at ×{m}",
+      run_tap: "Tap to jump", run_m: "🏃 {m} m", run_over: "💥 You ran {m} m",
+      re_wait: "Wait…", re_go: "TAP!", re_early: "Too early!", re_round: "Round {n}/5", re_ms: "{ms} ms", re_avg: "Average: {ms} ms",
+      sho_hud: "⏱ {s}s • Score: {p}", sho_res: "Score: {p}", sl_res: "Result: {r}",
+      vip_tk: "🎫 Golden Ticket", vip_tk_d: "Drops in VIP games and cannot be bought. Needed for ticket-only games.", vip_tk_n: "Ticket guarantee: {a}/{c} • Shard guarantee: {b}/{d}", vip_tk_h: "🎫 Ticket games",
+      vg_boss: "Boss Fight", vg_boss_d: "20 seconds: tap the boss fast and hit the 💥 weak spots! The more damage, the bigger the reward.",
+      vg_xz: "Golden Treasure", vg_xz_d: "Open 3 of 12 chests: big coins, lots of shards and, rarely, a Legend skin! Your chests are saved if you leave.",
+      vip_start_t: "▶ Start ({c} 🎫)", vip_again_t: "🔁 Again ({c} 🎫)", cf_tk: "Spend {p} 🎫 on “{name}”?", vip_notk: "Not enough tickets 🎫",
+      vip_pity: "🧩 Guarantee: +1 shard!", vip_tkdrop: "🎫 Golden Ticket dropped!", bs_hud: "⏱ {s}s • Damage: {d}", bs_res: "Damage: {d}", xz_pick: "Pick a chest: {n} left", xz_done: "Done! Here is what the other chests held 👀", xz_skin: "Legend skin",
+      g_mem: "Memory", mem_list_free: "1 free play today • then {c} 💎", mem_list_paid: "Free play used today • {c} 💎",
+      mem_title: "🧠 Memory", mem_how: "Find the matching cards. The faster and cleaner you are, the more coins you get!", mem_l0: "Easy", mem_l1: "Medium", mem_l2: "Hard",
+      mem_hud: "⏱ {s}s • ✅ {f}/{p} • ❌ {e}", mem_watch: "Memorize the cards… 👀", mem_win: "🎉 Well done! +{n} 🪙", mem_lose: "⏰ Time is up. +{n} 🪙",
+      mem_start_free: "🎁 Start free", mem_start_paid: "▶ Start ({c} 💎)",
+      g_scr: "Scratch card", scr_list_free: "1 free card today • then {c} 💎 (gold card)", scr_list_paid: "Free card used today • {c} 💎 (gold card)",
+      scr_title: "🎟 Scratch card", scr_how: "Scratch the card with your finger: coins, turbo and energy inside!", scr_gold: "🌟 Gold card: prizes ×{m}", scr_cover: "Scratch ✋",
+      scr_start_free: "🎁 Free card", scr_start_paid: "▶ Gold card ({c} 💎)", scr_all: "Reveal all", scr_res: "🎉 Prize:",
       g_box: "Box Hunt", box_list_free: "1 free play today • then {c} 💎", box_list_paid: "Free play used today • {c} 💎",
       box_title: "📦 Box Hunt", box_how: "Open {p} of the 9 boxes. Inside: coins, 💎, turbo and more gifts!",
       box_pick: "Pick a box: {n} left", box_done: "Done! Here is what the others held 👀",
@@ -740,6 +940,9 @@
     { at: 500000,   ico: "💼" },
     { at: 5000000,  ico: "💎" },
     { at: 50000000, ico: "👑" },
+    { at: 500000000,    ico: "🌋" },   // Titan
+    { at: 5000000000,   ico: "⚡" },   // Overlord
+    { at: 50000000000,  ico: "🌌" },   // Imperator
   ];
   const rankName = i => t("rank" + i);
 
@@ -771,12 +974,27 @@
     { id: "diamond",  rar: "premium", cur: "g", ico: "💎", price: 30, bonus: 45, ab: { wheelGem: 2 },      c: ["#e0ffff", "#3fd8e8", "#0e6a78"], glow: "rgba(63,216,232,.55)" },
     { id: "genie",    rar: "premium", cur: "g", ico: "🧞", price: 40, bonus: 48, ab: { mg: 1.5 },             c: ["#e8e0ff", "#7a5cf0", "#2a1a8c"], glow: "rgba(122,92,240,.6)" },
     { id: "drake",    rar: "premium", cur: "g", ico: "🐲", price: 60, bonus: 60, ab: { turbo: 2, box: 1 },    c: ["#c8ffd8", "#18c08a", "#04523a"], glow: "rgba(24,192,138,.6)" },
+    // --- Daraja skinlari (sotilmaydi: darajaga yetganda avtomatik beriladi) ---
+    { id: "don",       rar: "rank", rk: 5, ico: "🎩", price: 0, bonus: 55,  art: "don",       ptc: "🪙", ab: { mg: 1.25 },                    c: ["#6a5018", "#2e2208", "#100b03"], glow: "rgba(245,184,46,.7)" },
+    { id: "titan",     rar: "rank", rk: 6, ico: "🌋", price: 0, bonus: 70,  art: "titan",     ptc: "🔥", ab: { mine: 10000 },                  c: ["#7a3a1a", "#3a1608", "#120604"], glow: "rgba(255,106,24,.7)" },
+    { id: "overlord",  rar: "rank", rk: 7, ico: "⚡", price: 0, bonus: 85,  art: "overlord",  ptc: "⚡", ab: { crit: 0.15 },                   c: ["#3a4380", "#171a44", "#07071a"], glow: "rgba(127,240,255,.7)" },
+    { id: "imperator", rar: "rank", rk: 8, ico: "🌌", price: 0, bonus: 100, art: "imperator", ptc: "✨", ab: { turbo: 2, regen: 2, mg: 1.5 },  c: ["#4a2a9a", "#1a0e4a", "#06031a"], glow: "rgba(183,156,255,.75)" },
     // --- Eski skinlar (do'konda ko'rinmaydi, sotib olganlarda qoladi) ---
     { id: "lion",     rar: "epic",    hide: true, ico: "🦁", price: 65000,    bonus: 7,  c: ["#fff0c0", "#f0a030", "#8a4a08"], glow: "rgba(240,160,48,.55)" },
     { id: "dragon",   rar: "legend",  hide: true, ico: "🐉", price: 100000,   bonus: 4,  c: ["#d8ffcf", "#3fcf5a", "#126b26"], glow: "rgba(63,207,90,.45)" },
     { id: "rocket",   rar: "legend",  hide: true, ico: "🚀", price: 5000000,  bonus: 30, c: ["#ffe0f2", "#ff4fa0", "#8c1052"], glow: "rgba(255,79,160,.5)" },
     { id: "alien",    rar: "legend",  hide: true, ico: "👽", price: 20000000, bonus: 60, c: ["#e8ffd0", "#9be83f", "#4a780c"], glow: "rgba(155,232,63,.5)" },
   ];
+
+  // Daraja skinlari rasmlari (original SVG)
+  const SKIN_ART = {
+    don: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd860" stop-opacity=".55"/><stop offset="1" stop-color="#ffd860" stop-opacity="0"/></radialGradient><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset=".5" stop-color="#f5b82e"/><stop offset="1" stop-color="#a86a05"/></linearGradient><linearGradient id="hat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a46"/><stop offset="1" stop-color="#0c0c12"/></linearGradient><linearGradient id="suit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2b38"/><stop offset="1" stop-color="#0a0a10"/></linearGradient><linearGradient id="bill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb24a"/><stop offset="1" stop-color="#d66a0a"/></linearGradient><filter id="gl" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><g id="coin"><circle r="20" fill="url(#gold)" stroke="#8a5a05" stroke-width="2"/><circle r="14" fill="none" stroke="#fff3c0" stroke-width="2" opacity=".8"/><text y="7" text-anchor="middle" font-size="20" font-weight="900" fill="#8a5a05" font-family="Arial">D</text></g><g id="spark"><path d="M0-14 L3-3 L14 0 L3 3 L0 14 L-3 3 L-14 0 L-3-3Z" fill="#fff6c8"/></g></defs><circle cx="200" cy="215" r="190" fill="url(#aura)"/><!-- torso --><path d="M92 392 Q96 300 150 282 Q200 270 250 282 Q304 300 308 392 Z" fill="url(#suit)"/><path d="M162 282 L200 346 L238 282 Q200 270 162 282Z" fill="#f4f4f6"/><path d="M200 346 L176 300 L200 312 L224 300Z" fill="#d02a3a"/><path d="M150 284 L196 372 L132 380 Z" fill="#1a1a24" stroke="#f5b82e" stroke-width="2"/><path d="M250 284 L204 372 L268 380 Z" fill="#1a1a24" stroke="#f5b82e" stroke-width="2"/><path d="M150 300 Q200 392 250 300" fill="none" stroke="url(#gold)" stroke-width="5"/><use href="#coin" x="200" y="372" transform="translate(0,0) scale(.8)" style="transform-origin:200px 372px"/><!-- head --><ellipse cx="200" cy="196" rx="90" ry="86" fill="url(#gold)"/><ellipse cx="168" cy="164" rx="34" ry="22" fill="#fff8d0" opacity=".45"/><ellipse cx="122" cy="214" rx="20" ry="26" fill="#f0a820" opacity=".7"/><ellipse cx="278" cy="214" rx="20" ry="26" fill="#f0a820" opacity=".7"/><!-- bill --><path d="M148 214 Q200 196 252 214 Q262 244 200 256 Q138 244 148 214Z" fill="url(#bill)"/><path d="M170 226 Q200 220 230 226" stroke="#7a3a04" stroke-width="4" stroke-linecap="round" fill="none"/><ellipse cx="186" cy="224" rx="3" ry="4" fill="#7a3a04"/><ellipse cx="214" cy="224" rx="3" ry="4" fill="#7a3a04"/><!-- eyes --><ellipse cx="166" cy="178" rx="13" ry="16" fill="#fff"/><ellipse cx="234" cy="178" rx="13" ry="16" fill="#fff"/><ellipse cx="170" cy="182" rx="8" ry="11" fill="#14141c"/><ellipse cx="230" cy="182" rx="8" ry="11" fill="#14141c"/><circle cx="173" cy="177" r="3" fill="#fff"/><circle cx="233" cy="177" r="3" fill="#fff"/><path d="M146 160 L184 168" stroke="#5a3a04" stroke-width="6" stroke-linecap="round"/><path d="M254 160 L216 168" stroke="#5a3a04" stroke-width="6" stroke-linecap="round"/><!-- monocle --><circle cx="234" cy="180" r="22" fill="none" stroke="url(#gold)" stroke-width="5"/><circle cx="234" cy="180" r="22" fill="#fff" opacity=".12"/><path d="M254 192 Q276 250 262 322" fill="none" stroke="#f5b82e" stroke-width="3" stroke-dasharray="6 4"/><!-- hat --><ellipse cx="200" cy="120" rx="128" ry="26" fill="url(#hat)"/><path d="M200 146 Q130 148 100 124 Q90 104 130 112 Q200 122 270 112 Q310 104 300 124 Q270 148 200 146Z" fill="#050508" opacity=".35"/><path d="M138 118 Q134 50 160 42 Q200 30 240 42 Q266 50 262 118 Q200 134 138 118Z" fill="url(#hat)"/><path d="M176 40 Q200 52 224 40 Q200 70 176 40Z" fill="#050508" opacity=".6"/><path d="M138 112 Q200 130 262 112 L263 98 Q200 114 137 98Z" fill="url(#gold)"/><use href="#coin" x="200" y="112" transform="scale(.7)" style="transform-origin:200px 112px"/><path d="M152 62 Q160 48 186 44" stroke="#fff" stroke-width="3" fill="none" opacity=".25" stroke-linecap="round"/><!-- orbit coins & sparks --><use href="#coin" x="50" y="170"/><use href="#coin" x="350" y="250" transform="scale(.9)" style="transform-origin:350px 250px"/><use href="#coin" x="70" y="310" transform="scale(.7)" style="transform-origin:70px 310px"/><use href="#spark" x="330" y="120"/><use href="#spark" x="60" y="80" transform="scale(.7)" style="transform-origin:60px 80px"/><use href="#spark" x="352" y="352" transform="scale(.6)" style="transform-origin:352px 352px"/></svg>`,
+    titan: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><radialGradient id="aura" cx="50%" cy="55%" r="55%"><stop offset="0" stop-color="#ff6a18" stop-opacity=".6"/><stop offset="1" stop-color="#ff3a00" stop-opacity="0"/></radialGradient><linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a7f76"/><stop offset=".55" stop-color="#4a423c"/><stop offset="1" stop-color="#1c1815"/></linearGradient><linearGradient id="rock2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a99d92"/><stop offset="1" stop-color="#5a5048"/></linearGradient><linearGradient id="horn" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#3a322c"/><stop offset="1" stop-color="#9a8c80"/></linearGradient><radialGradient id="eye" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6c0"/><stop offset=".4" stop-color="#ffb020"/><stop offset="1" stop-color="#ff4a00"/></radialGradient><filter id="gl" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle cx="200" cy="215" r="195" fill="url(#aura)"/><!-- shoulders --><path d="M30 396 L58 318 L120 292 L160 330 L240 330 L280 292 L342 318 L370 396Z" fill="url(#rock)"/><path d="M58 318 L120 292 L110 336 L74 350Z" fill="url(#rock2)" opacity=".7"/><path d="M342 318 L280 292 L290 336 L326 350Z" fill="url(#rock2)" opacity=".5"/><path d="M92 340 L110 372 M300 338 L286 374 M200 350 L196 392" stroke="#ff7a18" stroke-width="4" fill="none" filter="url(#gl)" stroke-linecap="round"/><!-- horns --><path d="M118 118 Q70 80 78 24 Q118 52 150 92Z" fill="url(#horn)"/><path d="M282 118 Q330 80 322 24 Q282 52 250 92Z" fill="url(#horn)"/><path d="M104 96 Q90 64 90 40" stroke="#fff" stroke-width="3" fill="none" opacity=".2" stroke-linecap="round"/><!-- head --><path d="M112 126 L162 84 L240 86 L290 128 L306 208 L282 290 L222 336 L156 330 L108 282 L94 196Z" fill="url(#rock)"/><path d="M162 84 L240 86 L290 128 L240 124 L196 112 L150 128 L112 126Z" fill="url(#rock2)" opacity=".75"/><path d="M94 196 L112 126 L150 128 L140 190 L118 238Z" fill="#fff" opacity=".07"/><path d="M306 208 L290 128 L250 150 L262 210 L282 290Z" fill="#000" opacity=".25"/><!-- brow --><path d="M110 170 L196 190 L290 168 L296 196 L200 222 L108 198Z" fill="#1b1612"/><path d="M118 172 L198 190 L284 170" stroke="#6a5e54" stroke-width="3" fill="none" opacity=".7"/><!-- eyes --><path d="M132 196 L176 204 L172 218 L134 210Z" fill="url(#eye)" filter="url(#gl)"/><path d="M268 196 L224 204 L228 218 L266 210Z" fill="url(#eye)" filter="url(#gl)"/><!-- nose & mouth --><path d="M190 214 L184 262 L200 270 L216 262 L210 214Z" fill="#2c2622" opacity=".8"/><path d="M148 296 L172 282 L192 296 L212 280 L234 296 L256 284" stroke="#ff7a18" stroke-width="5" fill="none" filter="url(#gl)" stroke-linejoin="round" stroke-linecap="round"/><path d="M156 300 L170 316 M196 298 L200 322 M240 298 L232 318" stroke="#ff9a38" stroke-width="3" fill="none" filter="url(#gl)" stroke-linecap="round"/><!-- lava cracks --><path d="M158 92 L170 130 L152 160 L162 180" stroke="#ff7a18" stroke-width="4" fill="none" filter="url(#gl)" stroke-linejoin="round" stroke-linecap="round"/><path d="M254 100 L238 138 L262 168 M286 232 L262 250 L270 284" stroke="#ff7a18" stroke-width="4" fill="none" filter="url(#gl)" stroke-linejoin="round" stroke-linecap="round"/><path d="M124 240 L142 262 L130 290" stroke="#ff7a18" stroke-width="3.5" fill="none" filter="url(#gl)" stroke-linejoin="round" stroke-linecap="round"/><!-- embers --><g fill="#ffb347" filter="url(#gl)"><circle cx="60" cy="150" r="5"/><circle cx="342" cy="130" r="4"/><circle cx="90" cy="250" r="3"/><circle cx="330" cy="240" r="5"/><circle cx="48" cy="60" r="3"/><circle cx="360" cy="60" r="3.5"/><circle cx="204" cy="40" r="3"/></g></svg>`,
+    overlord: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><radialGradient id="aura" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#5a6aff" stop-opacity=".5"/><stop offset="1" stop-color="#2a2aff" stop-opacity="0"/></radialGradient><linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8c0f0"/><stop offset=".45" stop-color="#4a4f8a"/><stop offset="1" stop-color="#14153a"/></linearGradient><linearGradient id="steelD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f7a"/><stop offset="1" stop-color="#0c0c24"/></linearGradient><linearGradient id="bolt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#7ff0ff"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset="1" stop-color="#c88a10"/></linearGradient><filter id="gl" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle cx="200" cy="205" r="195" fill="url(#aura)"/><!-- storm bolts behind --><g stroke="#7ff0ff" stroke-width="4" fill="none" filter="url(#gl)" stroke-linejoin="round" stroke-linecap="round"><path d="M40 70 L78 110 L56 128 L96 176"/><path d="M360 70 L322 112 L344 130 L304 178"/><path d="M34 300 L70 280 L60 318 L100 330"/><path d="M366 300 L330 280 L340 318 L300 330"/></g><!-- crown spikes (lightning) --><path d="M200 22 L172 92 L196 88 L180 138 L226 70 L202 74Z" fill="url(#bolt)" filter="url(#gl)"/><path d="M132 70 L138 124 L158 104Z" fill="url(#gold)"/><path d="M268 70 L262 124 L242 104Z" fill="url(#gold)"/><path d="M104 96 Q84 40 120 18 Q112 72 140 108Z" fill="url(#steel)"/><path d="M296 96 Q316 40 280 18 Q288 72 260 108Z" fill="url(#steel)"/><!-- pauldrons --><path d="M40 396 Q40 320 96 300 L150 330 L132 396Z" fill="url(#steelD)" stroke="#8a90d0" stroke-width="2"/><path d="M360 396 Q360 320 304 300 L250 330 L268 396Z" fill="url(#steelD)" stroke="#8a90d0" stroke-width="2"/><path d="M62 330 L96 316 M78 356 L110 338" stroke="#7ff0ff" stroke-width="3" opacity=".6" fill="none"/><path d="M338 330 L304 316 M322 356 L290 338" stroke="#7ff0ff" stroke-width="3" opacity=".6" fill="none"/><!-- helmet --><path d="M200 70 C292 70 322 150 316 226 L300 306 Q262 352 200 358 Q138 352 100 306 L84 226 C78 150 108 70 200 70Z" fill="url(#steel)" stroke="#1a1c48" stroke-width="3"/><path d="M200 70 C150 74 112 120 108 190 C130 140 160 112 200 108 C240 112 270 140 292 190 C288 120 250 74 200 70Z" fill="#fff" opacity=".18"/><!-- center ridge --><path d="M188 74 L212 74 L218 150 L182 150Z" fill="url(#gold)" opacity=".9"/><!-- visor --><path d="M100 190 Q200 176 300 190 L296 246 Q250 262 200 252 Q150 262 104 246Z" fill="#06061a"/><path d="M118 206 L184 216 L176 238 L120 230Z" fill="url(#bolt)" filter="url(#gl)"/><path d="M282 206 L216 216 L224 238 L280 230Z" fill="url(#bolt)" filter="url(#gl)"/><path d="M100 190 Q200 176 300 190" stroke="#c8d0ff" stroke-width="3" fill="none" opacity=".7"/><!-- breather vents --><path d="M164 276 L236 276 M170 296 L230 296 M178 316 L222 316" stroke="#0c0c24" stroke-width="7" stroke-linecap="round"/><path d="M164 276 L236 276 M170 296 L230 296 M178 316 L222 316" stroke="#7ff0ff" stroke-width="2" stroke-linecap="round" opacity=".6"/><!-- cheek lines --><path d="M110 270 L150 300 M290 270 L250 300" stroke="#a8b0f0" stroke-width="3" opacity=".6" fill="none"/></svg>`,
+    imperator: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><radialGradient id="bg" cx="50%" cy="55%" r="60%"><stop offset="0" stop-color="#3a1a7a" stop-opacity=".9"/><stop offset="1" stop-color="#05030f" stop-opacity="0"/></radialGradient><radialGradient id="orb" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#b79cff"/><stop offset=".45" stop-color="#4a24b8"/><stop offset="1" stop-color="#0c0634"/></radialGradient><radialGradient id="core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#ff7ad0" stop-opacity="0"/></radialGradient><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b8"/><stop offset=".5" stop-color="#f5b82e"/><stop offset="1" stop-color="#a86a05"/></linearGradient><linearGradient id="ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7ff0ff" stop-opacity=".1"/><stop offset=".5" stop-color="#fff3b8"/><stop offset="1" stop-color="#ff9ad8" stop-opacity=".2"/></linearGradient><filter id="gl" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="bl"><feGaussianBlur stdDeviation="3"/></filter><clipPath id="oc"><circle cx="200" cy="248" r="104"/></clipPath></defs><circle cx="200" cy="215" r="195" fill="url(#bg)"/><g fill="#fff"><circle cx="40" cy="60" r="2"/><circle cx="90" cy="30" r="1.5"/><circle cx="340" cy="44" r="2.5"/><circle cx="372" cy="120" r="1.5"/><circle cx="26" cy="176" r="1.8"/><circle cx="372" cy="214" r="2"/><circle cx="60" cy="350" r="2"/><circle cx="330" cy="362" r="1.6"/><circle cx="150" cy="22" r="1.4"/><circle cx="258" cy="26" r="1.8"/><circle cx="20" cy="262" r="1.4"/><circle cx="384" cy="300" r="1.6"/></g><!-- ring back half --><ellipse cx="200" cy="250" rx="176" ry="46" transform="rotate(-14 200 250)" fill="none" stroke="url(#ring)" stroke-width="6"/><!-- orb --><circle cx="200" cy="248" r="104" fill="url(#orb)"/><g clip-path="url(#oc)"><path d="M200 248 C230 196 300 200 320 240 C300 214 250 222 232 252 Z" fill="#ff7ad0" opacity=".55" filter="url(#bl)"/><path d="M200 248 C170 300 100 296 80 256 C100 282 150 274 168 244 Z" fill="#7ff0ff" opacity=".5" filter="url(#bl)"/><path d="M200 248 C178 200 120 190 92 214 C124 200 160 214 176 242 Z" fill="#b79cff" opacity=".5" filter="url(#bl)"/><path d="M200 248 C224 296 286 306 312 280 C282 290 238 276 226 252 Z" fill="#ff7ad0" opacity=".4" filter="url(#bl)"/><circle cx="200" cy="248" r="40" fill="url(#core)"/><g fill="#fff"><circle cx="150" cy="200" r="2"/><circle cx="250" cy="290" r="2"/><circle cx="262" cy="206" r="1.6"/><circle cx="140" cy="290" r="1.6"/><circle cx="220" cy="190" r="1.4"/></g></g><ellipse cx="164" cy="190" rx="34" ry="18" fill="#fff" opacity=".22" transform="rotate(-30 164 190)"/><!-- ring front half --><path d="M24 280 A176 46 0 0 0 376 220" transform="rotate(-14 200 250)" fill="none" stroke="url(#ring)" stroke-width="6" opacity="0"/><path d="M32 276 Q200 330 368 224" transform="rotate(0 200 250)" fill="none" stroke="url(#ring)" stroke-width="6" stroke-linecap="round"/><circle cx="56" cy="268" r="11" fill="#7ff0ff" filter="url(#gl)"/><circle cx="344" cy="238" r="8" fill="#ff9ad8" filter="url(#gl)"/><!-- crown --><ellipse cx="200" cy="148" rx="82" ry="14" fill="#7a4a04"/><path d="M120 148 L112 76 L152 110 L174 54 L200 102 L226 54 L248 110 L288 76 L280 148 Q200 172 120 148Z" fill="url(#gold)" stroke="#8a5a05" stroke-width="2.5" stroke-linejoin="round"/><path d="M130 138 Q200 160 270 138" fill="none" stroke="#fff3b8" stroke-width="3" opacity=".7"/><circle cx="112" cy="74" r="8" fill="#ff4a6a" stroke="#fff" stroke-width="1.5"/><circle cx="174" cy="52" r="9" fill="#7ff0ff" stroke="#fff" stroke-width="1.5"/><circle cx="226" cy="52" r="9" fill="#7ff0ff" stroke="#fff" stroke-width="1.5"/><circle cx="288" cy="74" r="8" fill="#ff4a6a" stroke="#fff" stroke-width="1.5"/><circle cx="200" cy="100" r="11" fill="#b79cff" stroke="#fff" stroke-width="2" filter="url(#gl)"/><circle cx="152" cy="140" r="5" fill="#ff4a6a"/><circle cx="248" cy="140" r="5" fill="#ff4a6a"/><circle cx="200" cy="154" r="6" fill="#7ff0ff"/></svg>`,
+  };
+  const artUrl = (() => { const c = {}; return id => c[id] || (c[id] = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(SKIN_ART[id])); })();
+  const skinHtml = k => k.art ? `<img class="sk-img" alt="" draggable="false" src="${artUrl(k.art)}">` : k.ico;
 
   const UPGRADES = [
     { id: "tap",  ico: "👆", val: l => l + 2,                        base: 100, mul: 1.8 },
@@ -833,14 +1051,15 @@
   function applySkin() {
     const k = skinOf(S.skin), r = document.documentElement.style;
     r.setProperty("--c1", k.c[0]); r.setProperty("--c2", k.c[1]); r.setProperty("--c3", k.c[2]); r.setProperty("--glow", k.glow);
-    $("coin").textContent = k.ico;
+    $("coin").innerHTML = skinHtml(k); $("coin").classList.toggle("art", !!k.art);
   }
 
   // 💎 mukofotlar: daraja, skinlar
-  const RANK_GEMS = [0, 1, 2, 3, 5, 10];
+  const RANK_GEMS = [0, 1, 2, 3, 5, 10, 15, 20, 30];
   function checkRewards() {
     const msgs = [], ri = rankIdx();
     while (S.rankPaid < ri) { S.rankPaid++; const n = RANK_GEMS[S.rankPaid] || 0; S.gems += n; msgs.push(t("rw_rank", { name: rankName(S.rankPaid), n })); }
+    SKINS.filter(k => k.rar === "rank" && ri >= k.rk && !S.owned.includes(k.id)).forEach(k => { S.owned.push(k.id); msgs.push(t("rw_rkskin", { name: t("skin_" + k.id) })); });
     if (!S.skins10 && S.owned.length >= 10) { S.skins10 = true; S.gems += 5; msgs.push(t("rw_skins")); }
     if (msgs.length) { save(); toast(msgs.join(" • ")); haptic("heavy"); }
   }
@@ -881,7 +1100,7 @@
     });
   }
 
-  const RAR = ["common", "epic", "legend", "mythic", "premium"];
+  const RAR = ["common", "epic", "legend", "mythic", "premium", "rank"];
   function renderSkins() {
     const box = $("skins"); box.innerHTML = "";
     RAR.forEach(r => {
@@ -890,15 +1109,16 @@
       const h = document.createElement("div"); h.className = "rar " + r; h.textContent = t("rar_" + r); box.appendChild(h);
       const grid = document.createElement("div"); grid.className = "grid"; box.appendChild(grid);
       list.forEach(k => {
-        const owned = S.owned.includes(k.id), on = S.skin === k.id, nm = t("skin_" + k.id), gem = k.cur === "g";
+        const owned = S.owned.includes(k.id), on = S.skin === k.id, nm = t("skin_" + k.id), gem = k.cur === "g", rk = k.rar === "rank";
         const bal = gem ? S.gems : S.coins;
-        const d = document.createElement("div"); d.className = "skin r-" + r + (on ? " on" : "");
-        const label = on ? t("s_worn") : owned ? t("s_wear") : `${fmt(k.price)} ${gem ? "💎" : "🪙"}`;
-        d.innerHTML = `<div class="orb${k.fx ? " fx" : ""}" style="background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${k.ico}</div>
+        const d = document.createElement("div"); d.className = "skin r-" + r + (on ? " on" : "") + (rk && !owned ? " locked" : "");
+        const label = on ? t("s_worn") : owned ? t("s_wear") : rk ? "🔒 " + rankName(k.rk) : `${fmt(k.price)} ${gem ? "💎" : "🪙"}`;
+        d.innerHTML = `<div class="orb${k.fx ? " fx" : ""}${k.art ? " art" : ""}" style="--gl:${k.glow};background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${skinHtml(k)}</div>
           <div class="nm">${nm}</div>
           <div class="bn">${k.bonus ? t("s_bonus", { n: k.bonus }) : t("s_start")}</div>
+          ${rk && !owned ? `<div class="rq">${t("rk_need", { n: fmt(RANKS[k.rk].at) })}</div>` : ""}
           ${k.ab ? `<div class="ab">${t("sab_" + k.id)}</div>` : ""}
-          <button class="btn ${gem && !owned ? "gem" : ""}" ${on || (!owned && bal < k.price) ? "disabled" : ""}>${label}</button>`;
+          <button class="btn ${gem && !owned ? "gem" : ""}" ${on || (!owned && (rk || bal < k.price)) ? "disabled" : ""}>${label}</button>`;
         const doIt = () => {
           if (!owned) {
             if (gem ? S.gems < k.price : S.coins < k.price) return;
@@ -929,6 +1149,14 @@
     const f = document.createElement("div"); f.className = "float"; f.textContent = (crit ? "✨+" : "+") + p;
     f.style.left = (e.clientX - r.left - 16) + "px"; f.style.top = (e.clientY - r.top - 24) + "px";
     stage.appendChild(f); setTimeout(() => f.remove(), 900);
+    const pe = skinOf(S.skin).ptc;
+    if (pe && stage.querySelectorAll(".ptc").length < 20) for (let i = 0; i < 4; i++) {
+      const q = document.createElement("div"); q.className = "ptc"; q.textContent = pe;
+      const an = Math.random() * Math.PI * 2, ds = 46 + Math.random() * 56;
+      q.style.left = (e.clientX - r.left - 9) + "px"; q.style.top = (e.clientY - r.top - 9) + "px";
+      q.style.setProperty("--dx", Math.cos(an) * ds + "px"); q.style.setProperty("--dy", Math.sin(an) * ds - 28 + "px");
+      stage.appendChild(q); setTimeout(() => q.remove(), 700);
+    }
     // 3D egilish
     const c = coinEl.getBoundingClientRect();
     const dx = (e.clientX - (c.left + c.width / 2)) / (c.width / 2);
@@ -1043,7 +1271,7 @@
     { t: "g", n: 5, w: 1.5, ico: "💎", col: "#5a2a8c" },
   ];
   const SEG = 360 / WHEEL.length;
-  const unit = () => 500 * (rankIdx() + 1);
+  const unit = () => 500 * (Math.min(rankIdx(), 5) + 1);   // yutuq birligi DON darajasida to'xtaydi
   let wheelRot = 0, spinning = false, wheelBuilt = false;
 
   function buildWheel() {
@@ -1103,7 +1331,7 @@
   if (S.spinPending >= 0 && S.spinPending < WHEEL.length) { const pi = S.spinPending; setTimeout(() => givePrize(pi), 900); }
 
   // ---------- Do'kon (💎) va ayirboshlash ----------
-  const BUY_RATE = 500000, SELL_RATE = 50000;   // 500 000 🪙 = 1 💎,  1 💎 = 50 000 🪙
+  const BUY_RATE = 1000, SELL_RATE = 50000;   // 1 000 🪙 = 1 💎,  1 💎 = 50 000 🪙
   const SHOP = [
     { id: "turbo",  ico: "🚀", price: 2, buy() { S.turboLeft++; } },
     { id: "energy", ico: "⚡", price: 1, can: () => S.energy < maxEn() - 1, buy() { S.energy = maxEn(); } },
@@ -1191,19 +1419,19 @@
     [[1, "buy"], [10, "buy"], [1, "sell"], [10, "sell"]].forEach(([n, k]) => {
       const b = document.createElement("button"); b.className = "btn " + (k === "buy" ? "gem" : "ghost");
       b.textContent = t("ex_" + k, { n, c: fmt(n * (k === "buy" ? BUY_RATE : SELL_RATE)) });
-      b.onclick = () => {
-        if (k === "buy" ? S.coins < n * BUY_RATE : S.gems < n) { toast(t(k === "buy" ? "ex_nocoins" : "sh_no")); return; }
+      b.onclick = () => { try {
+        if (k === "buy" ? !(S.coins >= n * BUY_RATE) : !(S.gems >= n)) { toast(t(k === "buy" ? "ex_nocoins" : "sh_no") + (k === "buy" ? " (" + fmt(Math.floor(Number(S.coins) || 0)) + ")" : "")); return; }
         confirmBuy(t("cf_ex", { x: b.textContent }), () => {
           if (k === "buy") {
             if (S.coins < n * BUY_RATE) { toast(t("ex_nocoins")); return; }
             S.coins -= n * BUY_RATE; S.gems += n;
           } else {
             if (S.gems < n) { toast(t("sh_no")); return; }
-            S.gems -= n; S.coins += n * SELL_RATE;       // reyting hisobiga (total) qo'shilmaydi
+            S.gems -= n; addCoins(n * SELL_RATE);       // AKSIYA: balansga ham, reytingga (total) ham qo'shiladi
           }
           haptic("medium"); save(); render(); renderShop(); toast(t("ex_ok"));
         });
-      };
+      } catch (e) { toast("Xato: " + (e && e.message)); } };
       grid.appendChild(b);
     });
     box.appendChild(ex);
@@ -1290,9 +1518,477 @@
   $("openBox").onclick = () => { boxUI = S.box || null; $("boxRes").textContent = ""; renderBox(); $("gamesList").style.display = "none"; $("boxView").style.display = "block"; };
   $("boxBack").onclick = () => { $("boxView").style.display = "none"; $("gamesList").style.display = "block"; renderBoxList(); };
 
+  // ---------- Mini-o'yin: Xotira ----------
+  const MEM_COST = 1;
+  const MEM_LV = [ { c: 4, n: 12, time: 50, m: 2 }, { c: 4, n: 16, time: 60, m: 4 }, { c: 5, n: 20, time: 75, m: 8 } ];
+  const MEM_ICO = ["🦆", "🐓", "🦅", "🦜", "🐊", "🦈", "🦩", "🐼", "🪐", "👑"];
+  const memFree = () => S.memDay !== today();
+  let memLv = 0, MG = null;
+  const memGrid = $("memGrid");
+  function renderMemList() { $("memListDesc").textContent = t(memFree() ? "mem_list_free" : "mem_list_paid", { c: MEM_COST }); }
+  function memHud() { if (!MG) { $("memHud").textContent = ""; return; } $("memHud").textContent = MG.pre ? t("mem_watch") : t("mem_hud", { s: Math.max(0, Math.ceil(MG.left)), f: MG.found, p: MG.pairs, e: MG.err }); }
+  function renderMem() {
+    renderMemList();
+    const box = $("memLv"), act = !!(MG && MG.on);
+    if (!box.children.length) for (let i = 0; i < 3; i++) { const b = document.createElement("button"); b.className = "chip"; b.onclick = () => { if (MG && MG.on) return; memLv = i; renderMem(); }; box.appendChild(b); }
+    [...box.children].forEach((b, i) => { b.textContent = t("mem_l" + i); b.classList.toggle("on", i === memLv); b.disabled = act; });
+    $("memBtn").style.display = act ? "none" : "";
+    $("memBtn").textContent = memFree() ? t("mem_start_free") : t("mem_start_paid", { c: MEM_COST });
+    $("memBtn").disabled = !memFree() && S.gems < MEM_COST;
+    memHud();
+  }
+  function memStop() { if (MG) { clearInterval(MG.timer); MG.on = false; } }
+  function memCard(i, state) {
+    const b = memGrid.children[i]; if (!b) return;
+    b.className = "mc" + (state ? " " + state : "");
+    b.textContent = (state === "up" || state === "done" || state === "miss") ? MEM_ICO[MG.ids[i]] : "";
+  }
+  function memEnd(win) {
+    if (!MG || !MG.on) return;
+    memStop();
+    const L = MG.L, base = unit() * L.m;
+    let g;
+    if (win) { const f = 0.5 + 0.3 * Math.max(0, MG.left) / L.time + 0.2 * Math.max(0, 1 - MG.err / (MG.pairs * 2)); g = Math.round(base * f * mg()); }
+    else g = Math.round(base * 0.15 * (MG.found / MG.pairs) * mg());
+    if (g > 0) addCoins(g);
+    if (!win) for (let i = 0; i < MG.ids.length; i++) if (!MG.done.has(i)) memCard(i, "miss");
+    $("memRes").textContent = t(win ? "mem_win" : "mem_lose", { n: fmt(g) });
+    haptic(win ? "heavy" : "light"); save(); render(); renderMem();
+  }
+  function memStart() {
+    if (MG && MG.on) return;
+    if (memFree()) S.memDay = today(); else { if (S.gems < MEM_COST) { toast(t("sh_no")); return; } S.gems -= MEM_COST; }
+    const L = MEM_LV[memLv], pairs = L.n / 2, ids = [];
+    for (let i = 0; i < pairs; i++) ids.push(i, i);
+    for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+    MG = { on: true, pre: true, L, pairs, ids, open: [], done: new Set(), err: 0, found: 0, left: L.time, lock: true, last: 0, timer: 0 };
+    memGrid.style.gridTemplateColumns = `repeat(${L.c}, 1fr)`; memGrid.innerHTML = "";
+    for (let i = 0; i < L.n; i++) { const b = document.createElement("button"); b.className = "mc"; b.style.fontSize = L.c === 5 ? "28px" : "34px"; b.onclick = () => memTap(i); memGrid.appendChild(b); }
+    for (let i = 0; i < L.n; i++) memCard(i, "up");
+    $("memRes").textContent = ""; haptic("medium"); save(); render(); renderMem();
+    const me = MG;
+    setTimeout(() => {
+      if (MG !== me || !me.on) return;
+      for (let i = 0; i < L.n; i++) memCard(i, "");
+      me.pre = false; me.lock = false; me.last = performance.now(); memHud();
+      me.timer = setInterval(() => {
+        const now = performance.now(), dt = Math.min(0.25, (now - me.last) / 1000); me.last = now; me.left -= dt; memHud();
+        if (me.left <= 0) memEnd(false);
+      }, 100);
+    }, 1600);
+  }
+  function memTap(i) {
+    const m = MG; if (!m || !m.on || m.lock || m.pre || m.done.has(i) || m.open.includes(i)) return;
+    m.open.push(i); memCard(i, "up"); haptic("light");
+    if (m.open.length < 2) return;
+    const [a, b] = m.open;
+    if (m.ids[a] === m.ids[b]) {
+      m.done.add(a); m.done.add(b); m.found++; m.open = []; memCard(a, "done"); memCard(b, "done"); haptic("medium"); memHud();
+      if (m.found >= m.pairs) memEnd(true);
+    } else {
+      m.err++; m.lock = true; memHud();
+      setTimeout(() => { if (MG !== m || !m.on) return; memCard(a, ""); memCard(b, ""); m.open = []; m.lock = false; }, 700);
+    }
+  }
+  $("memBtn").onclick = memStart;
+  $("openMem").onclick = () => { memStop(); MG = null; memGrid.innerHTML = ""; $("memRes").textContent = ""; renderMem(); $("gamesList").style.display = "none"; $("memView").style.display = "block"; };
+  $("memBack").onclick = () => { memStop(); $("memView").style.display = "none"; $("gamesList").style.display = "block"; renderMemList(); };
+
+  // ---------- Mini-o'yin: Scratch card ----------
+  const SCR_COST = 1, SCR_MUL = 3;   // oddiy karta bepul (×1), oltin karta {SCR_COST} 💎 (yutuqlar ×3)
+  const SCR = [
+    { id: "s1",  w: 30, k: "c", m: 1,  ico: "🪙" },
+    { id: "s2",  w: 24, k: "c", m: 2,  ico: "💵" },
+    { id: "s3",  w: 16, k: "c", m: 3,  ico: "💰" },
+    { id: "s5",  w: 10, k: "c", m: 5,  ico: "🏆" },
+    { id: "s10", w: 4,  k: "c", m: 10, ico: "👑" },
+    { id: "s20", w: 1,  k: "c", m: 20, ico: "🌟" },
+    { id: "tb",  w: 6,  k: "t", ico: "🚀" },
+    { id: "en",  w: 6,  k: "e", ico: "⚡" },
+    { id: "x2",  w: 3,  k: "x", ico: "🔥" },
+  ];
+  const scrById = id => SCR.find(p => p.id === id);
+  const scrFree = () => S.scrDay !== today();
+  if (S.scr && (!Array.isArray(S.scr.c) || S.scr.c.length !== 9 || !scrById(S.scr.w) || S.scr.c.some(id => !scrById(id)))) S.scr = null;
+  let scrUI = null, scratching = false, scrLast = null, scrChk = 0;
+  const scrCv = $("scrCv"), scrCx = scrCv.getContext("2d"), scrGrid = $("scrGrid");
+  for (let i = 0; i < 9; i++) { const d = document.createElement("div"); d.className = "sc"; scrGrid.appendChild(d); }
+  function scrInfo(p, mul) {
+    if (p.k === "c") return { ico: p.ico, label: "+" + fmt(Math.round(unit() * p.m * mul * mg())) };
+    const x = boxInfo(p); return { ico: p.ico, label: x.label };
+  }
+  function scrGive(p, mul) { if (p.k === "c") addCoins(Math.round(unit() * p.m * mul * mg())); else boxGive(p); }
+  function scrGen(mul) {
+    const win = boxDraw(SCR), cells = [win.id, win.id, win.id], cnt = {}, ids = SCR.map(p => p.id);
+    while (cells.length < 9) { const id = ids[Math.floor(rnd() * ids.length)]; if (id === win.id || (cnt[id] || 0) >= 2) continue; cnt[id] = (cnt[id] || 0) + 1; cells.push(id); }
+    for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
+    return { w: win.id, c: cells, mul };
+  }
+  function renderScrList() { $("scrListDesc").textContent = t(scrFree() ? "scr_list_free" : "scr_list_paid", { c: SCR_COST }); }
+  function renderScr() {
+    renderScrList();
+    const act = !!(scrUI && !scrUI.done);
+    for (let i = 0; i < 9; i++) { const d = scrGrid.children[i]; d.textContent = scrUI ? scrById(scrUI.c[i]).ico : "🎟"; d.className = "sc" + (scrUI && scrUI.done && scrUI.c[i] === scrUI.w ? " win" : ""); }
+    $("scrInfo").textContent = scrUI && scrUI.mul > 1 && act ? t("scr_gold", { m: scrUI.mul }) : t("scr_how");
+    const b = $("scrBtn");
+    if (act) { b.textContent = t("scr_all"); b.className = "btn ghost"; b.disabled = false; }
+    else { const fr = scrFree(); b.textContent = fr ? t("scr_start_free") : t("scr_start_paid", { c: SCR_COST }); b.className = "btn" + (fr ? "" : " gem"); b.disabled = !fr && S.gems < SCR_COST; }
+  }
+  function scrCover() {
+    const w = $("scrWrap").clientWidth || 300; scrCv.width = w; scrCv.height = w;
+    scrCv.style.transition = "none"; scrCv.style.opacity = "1"; scrCv.style.display = "block";
+    scrCx.globalCompositeOperation = "source-over";
+    const g = scrCx.createLinearGradient(0, 0, w, w); g.addColorStop(0, "#aeb4be"); g.addColorStop(.5, "#e6e9ee"); g.addColorStop(1, "#8f97a4");
+    scrCx.fillStyle = g; scrCx.fillRect(0, 0, w, w);
+    scrCx.strokeStyle = "rgba(255,255,255,.35)"; scrCx.lineWidth = 2;
+    for (let k = -w; k < w; k += 22) { scrCx.beginPath(); scrCx.moveTo(k, w); scrCx.lineTo(k + w, 0); scrCx.stroke(); }
+    scrCx.font = "800 " + Math.round(w / 9) + "px sans-serif"; scrCx.fillStyle = "rgba(55,60,72,.6)"; scrCx.textAlign = "center"; scrCx.textBaseline = "middle";
+    scrCx.fillText(t("scr_cover"), w / 2, w / 2);
+    void scrCv.offsetWidth; scrCv.style.transition = "opacity .35s";
+  }
+  function scrPct() {
+    const w = scrCv.width, d = scrCx.getImageData(0, 0, w, w).data; let n = 0, tot = 0;
+    for (let i = 3; i < d.length; i += 52) { tot++; if (d[i] < 40) n++; }
+    return n / tot;
+  }
+  function scrPos(e) { const r = scrCv.getBoundingClientRect(); return { x: (e.clientX - r.left) * scrCv.width / r.width, y: (e.clientY - r.top) * scrCv.height / r.height }; }
+  function scrDraw(e) {
+    if (!scratching || !scrUI || scrUI.done) return;
+    const p = scrPos(e); scrCx.globalCompositeOperation = "destination-out"; scrCx.strokeStyle = "#000"; scrCx.lineCap = "round"; scrCx.lineJoin = "round"; scrCx.lineWidth = Math.max(26, scrCv.width / 9);
+    scrCx.beginPath(); scrCx.moveTo(scrLast ? scrLast.x : p.x, scrLast ? scrLast.y : p.y); scrCx.lineTo(p.x + 0.01, p.y); scrCx.stroke(); scrLast = p;
+    const now = performance.now(); if (now - scrChk > 140) { scrChk = now; if (scrPct() > 0.5) scrFinish(); }
+  }
+  scrCv.addEventListener("pointerdown", e => { scratching = true; scrLast = null; try { scrCv.setPointerCapture(e.pointerId); } catch (x) {} scrDraw(e); e.preventDefault(); });
+  scrCv.addEventListener("pointermove", scrDraw);
+  const scrUp = () => { scratching = false; scrLast = null; if (scrUI && !scrUI.done && scrPct() > 0.5) scrFinish(); };
+  scrCv.addEventListener("pointerup", scrUp); scrCv.addEventListener("pointercancel", scrUp);
+  function scrFinish() {
+    if (!scrUI || scrUI.done || !S.scr) return;
+    scratching = false; scrUI.done = true;
+    const p = scrById(scrUI.w), inf = scrInfo(p, scrUI.mul);
+    scrGive(p, scrUI.mul); S.scr = null;
+    scrCv.style.opacity = "0"; setTimeout(() => { if (scrUI && scrUI.done) scrCv.style.display = "none"; }, 380);
+    $("scrRes").textContent = t("scr_res") + " " + inf.ico + " " + inf.label;
+    haptic(p.k === "c" && p.m >= 5 ? "heavy" : "medium"); save(); render(); renderScr();
+  }
+  $("scrBtn").onclick = () => {
+    if (scrUI && !scrUI.done) { scrFinish(); return; }
+    const fr = scrFree();
+    if (fr) S.scrDay = today(); else { if (S.gems < SCR_COST) { toast(t("sh_no")); return; } S.gems -= SCR_COST; }
+    S.scr = scrGen(fr ? 1 : SCR_MUL); scrUI = { w: S.scr.w, c: S.scr.c.slice(), mul: S.scr.mul, done: false };
+    $("scrRes").textContent = ""; haptic("medium"); save(); render(); renderScr(); scrCover();
+  };
+  $("openScr").onclick = () => {
+    scrUI = S.scr ? { w: S.scr.w, c: S.scr.c.slice(), mul: S.scr.mul, done: false } : null; $("scrRes").textContent = "";
+    $("gamesList").style.display = "none"; $("scrView").style.display = "block"; renderScr();
+    if (scrUI) scrCover(); else scrCv.style.display = "none";
+  };
+  $("scrBack").onclick = () => { scratching = false; $("scrView").style.display = "none"; $("gamesList").style.display = "block"; renderScrList(); };
+
+  // ---------- 👑 VIP zal (olmos bilan o'ynaladigan premium o'yinlar) ----------
+  const SHARD_NEED = { saturn: 16, snow: 18, crown: 18, lolly: 20, clover: 20 };   // Legend skin: narxiga qarab parcha soni
+  const LEG = SKINS.filter(k => k.rar === "legend" && !k.hide);
+  const needOf = id => SHARD_NEED[id] || 20;
+  const vipBase = () => unit() * 150;                               // yutuq birligi (daraja bilan o'sadi)
+  const TK_P = 0.07, TK_P_GOOD = 0.12, TK_PITY = 15, SH_PITY = 5;   // chipta ehtimoli, kafolatlar
+  const VIPG = [
+    { id: "crash", ico: "🚀", fee: 3 }, { id: "run", ico: "🏃", fee: 3 }, { id: "react", ico: "⚡", fee: 2 }, { id: "shoot", ico: "🎯", fee: 3 }, { id: "slot", ico: "🎰", fee: 2 },
+    { id: "boss", ico: "👹", fee: 1, cur: "t" }, { id: "xz", ico: "🏺", fee: 2, cur: "t" },
+  ];
+  const XZ = [
+    { id: "c2",  w: 30, k: "c", m: 2,  ico: "💰" }, { id: "c4",  w: 24, k: "c", m: 4,  ico: "💰" }, { id: "c8",  w: 14, k: "c", m: 8,  ico: "🏆" },
+    { id: "c15", w: 6,  k: "c", m: 15, ico: "👑" }, { id: "c30", w: 2,  k: "c", m: 30, ico: "🌟" },
+    { id: "s3",  w: 12, k: "s", n: 3 }, { id: "s6", w: 6, k: "s", n: 6 }, { id: "tb", w: 6, k: "t", n: 2 }, { id: "sk", w: 1, k: "k" },
+  ];
+  if (S.xz && (!Array.isArray(S.xz.p) || S.xz.p.length !== 12 || !Array.isArray(S.xz.o) || S.xz.p.some(id => !XZ.find(x => x.id === id)))) S.xz = null;
+  let VG = null;
+  const skinName = id => t("skin_" + id);
+
+  function addShards(n) {
+    const res = { n: 0, parts: {}, unlocked: [], coins: 0 };
+    for (let i = 0; i < n; i++) {
+      const left = LEG.filter(k => !S.owned.includes(k.id));
+      if (!left.length) { res.coins += unit() * 10; continue; }          // hamma Legend bor: parcha o'rniga tanga
+      const k = left[Math.floor(rnd() * left.length)];
+      S.shards[k.id] = (S.shards[k.id] || 0) + 1; res.n++; res.parts[k.id] = (res.parts[k.id] || 0) + 1;
+      if (S.shards[k.id] >= needOf(k.id)) { S.owned.push(k.id); res.unlocked.push(k.id); }
+    }
+    return res;
+  }
+  // Yutuqni hisobga qo'shadi (tanga faqat balansga tushadi, reytingga hisoblanmaydi)
+  const payBal = n => { S.coins += n; };   // VIP yutug'i: balansga 100%, reyting (jami tanga) ga 0%
+  function vipApply(res) {
+    const got = [], unlocked = [];
+    const coins = res.mult > 0 ? Math.round(vipBase() * res.mult * mg()) : 0;
+    if (coins) { payBal(coins); got.push("+" + fmt(coins) + " 🪙"); }
+    const sh = addShards(res.shards || 0);
+    if (sh.coins) { const c = Math.round(sh.coins * mg()); payBal(c); got.push("+" + fmt(c) + " 🪙"); }
+    for (const id in sh.parts) got.push("🧩 " + skinName(id) + " +" + sh.parts[id]);
+    sh.unlocked.forEach(id => unlocked.push(id));
+    if (res.skin) {
+      const left = LEG.filter(k => !S.owned.includes(k.id));
+      if (left.length) { const k = left[Math.floor(rnd() * left.length)]; S.owned.push(k.id); unlocked.push(k.id); got.push("🎁 " + k.ico + " " + skinName(k.id)); }
+      else { const c = Math.round(vipBase() * 50 * mg()); payBal(c); got.push("+" + fmt(c) + " 🪙"); }
+    }
+    const tb = res.turbo != null ? res.turbo : (res.mult >= 10 ? 1 : 0);
+    if (tb) { S.turboLeft += tb; got.push("🚀 +" + tb); }
+    return { got, unlocked };
+  }
+  function renderVipList() {
+    const sh = $("vipShards"); if (!sh) return;
+    sh.innerHTML = `<div class="name">${t("vip_sh")}</div><div class="desc">${t("vip_sh_d")}</div>` + LEG.map(k => {
+      const own = S.owned.includes(k.id), need = needOf(k.id), c = Math.min(need, S.shards[k.id] || 0);
+      return `<div class="sh-row"><span>${k.ico} ${skinName(k.id)}</span><div class="sh-bar"><i style="width:${own ? 100 : c * 100 / need}%"></i></div><b>${own ? "✓" : c + "/" + need}</b></div>`;
+    }).join("");
+    $("vipTk").innerHTML = `<div class="name">${t("vip_tk")}: ${S.tickets}</div><div class="desc">${t("vip_tk_d")}</div><div class="desc">${t("vip_tk_n", { a: S.tkPity, c: TK_PITY, b: S.shPity, d: SH_PITY })}</div>`;
+    [["vipList", false], ["vipList2", true]].forEach(([bid, tk]) => {
+      const box = $(bid); box.innerHTML = "";
+      VIPG.filter(g => !!g.cur === tk).forEach(g => {
+        const d = document.createElement("div"); d.className = "card";
+        d.innerHTML = `<div class="ico">${g.ico}</div><div class="info"><div class="name">${t("vg_" + g.id)}</div><div class="desc">${t("vg_" + g.id + "_d")}</div></div><button class="btn ${tk ? "" : "gem"}">${g.fee} ${tk ? "🎫" : "💎"}</button>`;
+        d.querySelector("button").onclick = () => vipOpen(g.id); box.appendChild(d);
+      });
+    });
+  }
+  document.querySelectorAll("#gmTabs .chip").forEach(b => b.onclick = () => {
+    document.querySelectorAll("#gmTabs .chip").forEach(x => x.classList.toggle("on", x === b));
+    $("gmNormal").style.display = b.dataset.gm === "n" ? "" : "none"; $("gmVip").style.display = b.dataset.gm === "v" ? "" : "none"; renderVipList();
+  });
+  const vipCur = g => g.cur === "t" ? "tickets" : "gems";
+  function vipBtnRender(first) {
+    const g = VIPG.find(x => x.id === VG.id), b = $("vipBtn");
+    b.style.display = VG.run ? "none" : ""; b.textContent = t((first ? "vip_start" : "vip_again") + (g.cur === "t" ? "_t" : ""), { c: g.fee });
+    b.className = "btn" + (g.cur === "t" ? "" : " gem"); b.disabled = S[vipCur(g)] < g.fee;
+  }
+  function vipOpen(id) {
+    if (VG && VG.clean) VG.clean();
+    VG = { id, run: false, clean: null, keep: id === "xz" };
+    $("vipTitle").textContent = VIPG.find(x => x.id === id).ico + " " + t("vg_" + id); $("vipInfo").textContent = t("vg_" + id + "_d");
+    $("vipStage").innerHTML = ""; $("vipRes").textContent = "";
+    $("gamesList").style.display = "none"; $("vipView").style.display = "block";
+    if (id === "xz" && S.xz) { VG.run = true; VG.clean = VIPIMPL.xz($("vipStage"), vipDone, true); }   // yarim qolgan xazinani davom ettirish
+    vipBtnRender(true);
+  }
+  function vipLeave() { if (VG && VG.clean) VG.clean(); if (VG) VG.run = false; VG = null; $("vipStage").innerHTML = ""; $("vipView").style.display = "none"; $("gamesList").style.display = "block"; renderVipList(); }
+  $("vipBack").onclick = () => { if (VG && VG.run && !VG.keep) confirmBuy(t("vip_leave"), () => { vipLeave(); toast(t("vip_cancel")); }); else vipLeave(); };
+  function vipStart() {
+    if (!VG || VG.run) return;
+    const g = VIPG.find(x => x.id === VG.id), me = VG, cur = vipCur(g), tk = g.cur === "t";
+    if (S[cur] < g.fee) { toast(t(tk ? "vip_notk" : "sh_no")); return; }
+    const msg = tk ? t("cf_tk", { name: t("vg_" + g.id), p: g.fee }) : t("cf_item", { name: t("vg_" + g.id), p: g.fee });
+    confirmBuy(msg, () => {
+      if (VG !== me || me.run || S[cur] < g.fee) return;
+      S[cur] -= g.fee; me.run = true; $("vipRes").textContent = ""; $("vipStage").innerHTML = ""; vipBtnRender(); save(); render();
+      me.clean = VIPIMPL[g.id]($("vipStage"), vipDone);
+    });
+  }
+  $("vipBtn").onclick = vipStart;
+  function vipDone(res) {
+    const me = VG; if (!me || !me.run) return;
+    me.run = false; if (me.clean) me.clean(); me.clean = null;
+    if (res.final) { save(); render(); renderVipList(); vipBtnRender(); haptic("heavy"); return; }   // xazina: yutuqlar sandiq ochilganda berilgan
+    const g = VIPG.find(x => x.id === me.id), ap = vipApply(res), extra = [];
+    if (g.cur !== "t") {
+      if ((res.shards || 0) > 0) S.shPity = 0;
+      else if (++S.shPity >= SH_PITY) { S.shPity = 0; const x = vipApply({ mult: 0, shards: 1, turbo: 0 }); ap.got.push(...x.got); ap.unlocked.push(...x.unlocked); extra.push(t("vip_pity")); }
+      if (++S.tkPity >= TK_PITY || rnd() < (res.mult >= 3 ? TK_P_GOOD : TK_P)) { S.tickets++; S.tkPity = 0; extra.push(t("vip_tkdrop")); }
+    }
+    const lines = [res.note || "", ap.got.length ? t("vip_win") + " " + ap.got.join("  ") : t("vip_none"), ...extra];
+    ap.unlocked.forEach(id => lines.push(t("vip_unlock", { name: skinName(id) })));
+    $("vipRes").textContent = lines.filter(Boolean).join("\n");
+    haptic(ap.unlocked.length || res.mult >= 10 || extra.length ? "heavy" : "medium"); save(); render(); renderVipList(); vipBtnRender();
+  }
+  const tier = (v, arr, last) => { for (const a of arr) if (v >= a[0]) return a; return last; };   // [chegara, koeffitsient, parcha]
+
+  const VIPIMPL = {
+    // 🚀 Raketa: portlashdan oldin "Olish"
+    crash(el, done) {
+      const cp = Math.min(50, Math.max(1, Math.floor(94 / (1 - rnd())) / 100));
+      el.innerHTML = `<div class="cr-sky" id="crS"><div class="cr-m" id="crM">×1.00</div><div class="cr-rocket" id="crR">🚀</div></div><button class="btn" id="crB" style="width:100%;margin-top:10px;padding:14px;font-size:16px"></button>`;
+      const sky = el.querySelector("#crS"), M = el.querySelector("#crM"), R = el.querySelector("#crR"), B = el.querySelector("#crB");
+      const t0 = performance.now(); let raf = 0, over = false, cur = 1, to = 0;
+      const show = m => { M.textContent = "×" + m.toFixed(2); B.textContent = t("cr_take", { m: m.toFixed(2) }); const p = Math.min(1, Math.log(m) / Math.log(25)); R.style.left = (10 + p * 62) + "%"; R.style.bottom = (6 + p * 56) + "%"; };
+      show(1);
+      const loop = () => {
+        if (over) return;
+        const m = Math.exp(0.15 * (performance.now() - t0) / 1000);
+        if (m >= cp) { over = true; cur = cp; show(cp); sky.classList.add("boom"); R.textContent = "💥"; B.disabled = true; haptic("heavy");
+          to = setTimeout(() => done({ mult: 0.1, shards: 0, note: t("cr_boom", { m: cp.toFixed(2) }) }), 900); return; }
+        cur = m; show(m); raf = requestAnimationFrame(loop);
+      };
+      raf = requestAnimationFrame(loop);
+      B.onclick = () => {
+        if (over) return; over = true; cancelAnimationFrame(raf);
+        const m = Math.floor(cur * 100) / 100; haptic("medium");
+        done({ mult: m, shards: m >= 25 ? 8 : m >= 10 ? 4 : m >= 5 ? 2 : m >= 2 ? 1 : 0, note: t("cr_cash", { m: m.toFixed(2) }) });
+      };
+      return () => { over = true; cancelAnimationFrame(raf); clearTimeout(to); };
+    },
+    // 🏃 Cheksiz yugurish
+    run(el, done) {
+      const W = Math.max(280, el.clientWidth || 340), H = 200, G = 160;
+      el.innerHTML = `<div class="box-info" id="rnT"></div><canvas class="vcv" width="${W}" height="${H}"></canvas>`;
+      const cv = el.querySelector("canvas"), cx = cv.getContext("2d"), tp = el.querySelector("#rnT"), ico = (SKINS.find(k => k.id === S.skin) || SKINS[0]).ico;
+      let y = 0, vy = 0, dist = 0, tm = 0, last = performance.now(), nextObs = 450, obs = [], raf = 0, over = false, to = 0;
+      tp.textContent = t("run_tap");
+      cv.onpointerdown = e => { e.preventDefault(); if (!over && y === 0) { vy = 560; haptic("light"); } };
+      const loop = now => {
+        if (over) return;
+        const dt = Math.min(0.05, (now - last) / 1000); last = now; tm += dt;
+        const sp = 260 + Math.min(280, tm * 4); dist += sp * dt;
+        if (y > 0 || vy > 0) { y += vy * dt; vy -= 1900 * dt; if (y <= 0) { y = 0; vy = 0; } }
+        if (dist >= nextObs) { obs.push({ x: W + 20, w: 22, h: 30 + Math.floor(Math.random() * 22) }); nextObs = dist + sp * 0.75 + 120 + Math.random() * 260; }
+        obs.forEach(o => o.x -= sp * dt); obs = obs.filter(o => o.x > -40);
+        const px = 44, pw = 22, ph = 28;
+        for (const o of obs) if (px + pw > o.x + 4 && px < o.x + o.w - 4 && y < o.h - 6) over = true;
+        const pts = Math.floor(dist / 12);
+        const gr = cx.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, "#241a52"); gr.addColorStop(1, "#4a2a7a"); cx.fillStyle = gr; cx.fillRect(0, 0, W, H);
+        cx.fillStyle = "#2a1d08"; cx.fillRect(0, G, W, H - G); cx.fillStyle = "#f5b82e"; cx.fillRect(0, G, W, 3);
+        cx.textBaseline = "alphabetic";
+        cx.font = "30px sans-serif"; cx.fillText(over ? "💥" : ico, px - 4, G - y - 1);
+        obs.forEach(o => { cx.font = o.h + 6 + "px sans-serif"; cx.fillText("🌵", o.x - 4, G + 2); });
+        tp.textContent = t("run_m", { m: pts });
+        if (over) { haptic("heavy"); tp.textContent = t("run_over", { m: pts });
+          const a = tier(pts, [[3000, 10, 6], [2000, 6, 4], [1000, 2.5, 2], [500, 1, 1], [200, 0.5, 0]], [0, 0.2, 0]);
+          to = setTimeout(() => done({ mult: a[1], shards: a[2], note: t("run_over", { m: pts }) }), 800); return; }
+        raf = requestAnimationFrame(loop);
+      };
+      raf = requestAnimationFrame(now => { last = now; loop(now); });
+      return () => { over = true; cancelAnimationFrame(raf); clearTimeout(to); };
+    },
+    // ⚡ Tezkor bosish
+    react(el, done) {
+      el.innerHTML = `<div class="box-info" id="reT"></div><div class="re-box" id="reB"></div>`;
+      const box = el.querySelector("#reB"), tp = el.querySelector("#reT");
+      let round = 0, times = [], state = "idle", t0 = 0, timer = 0, dead = false;
+      const fin = () => {
+        const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length);
+        const a = tier(-avg, [[-230, 10, 4], [-270, 6, 2], [-320, 3, 1], [-380, 1.5, 0], [-500, 0.6, 0]], [0, 0.3, 0]);
+        done({ mult: a[1], shards: a[2], note: t("re_avg", { ms: avg }) });
+      };
+      const next = () => {
+        if (dead) return; if (round >= 5) { fin(); return; }
+        round++; state = "wait"; box.className = "re-box wait"; box.textContent = t("re_wait"); tp.textContent = t("re_round", { n: round });
+        timer = setTimeout(() => { state = "go"; t0 = performance.now(); box.className = "re-box go"; box.textContent = t("re_go"); }, 1000 + Math.random() * 2200);
+      };
+      box.onpointerdown = e => {
+        e.preventDefault();
+        if (state === "wait") { clearTimeout(timer); state = "gap"; times.push(600); box.className = "re-box"; box.textContent = t("re_early"); haptic("heavy"); timer = setTimeout(next, 900); }
+        else if (state === "go") { const ms = Math.round(performance.now() - t0); state = "gap"; times.push(ms); box.className = "re-box"; box.textContent = t("re_ms", { ms }); haptic("medium"); timer = setTimeout(next, 800); }
+      };
+      next();
+      return () => { dead = true; clearTimeout(timer); };
+    },
+    // 🎯 Nishon otish
+    shoot(el, done) {
+      el.innerHTML = `<div class="mem-hud" id="shH"></div><div class="sh-arena" id="shA"></div>`;
+      const A = el.querySelector("#shA"), H = el.querySelector("#shH");
+      let left = 30, pts = 0, dead = false, sp = 0, tk = 0, to = 0;
+      const hud = () => { H.textContent = t("sho_hud", { s: Math.max(0, Math.ceil(left)), p: pts }); };
+      const spawn = () => {
+        if (dead) return;
+        const r = Math.random(), type = r < 0.12 ? "g" : r < 0.32 ? "b" : "t", b = document.createElement("button");
+        b.className = "tg"; b.textContent = type === "g" ? "⭐" : type === "b" ? "💣" : "🎯";
+        b.style.left = Math.floor(Math.random() * Math.max(1, A.clientWidth - 56)) + "px"; b.style.top = Math.floor(Math.random() * Math.max(1, A.clientHeight - 56)) + "px";
+        const born = performance.now();
+        b.onpointerdown = e => { e.preventDefault(); if (!b.parentNode || dead) return; const age = (performance.now() - born) / 1000;
+          pts = Math.max(0, pts + (type === "g" ? 30 : type === "b" ? -20 : age < 0.5 ? 15 : 10)); b.remove(); haptic(type === "b" ? "heavy" : "light"); hud(); };
+        A.appendChild(b); setTimeout(() => b.remove(), type === "g" ? 900 : 1200);
+        sp = setTimeout(spawn, 520 + Math.random() * 300);
+      };
+      hud(); spawn();
+      tk = setInterval(() => { left -= 0.1; hud(); if (left <= 0) { dead = true; clearInterval(tk); clearTimeout(sp); A.innerHTML = "";
+        const a = tier(pts, [[380, 8, 4], [300, 5, 2], [220, 2.5, 1], [130, 1.2, 0], [60, 0.6, 0]], [0, 0.25, 0]);
+        to = setTimeout(() => done({ mult: a[1], shards: a[2], note: t("sho_res", { p: pts }) }), 300); } }, 100);
+      return () => { dead = true; clearInterval(tk); clearTimeout(sp); clearTimeout(to); };
+    },
+    // 👹 Boss jangi (chipta bilan)
+    boss(el, done) {
+      const BS = ["👹", "🐲", "🦖", "👾"];
+      el.innerHTML = `<div class="mem-hud" id="bsH"></div><div class="bs-arena" id="bsA"><div class="bs-hp"><i id="bsHp"></i></div><button class="bs-boss" id="bsB">${BS[0]}</button></div>`;
+      const A = el.querySelector("#bsA"), H = el.querySelector("#bsH"), B = el.querySelector("#bsB"), HP = el.querySelector("#bsHp");
+      let left = 20, dmg = 0, dead = false, tk = 0, ws = 0, to = 0;
+      const hud = () => { H.textContent = t("bs_hud", { s: Math.max(0, Math.ceil(left)), d: dmg }); HP.style.width = (100 - (dmg % 600) / 6) + "%"; B.textContent = BS[Math.floor(dmg / 600) % BS.length]; };
+      const fx = (x, y, txt) => { const d = document.createElement("div"); d.className = "dmg"; d.textContent = txt; d.style.left = x + "px"; d.style.top = y + "px"; A.appendChild(d); setTimeout(() => d.remove(), 700); };
+      B.onpointerdown = e => { e.preventDefault(); if (dead) return; dmg += 10; B.classList.remove("hit"); void B.offsetWidth; B.classList.add("hit");
+        const r = A.getBoundingClientRect(); fx(e.clientX - r.left - 10, e.clientY - r.top - 24, "10"); haptic("light"); hud(); };
+      const weak = () => {
+        if (dead) return;
+        const b = document.createElement("button"); b.className = "tg"; b.textContent = "💥";
+        b.style.left = Math.floor(Math.random() * Math.max(1, A.clientWidth - 56)) + "px"; b.style.top = (40 + Math.floor(Math.random() * Math.max(1, A.clientHeight - 100))) + "px";
+        b.onpointerdown = e => { e.preventDefault(); if (!b.parentNode || dead) return; dmg += 60; fx(parseFloat(b.style.left), parseFloat(b.style.top), "+60"); b.remove(); haptic("medium"); hud(); };
+        A.appendChild(b); setTimeout(() => b.remove(), 900);
+        ws = setTimeout(weak, 1300 + Math.random() * 600);
+      };
+      hud(); ws = setTimeout(weak, 800);
+      tk = setInterval(() => {
+        left -= 0.1; hud();
+        if (left <= 0) { dead = true; clearInterval(tk); clearTimeout(ws); A.querySelectorAll(".tg").forEach(x => x.remove());
+          const a = tier(dmg, [[3000, 25, 8], [2200, 15, 5], [1500, 8, 3], [900, 4, 2], [400, 2, 1]], [0, 1, 0]);
+          to = setTimeout(() => done({ mult: a[1], shards: a[2], note: t("bs_res", { d: dmg }) }), 400); }
+      }, 100);
+      return () => { dead = true; clearInterval(tk); clearTimeout(ws); clearTimeout(to); };
+    },
+    // 🏺 Oltin xazina (chipta bilan; yarim qolsa saqlanadi)
+    xz(el, done, resume) {
+      if (!resume) {
+        let seen = false;
+        S.xz = { p: Array.from({ length: 12 }, () => boxDraw(XZ).id).map(id => { if (id === "sk") { if (seen) return "c2"; seen = true; } return id; }), o: [] };
+        save();
+      }
+      const P = S.xz.p, O = S.xz.o, PICKS = 3, lines = [];
+      el.innerHTML = `<div class="box-info" id="xzI"></div><div class="xz-grid" id="xzG"></div>`;
+      const G = el.querySelector("#xzG"), I = el.querySelector("#xzI");
+      const info = p => p.k === "c" ? { ico: p.ico, label: "+" + fmt(Math.round(vipBase() * p.m * mg())), tier: p.m >= 15 ? 3 : 2 }
+        : p.k === "s" ? { ico: "🧩", label: "+" + p.n, tier: 2 } : p.k === "t" ? { ico: "🚀", label: "+" + p.n, tier: 1 } : { ico: "🎁", label: t("xz_skin"), tier: 3 };
+      const fin = () => O.length >= PICKS;
+      const draw = () => {
+        for (let i = 0; i < 12; i++) {
+          const b = G.children[i] || G.appendChild(document.createElement("button")), p = XZ.find(x => x.id === P[i]), opened = O.includes(i);
+          let cls = "bx", html = "🏺", dis = true;
+          if (opened || fin()) { const inf = info(p); html = `<span>${inf.ico}</span><small>${inf.label}</small>`; cls += " open t" + inf.tier + (opened ? "" : " miss"); }
+          else { cls += " idle"; dis = false; }
+          b.className = cls; b.innerHTML = html; b.disabled = dis; b.onclick = () => pick(i);
+        }
+        I.textContent = fin() ? t("xz_done") : t("xz_pick", { n: PICKS - O.length });
+      };
+      const pick = i => {
+        if (fin() || O.includes(i)) return;
+        const p = XZ.find(x => x.id === P[i]); O.push(i);
+        const ap = vipApply({ mult: p.k === "c" ? p.m : 0, shards: p.k === "s" ? p.n : 0, turbo: p.k === "t" ? p.n : 0, skin: p.k === "k" });
+        lines.push(t("vip_win") + " " + ap.got.join("  ")); ap.unlocked.forEach(id => lines.push(t("vip_unlock", { name: skinName(id) })));
+        $("vipRes").textContent = lines.join("\n"); haptic(info(p).tier >= 3 ? "heavy" : "medium");
+        if (fin()) S.xz = null;
+        save(); render(); draw();
+        if (fin()) done({ final: true });
+      };
+      draw();
+      return () => {};
+    },
+    // 🎰 Slot (yutuq: tanga va skin parchasi, 💎 yutuq yo'q)
+    slot(el, done) {
+      const SLOT = [ { s: "🍒", w: 30 }, { s: "🍋", w: 25 }, { s: "🔔", w: 18 }, { s: "⭐", w: 10 }, { s: "7️⃣", w: 5 }, { s: "🧩", w: 12 } ];
+      const TRIPLE = { "🍒": 3, "🍋": 5, "🔔": 10, "⭐": 25, "7️⃣": 60 };
+      const fin = [0, 1, 2].map(() => boxDraw(SLOT).s);
+      el.innerHTML = `<div class="slot-row"><div class="reel">❔</div><div class="reel">❔</div><div class="reel">❔</div></div>`;
+      const reels = [...el.querySelectorAll(".reel")], iv = [], tos = [];
+      reels.forEach((r, i) => {
+        iv[i] = setInterval(() => { r.textContent = SLOT[Math.floor(Math.random() * SLOT.length)].s; }, 70);
+        tos.push(setTimeout(() => { clearInterval(iv[i]); r.textContent = fin[i]; haptic("medium"); }, 900 + i * 500));
+      });
+      tos.push(setTimeout(() => {
+        const cnt = {}; fin.forEach(x => cnt[x] = (cnt[x] || 0) + 1);
+        const nz = cnt["🧩"] || 0; let mult = nz === 3 ? 5 : 0, shards = nz === 1 ? 1 : nz === 2 ? 3 : nz === 3 ? 8 : 0;
+        for (const k in cnt) { if (k === "🧩") continue; if (cnt[k] === 3) mult = TRIPLE[k]; else if (cnt[k] === 2) mult = k === "🍒" ? 0.8 : 0.6; }
+        done({ mult, shards, note: t("sl_res", { r: fin.join(" ") }) });
+      }, 900 + 2 * 500 + 600));
+      return () => { iv.forEach(clearInterval); tos.forEach(clearTimeout); };
+    },
+  };
+
   // ---------- Mini-o'yin: Tanga tutish ----------
   const CATCH_TIME = 30, CATCH_PLAYS = 3, CATCH_CAP = 250, CATCH_HEARTS = 3, CATCH_REV = 2, CATCH_EXTRA = 1;
-  const catchRate = () => 10 * (rankIdx() + 1);
+  const catchRate = () => 10 * (Math.min(rankIdx(), 5) + 1);
   function catchLeft() { if (S.catchDay !== today()) { S.catchDay = today(); S.catchLeft = CATCH_PLAYS; } return S.catchLeft; }
   const EMOJI_FONT = "'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif";
   const heartsStr = n => "❤️".repeat(Math.max(0, n)) + "🖤".repeat(Math.max(0, CATCH_HEARTS - n));
@@ -1311,7 +2007,7 @@
       $("catchInfo").textContent = (left > 0 ? t("c_rate", { n: catchRate() }) : t("next_in", untilMidnight())) + rec;
     }
   }
-  function renderGames() { renderSpin(); renderCatch(); renderBoxList(); }
+  function renderGames() { renderSpin(); renderCatch(); renderBoxList(); renderMemList(); renderScrList(); renderVipList(); }
 
   // --- yordamchi chizish funksiyalari ---
   function rr(ctx, x, y, w, h, r) {
@@ -1740,7 +2436,7 @@
     const stats = [["🪙", fmt(S.total), "pf_total"], ["💎", fmt(S.gems), "pf_gems"], ["👆", fmt(S.taps || 0), "pf_taps"], ["🎨", skinHave + " / " + skinTotal, "pf_skins"],
       ["💪", "+" + perTap(), "pf_tap"], ["⛏️", "+" + fmt(perHour()), "pf_hour"], ["🏆", fmt(S.catchBest || 0), "pf_catch"], ["📅", days, "pf_days"]];
     const nm = String(myName).replace(/[<>&"]/g, "");
-    $("profile").innerHTML = `<div class="pf-top"><div class="pf-av ${decorFrame()}"><div class="orb" style="background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${k.ico}</div></div>
+    $("profile").innerHTML = `<div class="pf-top"><div class="pf-av ${decorFrame()}"><div class="orb" style="background:radial-gradient(circle at 35% 28%,${k.c[0]},${k.c[1]} 58%,${k.c[2]})">${skinHtml(k)}</div></div>
       <div><div class="pf-name">${nm} ${decorBadge()}</div><div class="pf-id">ID: ${uid}</div><span class="pf-rank">${cur.ico} ${rankName(ri)}</span></div></div>
       <div class="pf-bar"><div class="bar"><i style="width:${pct}%"></i></div></div>
       <div class="pf-next">${next ? t("next_rank", { ico: next.ico, name: rankName(ri + 1), n: fmt(next.at - S.total) }) : t("max_rank")}</div>
