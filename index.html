@@ -315,6 +315,7 @@
   .coin { border: 5px solid #3a2204 !important; box-shadow: 0 8px 0 #3a2204, 0 0 90px rgba(255,176,32,.6) !important; }
   .coin.turbo { box-shadow: 0 8px 0 #3a2204, 0 0 70px #ff7a1a !important; }
   .skin { border-radius: 22px; }
+  .chips.tabs { flex-wrap: nowrap; gap: 6px; } .chips.tabs .chip { flex: 1; padding: 9px 4px; font-size: 13px; text-align: center; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -480,9 +481,11 @@
     <div class="chips tabs">
       <button class="chip on" data-tab="up" data-i18n="u_tab_up"></button>
       <button class="chip" data-tab="shop" data-i18n="u_tab_shop"></button>
+      <button class="chip" data-tab="exch" data-i18n="u_tab_exch"></button>
     </div>
     <div id="upgrades"></div>
     <div id="shop" style="display:none"></div>
+    <div id="exch" style="display:none"></div>
   </section>
 
   <!-- VAZIFALAR + DO'STLAR -->
@@ -551,7 +554,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v10 (05.11)</div>
+    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v11 (06.11)</div>
   </section>
 
   <nav>
@@ -657,7 +660,7 @@
       skin_unicorn: "Yakkashox", skin_phoenix: "Feniks", skin_robot: "Robot", skin_genie: "Jin", skin_drake: "Qora ajdar",
       sab_unicorn: "✨ Sehr: 10% ehtimol bilan tap ×5", sab_phoenix: "🔥 Energiya 2× tez tiklanadi", sab_robot: "🤖 Avto-daromad: soatiga +3 000 🪙",
       sab_genie: "🧞 Mini-o'yinlarda +50% tanga", sab_drake: "🐲 Turbo 2× uzoq (40s) • qutida +1 tanlov",
-      u_tab_up: "⬆️ Kuchaytirish", u_tab_shop: "🛒 Do'kon",
+      u_tab_up: "⬆️ Kuchaytirish", u_tab_shop: "🛒 Do'kon", u_tab_exch: "💱 Almashuv",
       sh_gems: "Sizda: {n} 💎", sh_turbo: "+1 Turbo", sh_turbo_d: "Bepul turbo tugagan bo'lsa ham ishlating",
       sh_energy: "Energiyani to'ldirish", sh_energy_d: "Energiya darrov 100% bo'ladi",
       sh_x2: "×2 Tap (10 daqiqa)", sh_x2_d: "Har tap ikki baravar tanga beradi", sh_x2_on: "Faol: {m} daqiqa qoldi",
@@ -761,7 +764,7 @@
       skin_unicorn: "Единорог", skin_phoenix: "Феникс", skin_robot: "Робот", skin_genie: "Джинн", skin_drake: "Чёрный дракон",
       sab_unicorn: "✨ Магия: 10% шанс тапа ×5", sab_phoenix: "🔥 Энергия восстанавливается в 2× быстрее", sab_robot: "🤖 Авто-доход: +3 000 🪙 в час",
       sab_genie: "🧞 +50% монет в мини-играх", sab_drake: "🐲 Турбо в 2× дольше (40с) • +1 выбор в коробках",
-      u_tab_up: "⬆️ Улучшения", u_tab_shop: "🛒 Магазин",
+      u_tab_up: "⬆️ Улучшения", u_tab_shop: "🛒 Магазин", u_tab_exch: "💱 Обмен",
       sh_gems: "У вас: {n} 💎", sh_turbo: "+1 Турбо", sh_turbo_d: "Используйте, даже если бесплатное закончилось",
       sh_energy: "Заправка энергии", sh_energy_d: "Энергия сразу станет 100%",
       sh_x2: "×2 Тап (10 минут)", sh_x2_d: "Каждый тап даёт вдвое больше монет", sh_x2_on: "Активно: осталось {m} мин",
@@ -865,7 +868,7 @@
       skin_unicorn: "Unicorn", skin_phoenix: "Phoenix", skin_robot: "Robot", skin_genie: "Genie", skin_drake: "Black Dragon",
       sab_unicorn: "✨ Magic: 10% chance for a ×5 tap", sab_phoenix: "🔥 Energy recharges 2× faster", sab_robot: "🤖 Auto income: +3 000 🪙 per hour",
       sab_genie: "🧞 +50% coins in mini-games", sab_drake: "🐲 Turbo lasts 2× longer (40s) • +1 pick in boxes",
-      u_tab_up: "⬆️ Upgrades", u_tab_shop: "🛒 Shop",
+      u_tab_up: "⬆️ Upgrades", u_tab_shop: "🛒 Shop", u_tab_exch: "💱 Exchange",
       sh_gems: "You have: {n} 💎", sh_turbo: "+1 Turbo", sh_turbo_d: "Use it even after the free one is gone",
       sh_energy: "Energy refill", sh_energy_d: "Energy goes to 100% instantly",
       sh_x2: "×2 Tap (10 minutes)", sh_x2_d: "Every tap gives double coins", sh_x2_on: "Active: {m} min left",
@@ -1296,7 +1299,7 @@
     if (!serverOn()) return;
     const r = await api("/api/load");
     syncReady = true;
-    $("verTxt").textContent = "Don Coin • v10 (05.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
+    $("verTxt").textContent = "Don Coin • v11 (06.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
     if (!r || !r.ok || !r.s || typeof r.s !== "object") return;
     if (Number(r.s.total) > S.total + 1) {                    // serverdagi nusxa oldinroq ketgan: tiklaymiz
       const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
@@ -1441,11 +1444,13 @@
     document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === n));
     $("upgrades").style.display = n === "up" ? "block" : "none";
     $("shop").style.display = n === "shop" ? "block" : "none";
+    $("exch").style.display = n === "exch" ? "block" : "none";
     if (n === "up") renderUpgrades(); else renderShop();
   }
   document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => showUpTab(b.dataset.tab));
 
-  function renderShop() {
+  function renderShop() { renderShopItems(); renderExch(); }
+  function renderShopItems() {
     const box = $("shop"); box.innerHTML = "";
     const head = document.createElement("div"); head.className = "box gembox"; head.innerHTML = `<b>${t("sh_gems", { n: fmt(S.gems) })}</b>`; box.appendChild(head);
     SHOP.forEach(it => {
@@ -1500,6 +1505,11 @@
       };
       box.appendChild(d);
     });
+  }
+  // ---------- Almashuv bo'limi: ⭐ → 💎, 💎 ↔ 🪙 ----------
+  function renderExch() {
+    const box = $("exch"); box.innerHTML = "";
+    const head = document.createElement("div"); head.className = "box gembox"; head.innerHTML = `<b>${t("sh_gems", { n: fmt(S.gems) })}</b>`; box.appendChild(head);
     if (starsOn()) {
       const sb = document.createElement("div"); sb.className = "box";
       sb.innerHTML = `<div><b>${t("stars_t")}</b></div><div class="muted" style="margin:4px 0 10px">${t("stars_d")}</div><div class="ex-grid"></div>`;
