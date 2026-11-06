@@ -316,6 +316,10 @@
   .coin.turbo { box-shadow: 0 8px 0 #3a2204, 0 0 70px #ff7a1a !important; }
   .skin { border-radius: 22px; }
   .chips.tabs { flex-wrap: nowrap; gap: 6px; } .chips.tabs .chip { flex: 1; padding: 9px 4px; font-size: 13px; text-align: center; white-space: nowrap; }
+  .promo .info { min-width: 0; }
+  #promoIn { width: 100%; margin-top: 8px; padding: 10px 12px; border-radius: 14px; border: 3px solid #120c03; background: #1a1206; color: #ffe27a; font: inherit; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; box-sizing: border-box; }
+  #promoIn::placeholder { color: #8a7440; letter-spacing: 1px; }
+  #promoIn:focus { outline: none; border-color: #f5b82e; }
 </style>
 </head>
 <body>
@@ -491,6 +495,12 @@
   <!-- VAZIFALAR + DO'STLAR -->
   <section class="page" id="p-task">
     <h2 data-i18n="tk_title"></h2>
+    <div class="card promo">
+      <div class="ico">🎟</div>
+      <div class="info"><div class="name" data-i18n="promo_t"></div><div class="desc" data-i18n="promo_d"></div>
+        <input id="promoIn" type="text" maxlength="20" autocomplete="off" autocapitalize="characters" spellcheck="false" data-i18n-ph="promo_ph"></div>
+      <button class="btn" id="promoBtn" data-i18n="promo_btn"></button>
+    </div>
     <div class="card">
       <div class="ico">🎁</div>
       <div class="info"><div class="name" data-i18n="daily"></div><div class="desc" id="dailyDesc"></div></div>
@@ -554,7 +564,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v11 (06.11)</div>
+    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v12 (06.11)</div>
   </section>
 
   <nav>
@@ -720,7 +730,7 @@
       u_title: "⬆️ Yaxshilash", u_lvl: "{n}-daraja", u_next: "Keyingi: {d}",
       up_tap: "Tap kuchi", up_ener: "Energiya limiti", up_reg: "Tiklanish tezligi", up_mine: "Passiv daromad",
       up_tap_d: "Har tap: +{n}", up_ener_d: "Maks: {n}", up_reg_d: "Sekundiga: +{n}", up_mine_d: "Soatiga: +{n}",
-      tk_title: "📋 Vazifalar", daily: "Kunlik bonus", daily_get: "Olish",
+      tk_title: "📋 Vazifalar", promo_t: "Promo-kod", promo_d: "Kodni kiriting va sovg'a oling", promo_ph: "KOD", promo_btn: "Kiritish", promo_ok: "🎁 Promo-kod qabul qilindi! {r}", promo_bad: "Bunday promo-kod topilmadi", promo_used: "Siz bu koddan allaqachon foydalangansiz", promo_over: "Bu kodning limiti tugagan", promo_exp: "Kod muddati tugagan", promo_wait: "Juda ko'p urinish. 10 daqiqadan keyin urinib ko'ring", promo_err: "Server bilan aloqa yo'q, keyinroq urinib ko'ring", promo_empty: "Kodni yozing", daily: "Kunlik bonus", daily_get: "Olish",
       daily_ready: "+{n} tanga • ketma-ket: {s} kun", daily_toast: "+{n} 🪙 bonus!",
       chan: "Kanalga obuna bo'ling", chan_d: "+5 000 tanga (bir marta)", chan_go: "Boshlash", chan_chk: "Tekshirish", chan_no: "Obuna topilmadi. Avval kanalga obuna bo'ling", chan_err: "Tekshirib bo'lmadi, birozdan keyin urinib ko'ring", chan_done: "Bajarildi ✓",
       quest: "Bugun 10 000 tanga yig'ing", quest_done: "Bugun bajarildi ✓ Ertaga yana!", quest_got: "Olindi ✓", quest_toast: "🎉 Vazifa bajarildi: +{n} 🪙",
@@ -824,7 +834,7 @@
       u_title: "⬆️ Улучшения", u_lvl: "ур. {n}", u_next: "Далее: {d}",
       up_tap: "Сила тапа", up_ener: "Лимит энергии", up_reg: "Скорость восстановления", up_mine: "Пассивный доход",
       up_tap_d: "За тап: +{n}", up_ener_d: "Макс: {n}", up_reg_d: "В секунду: +{n}", up_mine_d: "В час: +{n}",
-      tk_title: "📋 Задания", daily: "Ежедневный бонус", daily_get: "Забрать",
+      tk_title: "📋 Задания", promo_t: "Промокод", promo_d: "Введите код и получите подарок", promo_ph: "КОД", promo_btn: "Ввести", promo_ok: "🎁 Промокод принят! {r}", promo_bad: "Промокод не найден", promo_used: "Вы уже использовали этот код", promo_over: "Лимит кода исчерпан", promo_exp: "Срок кода истёк", promo_wait: "Слишком много попыток. Попробуйте через 10 минут", promo_err: "Нет связи с сервером, попробуйте позже", promo_empty: "Введите код", daily: "Ежедневный бонус", daily_get: "Забрать",
       daily_ready: "+{n} монет • подряд: {s} дн.", daily_toast: "+{n} 🪙 бонус!",
       chan: "Подпишитесь на канал", chan_d: "+5 000 монет (один раз)", chan_go: "Начать", chan_chk: "Проверить", chan_no: "Подписка не найдена. Сначала подпишитесь на канал", chan_err: "Не удалось проверить, попробуйте позже", chan_done: "Выполнено ✓",
       quest: "Соберите сегодня 10 000 монет", quest_done: "Сегодня выполнено ✓ Приходите завтра!", quest_got: "Получено ✓", quest_toast: "🎉 Задание выполнено: +{n} 🪙",
@@ -928,7 +938,7 @@
       u_title: "⬆️ Upgrades", u_lvl: "Lv {n}", u_next: "Next: {d}",
       up_tap: "Tap power", up_ener: "Energy limit", up_reg: "Recharge speed", up_mine: "Passive income",
       up_tap_d: "Per tap: +{n}", up_ener_d: "Max: {n}", up_reg_d: "Per second: +{n}", up_mine_d: "Per hour: +{n}",
-      tk_title: "📋 Tasks", daily: "Daily bonus", daily_get: "Claim",
+      tk_title: "📋 Tasks", promo_t: "Promo code", promo_d: "Enter a code and get a gift", promo_ph: "CODE", promo_btn: "Redeem", promo_ok: "🎁 Promo code accepted! {r}", promo_bad: "Promo code not found", promo_used: "You already used this code", promo_over: "This code has reached its limit", promo_exp: "This code has expired", promo_wait: "Too many attempts. Try again in 10 minutes", promo_err: "No connection to the server, try later", promo_empty: "Enter a code", daily: "Daily bonus", daily_get: "Claim",
       daily_ready: "+{n} coins • streak: {s} days", daily_toast: "+{n} 🪙 bonus!",
       chan: "Subscribe to the channel", chan_d: "+5 000 coins (one time)", chan_go: "Start", chan_chk: "Check", chan_no: "Subscription not found. Subscribe to the channel first", chan_err: "Could not check, try again later", chan_done: "Done ✓",
       quest: "Collect 10 000 coins today", quest_done: "Done for today ✓ See you tomorrow!", quest_got: "Claimed ✓", quest_toast: "🎉 Task complete: +{n} 🪙",
@@ -1299,7 +1309,7 @@
     if (!serverOn()) return;
     const r = await api("/api/load");
     syncReady = true;
-    $("verTxt").textContent = "Don Coin • v11 (06.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
+    $("verTxt").textContent = "Don Coin • v12 (06.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
     if (!r || !r.ok || !r.s || typeof r.s !== "object") return;
     if (Number(r.s.total) > S.total + 1) {                    // serverdagi nusxa oldinroq ketgan: tiklaymiz
       const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
@@ -1325,15 +1335,39 @@
   const STAR_PACKS = [{ id: "g1", g: 20, s: 50 }, { id: "g2", g: 60, s: 130 }, { id: "g3", g: 150, s: 300 }, { id: "g4", g: 400, s: 700 }];
   const starsOn = () => true;   // blok doim ko'rinadi; server yo'q bo'lsa bosganda xabar chiqadi
   let claimBusy = false;
+  const rewardStr = (g, c) => [g ? "+" + g + " 💎" : "", c ? "+" + fmt(c) + " 🪙" : ""].filter(Boolean).join("  ");
+  function applyReward(gems, coins) {
+    if (gems > 0) S.gems += gems;
+    if (coins > 0) addCoins(coins);                                // hamyonga ham, reytingga (total) ham
+    save(); render(); haptic("heavy");
+    if ($("p-up").classList.contains("active")) renderShop();
+    pushState();
+  }
   async function claimGems() {
     if (claimBusy || !serverOn()) return 0;
     claimBusy = true; const r = await api("/api/claim-gems"); claimBusy = false;
-    if (!r || !r.ok || !(r.gems > 0)) return 0;
-    S.gems += r.gems; save(); render(); haptic("heavy"); toast(t("stars_got", { n: r.gems }));
-    if ($("p-up").classList.contains("active")) renderShop();
-    pushState();
-    return r.gems;
+    if (!r || !r.ok || !(r.gems > 0 || r.coins > 0)) return 0;
+    applyReward(r.gems || 0, r.coins || 0);
+    toast(r.coins > 0 ? t("promo_ok", { r: rewardStr(r.gems, r.coins) }) : t("stars_got", { n: r.gems }));
+    return (r.gems || 0) + (r.coins || 0);
   }
+  // ---------- Promo-kod (Vazifalar bo'limida) ----------
+  let promoBusy = false;
+  async function redeemPromo() {
+    const code = $("promoIn").value.trim();
+    if (!code) { toast(t("promo_empty")); return; }
+    if (promoBusy) return;
+    promoBusy = true; $("promoBtn").disabled = true;
+    const r = await api("/api/promo", { code });
+    promoBusy = false; $("promoBtn").disabled = false;
+    if (!r) { toast(t("promo_err")); return; }
+    if (!r.ok) { toast(t("promo_" + ({ bad: "bad", used: "used", over: "over", exp: "exp", wait: "wait", usage: "empty" }[r.error] || "err"))); return; }
+    $("promoIn").value = "";
+    applyReward(r.gems || 0, r.coins || 0);
+    toast(t("promo_ok", { r: rewardStr(r.gems, r.coins) }));
+  }
+  $("promoBtn").onclick = redeemPromo;
+  $("promoIn").addEventListener("keydown", e => { if (e.key === "Enter") redeemPromo(); });
   async function buyStars(pack) {
     if (!serverOn()) { toast(t("stars_err")); return; }
     const r = await api("/api/invoice", { pack });
@@ -2557,6 +2591,7 @@
   function applyLang() {
     document.documentElement.lang = lang;
     document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
     render(); renderUpgrades(); renderSkins(); renderDaily(); renderQuest(); renderChan(); renderRef(); renderGames(); renderSettings(); renderTut(); renderShop(); renderBox();
     if (wheelBuilt) buildWheel();
     if ($("p-rank").classList.contains("active")) loadBoard();
