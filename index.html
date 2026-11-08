@@ -320,6 +320,18 @@
   #promoIn { width: 100%; margin-top: 8px; padding: 10px 12px; border-radius: 14px; border: 3px solid #120c03; background: #1a1206; color: #ffe27a; font: inherit; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; box-sizing: border-box; }
   #promoIn::placeholder { color: #8a7440; letter-spacing: 1px; }
   #promoIn:focus { outline: none; border-color: #f5b82e; }
+  .imp { background: radial-gradient(circle at 50% 30%, rgba(255,176,32,.35), rgba(8,6,2,.97) 65%); }
+  .imp .tut-card { position: relative; z-index: 1; }
+  .imp-crown { font-size: 96px; line-height: 1; animation: impPop .9s cubic-bezier(.2,1.6,.4,1) both, impGlow 2.2s ease-in-out .9s infinite; filter: drop-shadow(0 0 22px rgba(255,200,60,.9)); }
+  .imp h2 { font-size: 30px; margin: 12px 0 8px; }
+  .imp-gifts { background: linear-gradient(170deg,#3a2a0c,#22180a); border: 3px solid #120c03; border-radius: 22px; box-shadow: 0 5px 0 #120c03, inset 0 0 0 2px rgba(245,184,46,.25); padding: 14px; margin-top: 8px; font-weight: 800; }
+  .imp-gt { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+  #impG { font-size: 26px; color: #7df3ff; } #impS { margin-top: 6px; color: var(--gold2); }
+  #impConf { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  #impConf i { position: absolute; top: -8%; font-style: normal; animation: confFall linear infinite; }
+  @keyframes impPop { from { transform: scale(.2) rotate(-20deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  @keyframes impGlow { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+  @keyframes confFall { to { transform: translateY(115vh) rotate(540deg); } }
 </style>
 </head>
 <body>
@@ -564,7 +576,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v12 (06.11)</div>
+    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v15 (08.11)</div>
   </section>
 
   <nav>
@@ -578,6 +590,16 @@
 </div>
 
 <!-- YO'RIQNOMA -->
+<div class="tut imp" id="impModal" style="z-index:32">
+  <div class="tut-card">
+    <div id="impConf"></div>
+    <div class="imp-crown">👑</div>
+    <h2 id="impT"></h2>
+    <p id="impD" style="min-height:0"></p>
+    <div class="imp-gifts"><div class="imp-gt" id="impGT"></div><div id="impG"></div><div id="impS"></div></div>
+    <button class="btn" id="impBtn" style="margin-top:16px"></button>
+  </div>
+</div>
 <div class="tut" id="tutorial">
   <div class="tut-card">
     <div class="tut-langs">
@@ -743,9 +765,13 @@
       set_reset: "Ma'lumotlarni tozalash", set_reset_d: "Barcha tanga, skin va yaxshilashlar o'chadi. Qaytarib bo'lmaydi.",
       set_reset_btn: "Tozalash", reset_ask: "Rostdan ham barcha ma'lumotlarni o'chirasizmi? Buni qaytarib bo'lmaydi.", reset_done: "Ma'lumotlar tozalandi",
       tu_skip: "O'tkazib yuborish", tu_next: "Keyingisi →", tu_start: "Boshlash 🚀",
-      tu1_t: "Tangani bosing", tu1_d: "Tangani bosib ball yig'ing. Har tap energiya sarflaydi, energiya esa vaqt o'tishi bilan o'zi tiklanadi. 🚀 Turbo kuniga 1 marta bepul tapni ×5 qiladi, qo'shimchasini 💎 ga olasiz.",
-      tu2_t: "Kuchayib boring", tu2_d: "Tangaga Yaxshilash va Skinlar sotib oling: tap kuchi, energiya va passiv daromad oshadi. Yig'ilgan tanga bilan darajangiz ko'tariladi: Yangi boshlovchidan DON gacha!",
-      tu3_t: "Bonuslar va reyting", tu3_d: "Kunlik bonus, vazifalar, g'ildirak va quti topishda tanga hamda 💎 yuting. Reytingda boshqa o'yinchilar bilan bellashing, do'stlaringizni taklif qiling!"
+      tu1_t: "Tangani bosing", tu1_d: "Tangani bosib tanga yig'ing. Har bosish energiya sarflaydi, energiya vaqt o'tishi bilan o'zi tiklanadi. 🚀 Turbo kuniga 1 marta bepul tapni ×5 qiladi.",
+      tu2_t: "Kuchayib boring", tu2_d: "Yaxshilash bo'limida tap kuchi, energiya va soatlik daromadni oshiring. Soatlik daromad siz o'ynamasangiz ham yig'ilib boradi.",
+      tu3_t: "Darajalar", tu3_d: "Jami yig'ilgan tangaga qarab daraja ko'tariladi: Yangi boshlovchidan Imperatorgacha. Har yangi darajada 💎 sovg'a, Don darajasidan boshlab esa maxsus skinlar ochiladi.",
+      tu4_t: "Skinlar", tu4_d: "Har skin o'z qobiliyatiga ega: kritik zarba, daromad, mini-o'yinlarda bonus. Do'konda ramka va ism oldidagi nishonlarni ham olishingiz mumkin.",
+      tu5_t: "O'yinlar", tu5_d: "Kunlik g'ildirak va mini-o'yinlar tanga, energiya va 💎 beradi. 👑 VIP zalda 💎 bilan premium o'yinlar o'ynaladi, yutuqlar katta bo'ladi.",
+      tu6_t: "Olmos va do'stlar", tu6_d: "💎 ni o'yinlardan, darajalardan va do'stlardan olasiz. Yaxshilash → Almashuv bo'limida ⭐ Stars bilan sotib olish va tanga bilan almashtirish mumkin. Vazifalarda promo-kod kiriting, do'st taklif qilib mukofot oling!",
+      imp_t: "Siz — Imperator!", imp_d: "Tabriklaymiz! Siz Don Coin'ning eng yuqori darajasiga chiqdingiz. Bu yutuqqa juda kam odam erishadi.", imp_gifts: "Sizga sovg'alar", imp_skin: "🌌 Imperator skini ochildi", imp_btn: "Ajoyib! 🎉",
     },
     ru: {
       n_tap: "Тап", n_games: "Игры", n_rank: "Рейтинг", n_skin: "Скины", n_up: "Улучшения", n_task: "Задания",
@@ -847,9 +873,13 @@
       set_reset: "Сброс данных", set_reset_d: "Все монеты, скины и улучшения будут удалены. Это нельзя отменить.",
       set_reset_btn: "Сбросить", reset_ask: "Точно удалить все данные? Это нельзя отменить.", reset_done: "Данные сброшены",
       tu_skip: "Пропустить", tu_next: "Далее →", tu_start: "Начать 🚀",
-      tu1_t: "Нажимайте на монету", tu1_d: "Нажимайте на монету и собирайте очки. Каждый тап тратит энергию, а она сама восстанавливается со временем. 🚀 Турбо 1 раз в день бесплатно увеличивает тап ×5, дополнительное можно купить за 💎.",
-      tu2_t: "Становитесь сильнее", tu2_d: "Покупайте за монеты Улучшения и Скины: растут сила тапа, энергия и пассивный доход. С накоплением монет растёт ваш уровень: от Новичка до ДОНа!",
-      tu3_t: "Бонусы и рейтинг", tu3_d: "Получайте монеты и 💎 за ежедневный бонус, задания, колесо и поиск коробок. Соревнуйтесь с другими в рейтинге и приглашайте друзей!"
+      tu1_t: "Нажимайте на монету", tu1_d: "Нажимайте на монету и собирайте монеты. Каждый тап тратит энергию, а она сама восстанавливается со временем. 🚀 Турбо раз в день бесплатно умножает тап ×5.",
+      tu2_t: "Становитесь сильнее", tu2_d: "В разделе Улучшения повышайте силу тапа, энергию и доход в час. Доход в час копится, даже если вы не играете.",
+      tu3_t: "Ранги", tu3_d: "Ранг растёт от общей суммы монет: от Новичка до Императора. За каждый новый ранг дают 💎, а начиная с ранга Дон открываются особые скины.",
+      tu4_t: "Скины", tu4_d: "У каждого скина своя способность: крит, доход, бонус в мини-играх. В магазине можно взять рамки и значки рядом с именем.",
+      tu5_t: "Игры", tu5_d: "Колесо дня и мини-игры дают монеты, энергию и 💎. В 👑 VIP-зале за 💎 доступны премиум-игры с крупными призами.",
+      tu6_t: "Алмазы и друзья", tu6_d: "💎 дают за игры, ранги и друзей. В Улучшения → Обмен можно купить их за ⭐ Stars и обменять на монеты. Вводите промокод в Заданиях и приглашайте друзей за награды!",
+      imp_t: "Вы — Император!", imp_d: "Поздравляем! Вы достигли высшего ранга Don Coin. Это удаётся очень немногим.", imp_gifts: "Ваши подарки", imp_skin: "🌌 Открыт скин Императора", imp_btn: "Отлично! 🎉",
     },
     en: {
       n_tap: "Tap", n_games: "Games", n_rank: "Ranking", n_skin: "Skins", n_up: "Upgrades", n_task: "Tasks",
@@ -951,9 +981,13 @@
       set_reset: "Reset data", set_reset_d: "All coins, skins and upgrades will be deleted. This cannot be undone.",
       set_reset_btn: "Reset", reset_ask: "Really delete all your data? This cannot be undone.", reset_done: "Data has been reset",
       tu_skip: "Skip", tu_next: "Next →", tu_start: "Start 🚀",
-      tu1_t: "Tap the coin", tu1_d: "Tap the coin to collect points. Each tap uses energy, and energy refills by itself over time. 🚀 Turbo makes your taps ×5 once a day for free; get more with 💎.",
-      tu2_t: "Get stronger", tu2_d: "Spend coins on Upgrades and Skins to boost tap power, energy and passive income. As you collect coins your rank rises: from Rookie to DON!",
-      tu3_t: "Bonuses and ranking", tu3_d: "Earn coins and 💎 from the daily bonus, tasks, the wheel and Box Hunt. Compete with other players in the ranking and invite your friends!"
+      tu1_t: "Tap the coin", tu1_d: "Tap the coin to collect coins. Every tap uses energy, and energy refills over time. 🚀 Turbo makes your tap ×5, once a day for free.",
+      tu2_t: "Get stronger", tu2_d: "In Upgrades, boost tap power, energy and hourly income. Hourly income keeps building even when you're away.",
+      tu3_t: "Ranks", tu3_d: "Your rank grows with total coins collected: from Beginner to Emperor. Every new rank gives 💎, and from Don onward special skins unlock.",
+      tu4_t: "Skins", tu4_d: "Every skin has its own ability: crits, income, mini-game bonuses. In the shop you can also get frames and badges next to your name.",
+      tu5_t: "Games", tu5_d: "The daily wheel and mini-games give coins, energy and 💎. In the 👑 VIP hall you play premium games with 💎 and win big.",
+      tu6_t: "Gems and friends", tu6_d: "You earn 💎 from games, ranks and friends. In Upgrades → Exchange you can buy them with ⭐ Stars or swap for coins. Enter promo codes in Tasks and invite friends for rewards!",
+      imp_t: "You are the Emperor!", imp_d: "Congratulations! You reached the highest rank in Don Coin. Very few players ever do.", imp_gifts: "Your gifts", imp_skin: "🌌 Emperor skin unlocked", imp_btn: "Awesome! 🎉",
     }
   };
   const detectLang = () => {
@@ -1092,11 +1126,24 @@
 
   // 💎 mukofotlar: daraja, skinlar
   const RANK_GEMS = [0, 1, 2, 3, 5, 10, 15, 20, 30];
+
+  // ---------- Imperator tabrigi (faqat eng yuqori darajaga chiqqanda, bir marta) ----------
+  function showImperator() {
+    const gems = RANK_GEMS[RANKS.length - 1] || 0;
+    $("impT").textContent = t("imp_t"); $("impD").textContent = t("imp_d"); $("impGT").textContent = t("imp_gifts");
+    $("impG").textContent = "+" + gems + " 💎"; $("impS").textContent = t("imp_skin"); $("impBtn").textContent = t("imp_btn");
+    const em = ["🪙", "💎", "✨", "🌟", "👑"]; let h = "";
+    for (let i = 0; i < 26; i++) h += `<i style="left:${Math.random() * 100}%;font-size:${14 + Math.random() * 18}px;animation-duration:${3 + Math.random() * 3}s;animation-delay:${-Math.random() * 5}s">${em[i % em.length]}</i>`;
+    $("impConf").innerHTML = h;
+    $("impModal").style.display = "flex"; haptic("heavy");
+  }
+  $("impBtn").onclick = () => { $("impModal").style.display = "none"; $("impConf").innerHTML = ""; };
   function checkRewards() {
     const msgs = [], ri = rankIdx();
     while (S.rankPaid < ri) { S.rankPaid++; const n = RANK_GEMS[S.rankPaid] || 0; S.gems += n; msgs.push(t("rw_rank", { name: rankName(S.rankPaid), n })); }
     SKINS.filter(k => k.rar === "rank" && ri >= k.rk && !S.owned.includes(k.id)).forEach(k => { S.owned.push(k.id); msgs.push(t("rw_rkskin", { name: t("skin_" + k.id) })); });
     if (!S.skins10 && S.owned.length >= 10) { S.skins10 = true; S.gems += 5; msgs.push(t("rw_skins")); }
+    if (ri === RANKS.length - 1 && !S.impShown && !$("tutorial").style.display.includes("flex")) { S.impShown = true; msgs.length = 0; save(); showImperator(); return; }
     if (msgs.length) { save(); toast(msgs.join(" • ")); haptic("heavy"); }
   }
   function render() {
@@ -1251,7 +1298,7 @@
   async function api(path, extra) {
     try {
       const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 9000);
-      const r = await fetch(WORKER_URL + path, { method: "POST", headers: { "content-type": "application/json" }, signal: ctl.signal,
+      const r = await fetch(WORKER_URL + path, { method: "POST", headers: { "content-type": "application/json" }, signal: ctl.signal, keepalive: true,
         body: JSON.stringify(Object.assign({ initData: (tg && tg.initData) || "" }, extra || {})) });
       clearTimeout(to); return await r.json();
     } catch (e) { return null; }
@@ -1295,7 +1342,7 @@
   setTimeout(claimRefs, 1500);
 
   // ---------- Serverda saqlash (zaxira) ----------
-  let syncReady = false, lastSig = "", forceReset = false, pushBusy = false;
+  let syncReady = true, lastSig = "", forceReset = false, pushBusy = false;
   function fixState() {
     S = Object.assign({}, def, S);
     S.lv = Object.assign({}, def.lv, S.lv);
@@ -1307,15 +1354,19 @@
   }
   async function loadRemote() {
     if (!serverOn()) return;
+    const b0 = { c: S.coins, t: S.total, g: S.gems, d: S.dayGain || 0 };   // yuklanish paytida bosilgan tangalarni yo'qotmaslik uchun
     const r = await api("/api/load");
-    syncReady = true;
-    $("verTxt").textContent = "Don Coin • v12 (06.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
-    if (!r || !r.ok || !r.s || typeof r.s !== "object") return;
+    $("verTxt").textContent = "Don Coin • v15 (08.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
+    if (!r) { setTimeout(loadRemote, 8000); return; }   // tarmoq sekin: qayta urinamiz
+    if (!r.ok || !r.s || typeof r.s !== "object") return;
     if (Number(r.s.total) > S.total + 1) {                    // serverdagi nusxa oldinroq ketgan: tiklaymiz
       const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
+      const cur = { c: S.coins, t: S.total, g: S.gems, d: S.dayGain || 0 };
       S = Object.assign({}, r.s); fixState();
       if (keep.lang) S.lang = keep.lang; S.vib = keep.vib; S.confirm = keep.confirm;
       if (S.seen) $("tutorial").style.display = "none";
+      const dc = Math.max(0, cur.c - b0.c), dt = Math.max(0, cur.t - b0.t), dg = Math.max(0, cur.g - b0.g), dd = Math.max(0, (cur.d || 0) - b0.d);
+      S.coins += dc; S.total += dt; S.gems += dg; S.dayGain = (S.dayGain || 0) + dd;
       save(); applySkin(); applyLang(); render(); toast(t("sync_restored"));
     }
   }
@@ -1329,7 +1380,7 @@
     if (r && r.ok) { lastSig = sig; forceReset = false; }
   }
   loadRemote().then(() => { claimGems(); });
-  setInterval(pushState, 30000);
+  setInterval(pushState, 7000);
 
   // ---------- Telegram Stars ⭐ → 💎 ----------
   const STAR_PACKS = [{ id: "g1", g: 20, s: 50 }, { id: "g2", g: 60, s: 130 }, { id: "g3", g: 150, s: 300 }, { id: "g4", g: 400, s: 700 }];
@@ -2552,7 +2603,7 @@
   }
 
   // ---------- Yo'riqnoma ----------
-  const TU = [{ ico: "🦆", k: "tu1" }, { ico: "⬆️", k: "tu2" }, { ico: "🎮", k: "tu3" }];
+  const TU = [{ ico: "🦆", k: "tu1" }, { ico: "⬆️", k: "tu2" }, { ico: "🏅", k: "tu3" }, { ico: "🎨", k: "tu4" }, { ico: "🎮", k: "tu5" }, { ico: "💎", k: "tu6" }];
   let tuIdx = 0;
   function renderTut() {
     const s = TU[tuIdx];
@@ -2642,7 +2693,7 @@
     if (document.hidden && CG) endCatch();   // fon rejimida o'yin to'xtaydi
     S.last = Date.now(); save(); if (document.hidden) { pushScore(); pushState(); } else { claimRefs(); claimGems(); }
   });
-  window.addEventListener("pagehide", save);
+  window.addEventListener("pagehide", () => { save(); pushState(); });
 
   applySkin(); applyLang(); pushScore();
   if (!S.seen) showTut();
