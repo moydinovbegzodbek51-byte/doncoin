@@ -562,6 +562,11 @@
       <button class="btn ghost" id="vibBtn"></button>
     </div>
     <div class="card">
+      <div class="ico">🔊</div>
+      <div class="info"><div class="name" data-i18n="set_snd"></div><div class="desc" data-i18n="set_snd_d"></div></div>
+      <button class="btn ghost" id="sndBtn"></button>
+    </div>
+    <div class="card">
       <div class="ico">🛡️</div>
       <div class="info"><div class="name" data-i18n="set_conf"></div><div class="desc" data-i18n="set_conf_d"></div></div>
       <button class="btn ghost" id="confBtn"></button>
@@ -576,7 +581,7 @@
       <div class="info"><div class="name" data-i18n="set_reset"></div><div class="desc" data-i18n="set_reset_d"></div></div>
       <button class="btn danger" id="resetBtn" data-i18n="set_reset_btn"></button>
     </div>
-    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v15 (08.11)</div>
+    <div class="muted" style="text-align:center;margin-top:6px" id="verTxt">Don Coin • v18 (10.11)</div>
   </section>
 
   <nav>
@@ -647,7 +652,7 @@
   const def = { coins: 0, total: 0, lv: { tap: 0, ener: 0, reg: 0, mine: 0 }, energy: 500, last: Date.now(),
                 daily: 0, streak: 0, chan: false, owned: ["duck"], skin: "duck", turboDay: "", turboLeft: 1, turboUntil: 0, synced: 0,
                 spinDay: "", spinPending: -1, dayKey: "", dayGain: 0, dayClaimed: false,
-                lang: "", vib: true, seen: false, catchDay: "", catchLeft: 3, catchBest: 0,
+                lang: "", vib: true, snd: true, seen: false, catchDay: "", catchLeft: 3, catchBest: 0,
                 gems: 0, x2Until: 0, extraSpins: 0, boxDay: "", box: null, memDay: "", scrDay: "", scr: null, shards: {}, tickets: 0, tkPity: 0, shPity: 0, xz: null, confirm: true, taps: 0, since: 0,
                 decor: { o: [], f: "", b: "" }, offLv: 0, rankPaid: 0, skins10: false, turboV2: true, refTotal: 0 };
   let S, saved = {};
@@ -760,7 +765,7 @@
       fr_share: "Ulashish", fr_copy: "Nusxalash", copied: "Nusxalandi", copy_fail: "Havolani qo'lda nusxalang",
       share_text: "Don Coin o'yinida tanga yig'ing! 🦆🪙",
       set_title: "⚙️ Sozlamalar", set_lang: "Til",
-      set_vib: "Tebranish", set_vib_d: "Tap va yutuqlarda telefon tebranadi", on: "Yoqilgan", off: "O'chirilgan",
+      set_vib: "Tebranish", set_vib_d: "Tap va yutuqlarda telefon tebranadi", on: "Yoqilgan", off: "O'chirilgan", set_snd: "Ovoz", set_snd_d: "Tap, yutuq va sovg'alarda ovoz chiqadi",
       set_tut: "Yo'riqnoma", set_tut_d: "O'yin qoidalarini qayta ko'ring", set_show: "Ko'rish",
       set_reset: "Ma'lumotlarni tozalash", set_reset_d: "Barcha tanga, skin va yaxshilashlar o'chadi. Qaytarib bo'lmaydi.",
       set_reset_btn: "Tozalash", reset_ask: "Rostdan ham barcha ma'lumotlarni o'chirasizmi? Buni qaytarib bo'lmaydi.", reset_done: "Ma'lumotlar tozalandi",
@@ -868,7 +873,7 @@
       fr_share: "Поделиться", fr_copy: "Копировать", copied: "Скопировано", copy_fail: "Скопируйте ссылку вручную",
       share_text: "Собирай монеты в игре Don Coin! 🦆🪙",
       set_title: "⚙️ Настройки", set_lang: "Язык",
-      set_vib: "Вибрация", set_vib_d: "Телефон вибрирует при тапах и наградах", on: "Включена", off: "Выключена",
+      set_vib: "Вибрация", set_vib_d: "Телефон вибрирует при тапах и наградах", on: "Включена", off: "Выключена", set_snd: "Звук", set_snd_d: "Звуки при тапах, победах и наградах",
       set_tut: "Инструкция", set_tut_d: "Посмотреть правила игры ещё раз", set_show: "Смотреть",
       set_reset: "Сброс данных", set_reset_d: "Все монеты, скины и улучшения будут удалены. Это нельзя отменить.",
       set_reset_btn: "Сбросить", reset_ask: "Точно удалить все данные? Это нельзя отменить.", reset_done: "Данные сброшены",
@@ -976,7 +981,7 @@
       fr_share: "Share", fr_copy: "Copy", copied: "Copied", copy_fail: "Copy the link manually",
       share_text: "Collect coins in Don Coin! 🦆🪙",
       set_title: "⚙️ Settings", set_lang: "Language",
-      set_vib: "Vibration", set_vib_d: "The phone vibrates on taps and rewards", on: "On", off: "Off",
+      set_vib: "Vibration", set_vib_d: "The phone vibrates on taps and rewards", on: "On", off: "Off", set_snd: "Sound", set_snd_d: "Sounds on taps, wins and rewards",
       set_tut: "Tutorial", set_tut_d: "See the game guide again", set_show: "View",
       set_reset: "Reset data", set_reset_d: "All coins, skins and upgrades will be deleted. This cannot be undone.",
       set_reset_btn: "Reset", reset_ask: "Really delete all your data? This cannot be undone.", reset_done: "Data has been reset",
@@ -1087,7 +1092,45 @@
 
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
   function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 1900); }
-  function haptic(k) { if (S.vib === false) return; try { tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred(k || "light"); } catch (e) {} }
+  // ---------- Ovoz (Web Audio, fayl kerak emas) ----------
+  let AC = null, lastSnd = 0;
+  function actx() {
+    try {
+      if (!AC) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; AC = new C(); }
+      if (AC.state === "suspended") AC.resume();
+      return AC;
+    } catch (e) { return null; }
+  }
+  function tone(f, t0, d, type, v, f2) {
+    const a = AC, o = a.createOscillator(), g = a.createGain(), st = a.currentTime + t0;
+    o.type = type || "sine"; o.frequency.setValueAtTime(f, st);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, st + d);
+    g.gain.setValueAtTime(0.0001, st); g.gain.exponentialRampToValueAtTime(v || 0.12, st + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, st + d);
+    o.connect(g); g.connect(a.destination); o.start(st); o.stop(st + d + 0.03);
+  }
+  const SND = {
+    tap:   () => { tone(880, 0, .07, "triangle", .10, 1250); },
+    crit:  () => { tone(1100, 0, .09, "triangle", .13, 1700); tone(1650, .05, .14, "sine", .10); },
+    tick:  () => { tone(620, 0, .05, "sine", .06); },
+    pop:   () => { tone(520, 0, .09, "triangle", .10, 760); },
+    buy:   () => { tone(1320, 0, .08, "square", .05); tone(1760, .07, .16, "square", .05); },
+    win:   () => { [523, 659, 784].forEach((f, i) => tone(f, i * .09, .16, "triangle", .12)); },
+    lose:  () => { tone(330, 0, .18, "sine", .10, 220); tone(220, .14, .26, "sine", .09, 150); },
+    rank:  () => { [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .11, .2, "triangle", .13)); },
+    err:   () => { tone(200, 0, .14, "square", .05, 150); },
+    fan:   () => {
+      [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .14, .26, "triangle", .13));
+      [784, 988, 1175, 1568].forEach((f, i) => tone(f, .62 + i * .09, .6, "sine", .10));
+      tone(262, .6, 1.1, "triangle", .10);
+    }
+  };
+  function sfx(n) {
+    if (S.snd === false || !SND[n]) return;
+    const now = Date.now(); if (n === "tap" && now - lastSnd < 35) return; lastSnd = now;
+    try { if (actx()) SND[n](); } catch (e) {}
+  }
+  function haptic(k) { sfx(k === "heavy" ? "win" : k === "medium" ? "pop" : "tick"); if (S.vib === false) return; try { tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred(k || "light"); } catch (e) {} }
   function ask(msg, yes) {
     if (tg && tg.showConfirm && tg.isVersionAtLeast && tg.isVersionAtLeast("6.2")) {
       try { tg.showConfirm(msg, ok => { if (ok) yes(); }); return; } catch (e) {}
@@ -1135,7 +1178,7 @@
     const em = ["🪙", "💎", "✨", "🌟", "👑"]; let h = "";
     for (let i = 0; i < 26; i++) h += `<i style="left:${Math.random() * 100}%;font-size:${14 + Math.random() * 18}px;animation-duration:${3 + Math.random() * 3}s;animation-delay:${-Math.random() * 5}s">${em[i % em.length]}</i>`;
     $("impConf").innerHTML = h;
-    $("impModal").style.display = "flex"; haptic("heavy");
+    $("impModal").style.display = "flex"; sfx("fan");
   }
   $("impBtn").onclick = () => { $("impModal").style.display = "none"; $("impConf").innerHTML = ""; };
   function checkRewards() {
@@ -1144,7 +1187,7 @@
     SKINS.filter(k => k.rar === "rank" && ri >= k.rk && !S.owned.includes(k.id)).forEach(k => { S.owned.push(k.id); msgs.push(t("rw_rkskin", { name: t("skin_" + k.id) })); });
     if (!S.skins10 && S.owned.length >= 10) { S.skins10 = true; S.gems += 5; msgs.push(t("rw_skins")); }
     if (ri === RANKS.length - 1 && !S.impShown && !$("tutorial").style.display.includes("flex")) { S.impShown = true; msgs.length = 0; save(); showImperator(); return; }
-    if (msgs.length) { save(); toast(msgs.join(" • ")); haptic("heavy"); }
+    if (msgs.length) { save(); toast(msgs.join(" • ")); sfx("rank"); if (S.vib !== false) { try { tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred("heavy"); } catch (e) {} } }
   }
   function render() {
     checkRewards();
@@ -1226,8 +1269,8 @@
     const turbo = turboOn();
     let p = perTap() * (turbo ? 5 : 1) * (Date.now() < S.x2Until ? 2 : 1), crit = false;
     if (ab().crit && Math.random() < ab().crit) { p *= 5; crit = true; }
-    if (!turbo) { if (S.energy < perTap()) { toast(t("no_energy")); return; } S.energy -= perTap(); }
-    addCoins(p); S.taps = (S.taps || 0) + 1; haptic("light");
+    if (!turbo) { if (S.energy < perTap()) { sfx("err"); toast(t("no_energy")); return; } S.energy -= perTap(); }
+    addCoins(p); S.taps = (S.taps || 0) + 1; sfx(crit ? "crit" : "tap"); if (S.vib !== false) { try { tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred("light"); } catch (e) {} }
     const r = stage.getBoundingClientRect();
     const f = document.createElement("div"); f.className = "float"; f.textContent = (crit ? "✨+" : "+") + p;
     f.style.left = (e.clientX - r.left - 16) + "px"; f.style.top = (e.clientY - r.top - 24) + "px";
@@ -1356,14 +1399,14 @@
     if (!serverOn()) return;
     const b0 = { c: S.coins, t: S.total, g: S.gems, d: S.dayGain || 0 };   // yuklanish paytida bosilgan tangalarni yo'qotmaslik uchun
     const r = await api("/api/load");
-    $("verTxt").textContent = "Don Coin • v15 (08.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
+    $("verTxt").textContent = "Don Coin • v18 (10.11) • " + (r && r.ok ? "☁️ server ✓" : "☁️ server ✗");
     if (!r) { setTimeout(loadRemote, 8000); return; }   // tarmoq sekin: qayta urinamiz
     if (!r.ok || !r.s || typeof r.s !== "object") return;
     if (Number(r.s.total) > S.total + 1) {                    // serverdagi nusxa oldinroq ketgan: tiklaymiz
-      const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
+      const keep = { lang: S.lang, vib: S.vib, snd: S.snd, confirm: S.confirm };
       const cur = { c: S.coins, t: S.total, g: S.gems, d: S.dayGain || 0 };
       S = Object.assign({}, r.s); fixState();
-      if (keep.lang) S.lang = keep.lang; S.vib = keep.vib; S.confirm = keep.confirm;
+      if (keep.lang) S.lang = keep.lang; S.vib = keep.vib; S.snd = keep.snd; S.confirm = keep.confirm;
       if (S.seen) $("tutorial").style.display = "none";
       const dc = Math.max(0, cur.c - b0.c), dt = Math.max(0, cur.t - b0.t), dg = Math.max(0, cur.g - b0.g), dd = Math.max(0, (cur.d || 0) - b0.d);
       S.coins += dc; S.total += dt; S.gems += dg; S.dayGain = (S.dayGain || 0) + dd;
@@ -2637,6 +2680,7 @@
     renderProfile();
     $("confBtn").textContent = S.confirm === false ? t("off") : t("on");
     $("vibBtn").textContent = S.vib === false ? t("off") : t("on");
+    $("sndBtn").textContent = S.snd === false ? t("off") : t("on");
     document.querySelectorAll("[data-lang]").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
   }
   function applyLang() {
@@ -2652,12 +2696,13 @@
   function setLang(l) { if (!LANGS.includes(l) || l === lang) return; lang = l; S.lang = l; save(); applyLang(); }
   document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => setLang(b.dataset.lang));
   $("confBtn").onclick = () => { S.confirm = S.confirm === false; save(); renderSettings(); };
+  $("sndBtn").onclick = () => { S.snd = S.snd === false; save(); renderSettings(); sfx("buy"); };
   $("vibBtn").onclick = () => { S.vib = S.vib === false; save(); renderSettings(); if (S.vib) haptic("medium"); };
   $("tutBtn").onclick = () => showTut();
   $("resetBtn").onclick = () => ask(t("reset_ask"), () => {
-    const keep = { lang: S.lang, vib: S.vib, confirm: S.confirm };
+    const keep = { lang: S.lang, vib: S.vib, snd: S.snd, confirm: S.confirm };
     S = JSON.parse(JSON.stringify(def));
-    S.last = Date.now(); S.seen = true; S.lang = keep.lang; S.vib = keep.vib; S.confirm = keep.confirm;
+    S.last = Date.now(); S.seen = true; S.lang = keep.lang; S.vib = keep.vib; S.snd = keep.snd; S.confirm = keep.confirm;
     turboRefresh(); save(); forceReset = true; pushState(); applySkin(); applyLang(); go("p-tap"); toast(t("reset_done"));
   });
 
